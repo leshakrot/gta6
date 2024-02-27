@@ -30,6 +30,8 @@ TagManager:
   - CoverPoint
   - Interactable
   - AIAction
+  - TrafficLight
+  - Vehicle
   layers:
   - Default
   - TransparentFX
@@ -50,11 +52,11 @@ TagManager:
   - BlockAIRayCast
   - Pushable
   - CoverPoint
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Vehicle
+  - Road
+  - Traffic
+  - Buildings
+  - Obstacles
   - 
   - 
   - 
