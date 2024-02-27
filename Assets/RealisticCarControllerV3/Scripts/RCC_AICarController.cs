@@ -17,7 +17,6 @@ using System.Collections.Generic;
 /// AI Controller of RCC. It's not professional, but it does the job. Follows all waypoints, or chases the target gameobject.
 /// </summary>
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller/AI/RCC AI Car Controller")]
-[RequireComponent(typeof(WaypointsHolder))]
 public class RCC_AICarController : MonoBehaviour {
 
 	internal RCC_CarControllerV3 carController;		// Main RCC of this vehicle.
@@ -83,7 +82,7 @@ public class RCC_AICarController : MonoBehaviour {
 
 	void Start()
 	{
-		_waypointsHolder = GetComponent<WaypointsHolder>();
+		_waypointsHolder = GetComponentInParent<WaypointsHolder>();
 
 		// Getting main controller.
 		carController = GetComponent<RCC_CarControllerV3>();

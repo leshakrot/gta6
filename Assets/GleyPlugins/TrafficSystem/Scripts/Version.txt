@@ -1,5 +1,0 @@
-{
-    "folderName": "TrafficSystem",
-    "longVersion": "1.3.2",
-    "shortVersion": 16
-}
