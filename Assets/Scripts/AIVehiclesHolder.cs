@@ -6,8 +6,10 @@ public class AIVehiclesHolder : MonoBehaviour
 {
     [Header("AI vehicles Pool")]
     public List<GameObject> pool;
-    public GameObject objectToPool;
+    //public GameObject objectToPool;
     public int amountToPool;
+
+    public Transform player;
 
     private void Start()
     {
@@ -16,17 +18,13 @@ public class AIVehiclesHolder : MonoBehaviour
 
     private void AIVehiclesObjectsPoolInit()
     {
-        pool = new List<GameObject>();
-        GameObject tmpPoolObject;
-        for (int i = 0; i < amountToPool; i++)
+        foreach(var vehicle in pool)
         {
-            tmpPoolObject = Instantiate(objectToPool);
-            tmpPoolObject.gameObject.SetActive(false);
-            pool.Add(tmpPoolObject);
+            vehicle.gameObject.SetActive(false);
         }
     }
 
-    public GameObject GetPooledDamageTextObject()
+    public GameObject GetPooledVehicle()
     {
         for (int i = 0; i < amountToPool; i++)
         {
@@ -37,5 +35,23 @@ public class AIVehiclesHolder : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void SpawnVehicle(Vector3 spawnPoint)
+    {
+        GameObject vehicle = GetPooledVehicle();
+        vehicle.transform.position = spawnPoint;
+        vehicle.SetActive(true);
+        
+
+        
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.V))
+        {
+            SpawnVehicle(player.transform.position + new Vector3(2, 3, 0));
+        }
     }
 }
