@@ -1286,7 +1286,7 @@ GameObject:
   - component: {fileID: 5132487608946850561}
   - component: {fileID: 4691810811591600084}
   - component: {fileID: 4610561079536542418}
-  - component: {fileID: 7310503076667390765}
+  - component: {fileID: 6295558230438370976}
   m_Layer: 21
   m_Name: vaz31
   m_TagString: Untagged
@@ -1391,7 +1391,7 @@ MonoBehaviour:
   suspensionPosition: 0.5
   maxSteer: 30
   minPossibleSpeed: 20
-  maxPossibleSpeed: 90
+  maxPossibleSpeed: 20
   accelerationTime: 10
   brakeTime: 3
   safeDistance: 24.18939
@@ -2064,7 +2064,7 @@ MonoBehaviour:
     speedThreshold: 10
     stepsBelowThreshold: 5
     stepsAboveThreshold: 5
---- !u!114 &7310503076667390765
+--- !u!114 &6295558230438370976
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2081,15 +2081,15 @@ MonoBehaviour:
   targetChase: {fileID: 0}
   targetTag: Player
   _AIType: 0
-  wideRayLength: 20
-  tightRayLength: 20
-  sideRayLength: 3
+  wideRayLength: 0
+  tightRayLength: 0
+  sideRayLength: 0
   obstacleLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
   limitSpeed: 0
   maximumSpeed: 100
-  smoothedSteer: 1
+  smoothedSteer: 0
   lap: 0
   totalWaypointPassed: 0
   nextWaypointPassRadius: 40
