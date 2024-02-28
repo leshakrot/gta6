@@ -1,13 +1,10 @@
 using Invector;
 using Invector.vCharacterController.AI;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class VehicleDetector : MonoBehaviour
 {
-    private Animator _animator;
     private Rigidbody[] _rbs;
     private RCC_CarControllerV3 _vehicleController;
 

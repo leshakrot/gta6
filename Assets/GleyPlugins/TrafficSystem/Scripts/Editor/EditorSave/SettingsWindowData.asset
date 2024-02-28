@@ -79,7 +79,7 @@ MonoBehaviour:
     viewRoadsSettings:
       viewLanes: 0
       viewWaypoints: 1
-      viewLaneChanges: 0
+      viewLaneChanges: 1
     moveTool: 1
     maxSpeed: 50
     globalCarList: 
