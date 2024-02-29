@@ -1,4 +1,5 @@
 using Invector;
+using Invector.vCharacterController;
 using Invector.vCharacterController.AI;
 using System.Collections;
 using UnityEngine;
@@ -10,7 +11,7 @@ public class VehicleDetector : MonoBehaviour
 
     private void Start()
     {
-        _rbs = GetComponentsInChildren<Rigidbody>();       
+        _rbs = GetComponentsInChildren<Rigidbody>();    
     }
 
     private void OnCollisionEnter(Collision collision)
