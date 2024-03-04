@@ -23,14 +23,13 @@ namespace Invector
         }
         public void Play()
         {
-            if (audioSource)
-            {
                 var index = 0;
 
-                index = Random.Range(0, clips.Length - 1);
+                index = Random.Range(0, clips.Length);
                 if (clips.Length > 0)
+                {
                     audioSource.PlayOneShot(clips[index]);
-            }
+                } 
         }
     }
 

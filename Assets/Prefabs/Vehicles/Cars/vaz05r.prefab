@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7485336344987102412}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: Wheel Models
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 7628714665292384737}
   - component: {fileID: 3536628204648531475}
   - component: {fileID: 6659389807081746962}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: 05r.wheel_bl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,7 +123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8576428127806683165}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: CarHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,7 +158,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6938612269547056993}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: RearRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190,7 +190,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4829691371343324901}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: FrontLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 3047680737979209855}
   - component: {fileID: 1188343089330830368}
   - component: {fileID: 2930971245533646171}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: 05r.wheel_fr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -313,7 +313,7 @@ GameObject:
   m_Component:
   - component: {fileID: 621982068715949836}
   - component: {fileID: 1102145469359419989}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: Chassis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -357,7 +357,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4678302306839664787}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: SmallSedan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -389,7 +389,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5985161390014539443}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: COM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -420,7 +420,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6507492074952960510}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -452,7 +452,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6485945582270846001}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: RearLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -486,7 +486,7 @@ GameObject:
   - component: {fileID: 6001424237873343408}
   - component: {fileID: 8601125693177566523}
   - component: {fileID: 6032957400049090214}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: 05r.wheel_br
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -569,7 +569,7 @@ GameObject:
   - component: {fileID: 852720596204329274}
   - component: {fileID: 4450285614243400957}
   - component: {fileID: 2500007901071847509}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: 05r.wheel_fl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -658,7 +658,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7437553615409522870}
   - component: {fileID: 4266370435764998504}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: BodyCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -713,8 +713,8 @@ GameObject:
   - component: {fileID: 4762859790398076395}
   - component: {fileID: 1304042970530746603}
   - component: {fileID: 2655701548371713889}
-  - component: {fileID: 6192962419586915174}
-  m_Layer: 21
+  - component: {fileID: 3503081658139798000}
+  m_Layer: 0
   m_Name: 05r.wheel_fl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -798,7 +798,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f169b5c4fd8eb6498fcf7c875df2abc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6192962419586915174
+--- !u!114 &3503081658139798000
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -819,7 +819,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5675807832614704405}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: SmallSedanWheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -851,7 +851,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7415006371595819987}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: FrontTriggerHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -883,7 +883,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8432420089067778761}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: Wheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -918,7 +918,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5806976522510722398}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: SmallSedanWheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -952,7 +952,7 @@ GameObject:
   - component: {fileID: 8251572760976304892}
   - component: {fileID: 6484525086368723181}
   - component: {fileID: 5745039832807942027}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: 05r.wheel_fr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1033,7 +1033,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7527794422435463608}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: SmallSedan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1065,7 +1065,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4556112739997224708}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: SmallSedanWheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1099,7 +1099,7 @@ GameObject:
   - component: {fileID: 8080952584897766194}
   - component: {fileID: 3529878858114931936}
   - component: {fileID: 6059984293674829977}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: 05r.body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1182,7 +1182,7 @@ GameObject:
   - component: {fileID: 1923420265464191634}
   - component: {fileID: 1376468794475195283}
   - component: {fileID: 8313643220464478661}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: 05r.wheel_bl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1270,7 +1270,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8887248888856075954}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: SmallSedanWheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1304,7 +1304,7 @@ GameObject:
   - component: {fileID: 6417072122061578109}
   - component: {fileID: 1936907271497929450}
   - component: {fileID: 1265131233015558748}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: 05r.wheel_br
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1393,7 +1393,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6814445675352664766}
   - component: {fileID: 8655654679942093214}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: FrontTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1445,7 +1445,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4630947984053855331}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: FrontRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1482,7 +1482,7 @@ GameObject:
   - component: {fileID: 6307138520667857599}
   - component: {fileID: 98601305958869957}
   - component: {fileID: 4178549811404427601}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: vaz05r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1506,6 +1506,7 @@ Transform:
   - {fileID: 4215458959281158157}
   - {fileID: 621982068715949836}
   - {fileID: 5985161390014539443}
+  - {fileID: 5155507714823467548}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &2416503069506259422
@@ -1593,7 +1594,7 @@ MonoBehaviour:
   length: 2.701192
   coliderHeight: 0.76247597
   wheelDistance: 1.608
-  visibilityScript: {fileID: 6192962419586915174}
+  visibilityScript: {fileID: 2655701548371713889}
 --- !u!114 &6307138520667857599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2181,7 +2182,7 @@ MonoBehaviour:
   audioType: 0
   autoCreateEngineOffSounds: 1
   engineStartClip: {fileID: 0}
-  engineClipHigh: {fileID: 8300000, guid: 4feb099015c2f5b4195d27538e4c8f02, type: 3}
+  engineClipHigh: {fileID: 8300000, guid: b068c251450388941ac219e978c98b94, type: 3}
   engineClipMed: {fileID: 0}
   engineClipLow: {fileID: 0}
   engineClipIdle: {fileID: 0}
@@ -2209,7 +2210,7 @@ MonoBehaviour:
   highBeamHeadLightsOn: 0
   indicatorsOn: 0
   indicatorTimer: 0
-  useDamage: 0
+  useDamage: 1
   deformableMeshFilters:
   - {fileID: 3529878858114931936}
   damageFilter:
@@ -2299,7 +2300,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3805421582520594244}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: Colliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2322,6 +2323,59 @@ Transform:
   - {fileID: 7437553615409522870}
   m_Father: {fileID: 8576428127806683165}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8898306483741388228
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5155507714823467548}
+  - component: {fileID: 6192499601558219100}
+  m_Layer: 0
+  m_Name: EnterTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5155507714823467548
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8898306483741388228}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1240144110111026464}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6192499601558219100
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8898306483741388228}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.9443026, y: 1.0147028, z: 3.7567518}
+  m_Center: {x: 0, y: 0.21318865, z: 0.6505934}
 --- !u!1 &9134337246245131192
 GameObject:
   m_ObjectHideFlags: 0
@@ -2331,7 +2385,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4215458959281158157}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: Wheel Colliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}

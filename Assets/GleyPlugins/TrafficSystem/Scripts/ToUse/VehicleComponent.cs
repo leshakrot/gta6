@@ -52,7 +52,7 @@ namespace GleyTrafficSystem
         [Tooltip("Distance between wheels, used for turning")]
         public float wheelDistance;
 
-        [HideInInspector]
+        
         public VisibilityScript visibilityScript;
 
         private Collider[] allColliders;

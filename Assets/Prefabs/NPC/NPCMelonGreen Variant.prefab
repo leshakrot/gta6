@@ -1,5 +1,293 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1781631671578593518
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7724314211491446929}
+  - component: {fileID: 8078201606337380122}
+  - component: {fileID: 7550046708832257403}
+  m_Layer: 2
+  m_Name: hitBox
+  m_TagString: Ignore Ragdoll
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7724314211491446929
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781631671578593518}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.5001878, y: -0.49984494, z: -0.4998113, w: 0.50015587}
+  m_LocalPosition: {x: -0.000000005007679, y: 0.00078263757, z: -0.000000007393284}
+  m_LocalScale: {x: 0.0015000015, y: 0.0015000005, z: 0.0011181316}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 59858231319368263}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8078201606337380122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781631671578593518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb97f58541b05b24ab37661346298ff2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openCloseEvents: 0
+  openCloseWindow: 0
+  selectedToolbar: 0
+  attackObject: {fileID: 0}
+  damagePercentage: 100
+  triggerType: 3
+--- !u!65 &7550046708832257403
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781631671578593518}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &7808493864079126817
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2103631431185008334}
+  - component: {fileID: 2649478263572652593}
+  - component: {fileID: 7327543129791120553}
+  m_Layer: 2
+  m_Name: hitBox
+  m_TagString: Ignore Ragdoll
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2103631431185008334
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7808493864079126817}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.50018, y: -0.4998506, z: -0.49981937, w: -0.5001499}
+  m_LocalPosition: {x: 0.0000000038508015, y: 0.000842834, z: -0.000000007523341}
+  m_LocalScale: {x: 0.0015000012, y: 0.0015000014, z: 0.001204079}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3558575672705595511}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2649478263572652593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7808493864079126817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb97f58541b05b24ab37661346298ff2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openCloseEvents: 0
+  openCloseWindow: 0
+  selectedToolbar: 0
+  attackObject: {fileID: 0}
+  damagePercentage: 100
+  triggerType: 3
+--- !u!65 &7327543129791120553
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7808493864079126817}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &8872241301779343883
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3870812573037861428}
+  - component: {fileID: 2852408491580569506}
+  - component: {fileID: 348692696935316669}
+  m_Layer: 2
+  m_Name: hitBox
+  m_TagString: Ignore Ragdoll
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3870812573037861428
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8872241301779343883}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.49429294, y: -0.50563294, z: -0.5056532, w: 0.4942922}
+  m_LocalPosition: {x: 0.000000053281845, y: 0.0014211502, z: 0.000000024573641}
+  m_LocalScale: {x: 0.0015000006, y: 0.0014999999, z: 0.002030211}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2257581682075862928}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2852408491580569506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8872241301779343883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb97f58541b05b24ab37661346298ff2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openCloseEvents: 0
+  openCloseWindow: 0
+  selectedToolbar: 0
+  attackObject: {fileID: 0}
+  damagePercentage: 100
+  triggerType: 3
+--- !u!65 &348692696935316669
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8872241301779343883}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &8977250439955174933
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 715100558997848638}
+  - component: {fileID: 4415918082255493211}
+  - component: {fileID: 572041705185636308}
+  m_Layer: 2
+  m_Name: hitBox
+  m_TagString: Ignore Ragdoll
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &715100558997848638
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8977250439955174933}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.4929225, y: 0.5069688, z: 0.5069962, w: 0.4929147}
+  m_LocalPosition: {x: 6.257325e-10, y: 0.0014127038, z: 0.000000024413563}
+  m_LocalScale: {x: 0.0015, y: 0.0015, z: 0.0020181492}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3767408868633513181}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4415918082255493211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8977250439955174933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb97f58541b05b24ab37661346298ff2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openCloseEvents: 0
+  openCloseWindow: 0
+  selectedToolbar: 0
+  attackObject: {fileID: 0}
+  damagePercentage: 100
+  triggerType: 3
+--- !u!65 &572041705185636308
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8977250439955174933}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &601785085135467187
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33,6 +321,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3f35241ca8efeda4f8f230592a0d566b, type: 2}
+    - target: {fileID: 2140486855614045785, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: m_SelectedEditorRenderState
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2694372692010056480, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
@@ -47,6 +340,81 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ConnectedAnchor.z
       value: 1.891749e-10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936956068531845028, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: Members.Array.data[0].attackObject
+      value: 
+      objectReference: {fileID: 1861528458466460794}
+    - target: {fileID: 2936956068531845028, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: Members.Array.data[1].attackObject
+      value: 
+      objectReference: {fileID: 8752316740872985583}
+    - target: {fileID: 2936956068531845028, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: Members.Array.data[2].attackObject
+      value: 
+      objectReference: {fileID: 3599115737944801263}
+    - target: {fileID: 2936956068531845028, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: Members.Array.data[3].attackObject
+      value: 
+      objectReference: {fileID: 1444085594647063592}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: deathBy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: maxTimeToAttack
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: minTimeToAttack
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: selectedToolbar
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: removeComponentsAfterDie
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: _onReceiveDamage.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: _onReceiveDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: _onReceiveDamage.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: _onReceiveDamage.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DebugL
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: _onReceiveDamage.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: test, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: _onReceiveDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4244837108527962410, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
@@ -111,17 +479,17 @@ PrefabInstance:
     - target: {fileID: 6456230683756674497, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -103.87567
       objectReference: {fileID: 0}
     - target: {fileID: 6456230683756674497, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.3829834
       objectReference: {fileID: 0}
     - target: {fileID: 6456230683756674497, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 70.19663
       objectReference: {fileID: 0}
     - target: {fileID: 6456230683756674497, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
@@ -220,6 +588,294 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4328379528011202158, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 715100558997848638}
+    - targetCorrespondingSourceObject: {fileID: 1661110060571374883, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3870812573037861428}
+    - targetCorrespondingSourceObject: {fileID: 616237673598427380, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7724314211491446929}
+    - targetCorrespondingSourceObject: {fileID: 4123997502436674244, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2103631431185008334}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7321291264392022595, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3599115737944801263}
+    - targetCorrespondingSourceObject: {fileID: 3768108711451640459, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1444085594647063592}
+    - targetCorrespondingSourceObject: {fileID: 8983323874416044642, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1861528458466460794}
+    - targetCorrespondingSourceObject: {fileID: 440992750953283691, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8752316740872985583}
   m_SourcePrefab: {fileID: 100100000, guid: 07907a24863ec124faf3df69bf6287fa, type: 3}
+--- !u!4 &59858231319368263 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 616237673598427380, guid: 07907a24863ec124faf3df69bf6287fa,
+    type: 3}
+  m_PrefabInstance: {fileID: 601785085135467187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1028862279354381016 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 440992750953283691, guid: 07907a24863ec124faf3df69bf6287fa,
+    type: 3}
+  m_PrefabInstance: {fileID: 601785085135467187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8752316740872985583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028862279354381016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0befb9e9384ab34d9dfc9d3cabf04b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openCloseEvents: 0
+  openCloseWindow: 0
+  selectedToolbar: 0
+  attackObjectName: RightLowerArm
+  damage:
+    damageValue: 15
+    staminaBlockCost: 5
+    staminaRecoveryDelay: 1
+    ignoreDefense: 0
+    activeRagdoll: 0
+    senselessTime: 0
+    sender: {fileID: 0}
+    receiver: {fileID: 0}
+    hitPosition: {x: 0, y: 0, z: 0}
+    hitReaction: 1
+    recoil_id: 0
+    reaction_id: 0
+    damageType: 
+    force: {x: 0, y: 0, z: 0}
+  overrideDamageSender: {fileID: 0}
+  hitBoxes:
+  - {fileID: 2649478263572652593}
+  damageModifier: 0
+  canApplyDamage: 0
+  onDamageHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onRecoilHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onPassDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onEnableDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onDisableDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  meleeManager: {fileID: 0}
+--- !u!4 &2257581682075862928 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1661110060571374883, guid: 07907a24863ec124faf3df69bf6287fa,
+    type: 3}
+  m_PrefabInstance: {fileID: 601785085135467187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3558575672705595511 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4123997502436674244, guid: 07907a24863ec124faf3df69bf6287fa,
+    type: 3}
+  m_PrefabInstance: {fileID: 601785085135467187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3767408868633513181 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4328379528011202158, guid: 07907a24863ec124faf3df69bf6287fa,
+    type: 3}
+  m_PrefabInstance: {fileID: 601785085135467187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4328797826004938808 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3768108711451640459, guid: 07907a24863ec124faf3df69bf6287fa,
+    type: 3}
+  m_PrefabInstance: {fileID: 601785085135467187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1444085594647063592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4328797826004938808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0befb9e9384ab34d9dfc9d3cabf04b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openCloseEvents: 0
+  openCloseWindow: 0
+  selectedToolbar: 0
+  attackObjectName: RightLowerLeg
+  damage:
+    damageValue: 15
+    staminaBlockCost: 5
+    staminaRecoveryDelay: 1
+    ignoreDefense: 0
+    activeRagdoll: 0
+    senselessTime: 0
+    sender: {fileID: 0}
+    receiver: {fileID: 0}
+    hitPosition: {x: 0, y: 0, z: 0}
+    hitReaction: 1
+    recoil_id: 0
+    reaction_id: 0
+    damageType: 
+    force: {x: 0, y: 0, z: 0}
+  overrideDamageSender: {fileID: 0}
+  hitBoxes:
+  - {fileID: 2852408491580569506}
+  damageModifier: 0
+  canApplyDamage: 0
+  onDamageHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onRecoilHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onPassDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onEnableDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onDisableDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  meleeManager: {fileID: 0}
+--- !u!1 &7909319052070320368 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7321291264392022595, guid: 07907a24863ec124faf3df69bf6287fa,
+    type: 3}
+  m_PrefabInstance: {fileID: 601785085135467187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3599115737944801263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7909319052070320368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0befb9e9384ab34d9dfc9d3cabf04b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openCloseEvents: 0
+  openCloseWindow: 0
+  selectedToolbar: 0
+  attackObjectName: LeftLowerLeg
+  damage:
+    damageValue: 15
+    staminaBlockCost: 5
+    staminaRecoveryDelay: 1
+    ignoreDefense: 0
+    activeRagdoll: 0
+    senselessTime: 0
+    sender: {fileID: 0}
+    receiver: {fileID: 0}
+    hitPosition: {x: 0, y: 0, z: 0}
+    hitReaction: 1
+    recoil_id: 0
+    reaction_id: 0
+    damageType: 
+    force: {x: 0, y: 0, z: 0}
+  overrideDamageSender: {fileID: 0}
+  hitBoxes:
+  - {fileID: 4415918082255493211}
+  damageModifier: 0
+  canApplyDamage: 0
+  onDamageHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onRecoilHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onPassDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onEnableDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onDisableDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  meleeManager: {fileID: 0}
+--- !u!1 &8427032252255967441 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8983323874416044642, guid: 07907a24863ec124faf3df69bf6287fa,
+    type: 3}
+  m_PrefabInstance: {fileID: 601785085135467187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1861528458466460794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8427032252255967441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0befb9e9384ab34d9dfc9d3cabf04b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openCloseEvents: 0
+  openCloseWindow: 0
+  selectedToolbar: 0
+  attackObjectName: LeftLowerArm
+  damage:
+    damageValue: 15
+    staminaBlockCost: 5
+    staminaRecoveryDelay: 1
+    ignoreDefense: 0
+    activeRagdoll: 0
+    senselessTime: 0
+    sender: {fileID: 0}
+    receiver: {fileID: 0}
+    hitPosition: {x: 0, y: 0, z: 0}
+    hitReaction: 1
+    recoil_id: 0
+    reaction_id: 0
+    damageType: 
+    force: {x: 0, y: 0, z: 0}
+  overrideDamageSender: {fileID: 0}
+  hitBoxes:
+  - {fileID: 8078201606337380122}
+  damageModifier: 0
+  canApplyDamage: 0
+  onDamageHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onRecoilHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onPassDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onEnableDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onDisableDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  meleeManager: {fileID: 0}

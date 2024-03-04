@@ -65,7 +65,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.41
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -156,17 +156,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 120346}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c97065fcce0140c479f08ad868d95753, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: 5bf68d15022c6834183817afb427ac52, type: 3}
-  - {fileID: 8300000, guid: eb1a767b35496c84db41ea55405f03b3, type: 3}
-  - {fileID: 8300000, guid: 9dd2d71c0c95f9d46aa813a5ea65619d, type: 3}
   - {fileID: 8300000, guid: c34afd223de25df498932cfa325cd0ea, type: 3}
-  - {fileID: 8300000, guid: 5bf5901be61ca8f4980147086570884c, type: 3}
-  - {fileID: 8300000, guid: aee2019cc66545a4f985b398633282d9, type: 3}
+  - {fileID: 8300000, guid: c45e8b802e479af44b7bcf42514d6a1b, type: 3}
   audioSource: {fileID: 82000011888486980}
   playOnStart: 1
+  isFirstRun: 1

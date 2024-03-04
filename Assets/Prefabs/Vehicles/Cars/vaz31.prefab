@@ -1312,6 +1312,7 @@ Transform:
   - {fileID: 5685502447176740249}
   - {fileID: 4297273102323642217}
   - {fileID: 2503560101168144828}
+  - {fileID: 7649958894799343770}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &5062548940821364932
@@ -1987,7 +1988,7 @@ MonoBehaviour:
   audioType: 0
   autoCreateEngineOffSounds: 1
   engineStartClip: {fileID: 0}
-  engineClipHigh: {fileID: 8300000, guid: 4feb099015c2f5b4195d27538e4c8f02, type: 3}
+  engineClipHigh: {fileID: 8300000, guid: b068c251450388941ac219e978c98b94, type: 3}
   engineClipMed: {fileID: 0}
   engineClipLow: {fileID: 0}
   engineClipIdle: {fileID: 0}
@@ -2096,6 +2097,59 @@ MonoBehaviour:
   ignoreWaypointNow: 0
   detectorRadius: 100
   targetsInZone: []
+--- !u!1 &6807088104591385493
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7649958894799343770}
+  - component: {fileID: 6566107521201941847}
+  m_Layer: 21
+  m_Name: VehicleEnter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7649958894799343770
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6807088104591385493}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6876566801194924980}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6566107521201941847
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6807088104591385493}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.3450153, y: 1.2687392, z: 4.604538}
+  m_Center: {x: 0, y: 0.26443124, z: 0.85128784}
 --- !u!1 &6820524843393785608
 GameObject:
   m_ObjectHideFlags: 0

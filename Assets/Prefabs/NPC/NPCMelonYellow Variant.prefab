@@ -18,20 +18,75 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 4878a1057bf83574b88aa84f76e61656, type: 2}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: deathBy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: maxTimeToAttack
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: minTimeToAttack
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: selectedToolbar
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: removeComponentsAfterDie
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: _onReceiveDamage.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: _onReceiveDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: _onReceiveDamage.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: _onReceiveDamage.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DebugL
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: _onReceiveDamage.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: test, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: _onReceiveDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6456230683756674497, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -103.6054
       objectReference: {fileID: 0}
     - target: {fileID: 6456230683756674497, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.3829834
       objectReference: {fileID: 0}
     - target: {fileID: 6456230683756674497, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 68.18302
       objectReference: {fileID: 0}
     - target: {fileID: 6456230683756674497, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
@@ -71,5 +126,97 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1425179688620497273, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8058331196119750544}
+    - targetCorrespondingSourceObject: {fileID: 1425179688620497273, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 319501281317823462}
   m_SourcePrefab: {fileID: 100100000, guid: 07907a24863ec124faf3df69bf6287fa, type: 3}
+--- !u!1 &1990231737928723402 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1425179688620497273, guid: 07907a24863ec124faf3df69bf6287fa,
+    type: 3}
+  m_PrefabInstance: {fileID: 601785085135467187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8058331196119750544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990231737928723402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c11b181c688f7664aba8ba5b38942ac9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openCloseEvents: 0
+  openCloseWindow: 1
+  selectedToolbar: 0
+  Members: []
+  defaultDamage:
+    damageValue: 10
+    staminaBlockCost: 5
+    staminaRecoveryDelay: 1
+    ignoreDefense: 0
+    activeRagdoll: 0
+    senselessTime: 0
+    sender: {fileID: 0}
+    receiver: {fileID: 0}
+    hitPosition: {x: 0, y: 0, z: 0}
+    hitReaction: 1
+    recoil_id: 0
+    reaction_id: 0
+    damageType: 
+    force: {x: 0, y: 0, z: 0}
+  hitProperties:
+    hitDamageTags:
+    - Enemy
+    - Player
+    useRecoil: 1
+    drawRecoilGizmos: 0
+    recoilRange: 90
+    hitRecoilLayer:
+      serializedVersion: 2
+      m_Bits: 1
+  leftWeapon: {fileID: 0}
+  rightWeapon: {fileID: 0}
+  onDamageHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onRecoilHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onEquipWeapon:
+    m_PersistentCalls:
+      m_Calls: []
+  onUnequipWeapon:
+    m_PersistentCalls:
+      m_Calls: []
+  defaultAttackDistance: 1
+  defaultStaminaCost: 20
+  defaultStaminaRecoveryDelay: 1
+  defaultDefenseRate: 100
+  defaultDefenseRange: 90
+--- !u!114 &319501281317823462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990231737928723402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d3efef3ad62cd548b0f85eb11858ed1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openCloseEvents: 0
+  openCloseWindow: 1
+  selectedToolbar: 0
+  defaultDamageEffects:
+  - {fileID: 120346, guid: b8f2fe1ee1a01724cb72f5b0e6bd2eef, type: 3}
+  customDamageEffects: []

@@ -16,7 +16,6 @@ public class VehicleDetector : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject);
         if(collision.gameObject.TryGetComponent(out VehicleBody vehicle))
         {
             _vehicleController = vehicle.gameObject.GetComponent<RCC_CarControllerV3>();

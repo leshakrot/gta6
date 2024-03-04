@@ -16,7 +16,7 @@ namespace Invector
         [vHelpBox("Assign a empty transform to spawn the Player to a specific location")]
         public Transform spawnPoint;
         [vHelpBox("Time to wait until the scene restart or the player will be spawned again")]
-        public float respawnTimer = 4f;
+        public float respawnTimer = 10f;
         [vHelpBox("Check this if you want to destroy the dead body after the respawn")]
         public bool destroyBodyAfterDead;
         [vHelpBox("Display a message using the FadeText UI")]
