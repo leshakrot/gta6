@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
@@ -10,409 +10,472 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 /// <summary>
 /// A simple customizer example script used for receiving methods from UI elements and send them to RCC_Customization script. Also updates all UI elements for new spawned vehicles too.
 /// </summary>
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller/UI/RCC Customizer Example")]
-public class RCC_CustomizerExample : MonoBehaviour {
-
-	#region singleton
-	private static RCC_CustomizerExample instance;
-	public static RCC_CustomizerExample Instance{	get{if(instance == null) instance = GameObject.FindObjectOfType<RCC_CustomizerExample>() as RCC_CustomizerExample; return instance;}}
-	#endregion
-
-	[Header("UI Menus")]
-	public GameObject wheelsMenu;
-	public GameObject configurationMenu;
-	public GameObject steeringAssistancesMenu;
-	public GameObject colorsMenu;
-
-	[Header("UI Sliders")]
-	public Slider frontCamber;
-	public Slider rearCamber;
-	public Slider frontSuspensionDistances;
-	public Slider rearSuspensionDistances;
-	public Slider frontSuspensionDampers;
-	public Slider rearSuspensionDampers;
-	public Slider frontSuspensionSprings;
-	public Slider rearSuspensionSprings;
-	public Slider gearShiftingThreshold;
-	public Slider clutchThreshold;
-
-	[Header("UI Toggles")]
-	public Toggle TCS;
-	public Toggle ABS;
-	public Toggle ESP;
-	public Toggle SH;
-	public Toggle counterSteering;
-	public Toggle steeringSensitivity;
-	public Toggle NOS;
-	public Toggle turbo;
-	public Toggle exhaustFlame;
-	public Toggle revLimiter;
-	public Toggle clutchMargin;
-	public Toggle transmission;
-
-	[Header("UI InputFields")]
-	public InputField maxSpeed;
-	public InputField maxBrake;
-	public InputField maxTorque;
-
-	[Header("UI Dropdown Menus")]
-	public Dropdown drivetrainMode;
-
-	void Start(){
-
-		CheckUIs ();
-
-	}
+public class RCC_CustomizerExample : RCC_Singleton<RCC_CustomizerExample> {
 
-	public void CheckUIs (){
+    [Header("UI Menus")]
+    public GameObject wheelsMenu;
+    public GameObject configurationMenu;
+    public GameObject steeringAssistancesMenu;
+    public GameObject colorsMenu;
 
-		if (!RCC_SceneManager.Instance.activePlayerVehicle)
-			return;
+    [Header("UI Sliders")]
+    public Slider frontCamber;
+    public Slider rearCamber;
+    public Slider frontSuspensionDistances;
+    public Slider rearSuspensionDistances;
+    public Slider frontSuspensionDampers;
+    public Slider rearSuspensionDampers;
+    public Slider frontSuspensionSprings;
+    public Slider rearSuspensionSprings;
+    public Slider gearShiftingThreshold;
+    public Slider clutchThreshold;
 
-		frontCamber.value = RCC_SceneManager.Instance.activePlayerVehicle.FrontLeftWheelCollider.camber;
-		rearCamber.value = RCC_SceneManager.Instance.activePlayerVehicle.RearLeftWheelCollider.camber;
-		frontSuspensionDistances.value = RCC_SceneManager.Instance.activePlayerVehicle.FrontLeftWheelCollider.wheelCollider.suspensionDistance;
-		rearSuspensionDistances.value = RCC_SceneManager.Instance.activePlayerVehicle.RearLeftWheelCollider.wheelCollider.suspensionDistance;
-		frontSuspensionDampers.value = RCC_SceneManager.Instance.activePlayerVehicle.FrontLeftWheelCollider.wheelCollider.suspensionSpring.damper;
-		rearSuspensionDampers.value = RCC_SceneManager.Instance.activePlayerVehicle.RearLeftWheelCollider.wheelCollider.suspensionSpring.damper;
-		frontSuspensionSprings.value = RCC_SceneManager.Instance.activePlayerVehicle.FrontLeftWheelCollider.wheelCollider.suspensionSpring.spring;
-		rearSuspensionSprings.value = RCC_SceneManager.Instance.activePlayerVehicle.RearLeftWheelCollider.wheelCollider.suspensionSpring.spring;
-		gearShiftingThreshold.value = RCC_SceneManager.Instance.activePlayerVehicle.gearShiftingThreshold;
-		clutchThreshold.value = RCC_SceneManager.Instance.activePlayerVehicle.clutchInertia;
+    [Header("UI Toggles")]
+    public Toggle TCS;
+    public Toggle ABS;
+    public Toggle ESP;
+    public Toggle SH;
+    public Toggle counterSteering;
+    public Toggle steeringSensitivity;
+    public Toggle NOS;
+    public Toggle turbo;
+    public Toggle exhaustFlame;
+    public Toggle revLimiter;
+    public Toggle transmission;
 
-		TCS.isOn = RCC_SceneManager.Instance.activePlayerVehicle.TCS;
-		ABS.isOn = RCC_SceneManager.Instance.activePlayerVehicle.ABS;
-		ESP.isOn = RCC_SceneManager.Instance.activePlayerVehicle.ESP;
-		SH.isOn = RCC_SceneManager.Instance.activePlayerVehicle.steeringHelper;
-		counterSteering.isOn = RCC_SceneManager.Instance.activePlayerVehicle.applyCounterSteering;
-		NOS.isOn = RCC_SceneManager.Instance.activePlayerVehicle.useNOS;
-		turbo.isOn = RCC_SceneManager.Instance.activePlayerVehicle.useTurbo;
-		exhaustFlame.isOn = RCC_SceneManager.Instance.activePlayerVehicle.useExhaustFlame;
-		revLimiter.isOn = RCC_SceneManager.Instance.activePlayerVehicle.useRevLimiter;
-		clutchMargin.isOn = RCC_SceneManager.Instance.activePlayerVehicle.useClutchMarginAtFirstGear;
-		transmission.isOn = RCC_Settings.Instance.useAutomaticGear;
+    [Header("UI InputFields")]
+    public InputField maxSpeed;
+    public InputField maxBrake;
+    public InputField maxTorque;
 
-		maxSpeed.text = RCC_SceneManager.Instance.activePlayerVehicle.maxspeed.ToString();
-		maxBrake.text = RCC_SceneManager.Instance.activePlayerVehicle.brakeTorque.ToString();
-		maxTorque.text = RCC_SceneManager.Instance.activePlayerVehicle.engineTorque.ToString();
+    [Header("UI Dropdown Menus")]
+    public Dropdown drivetrainMode;
 
-		switch (RCC_SceneManager.Instance.activePlayerVehicle.wheelTypeChoise) {
+    private void Start() {
 
-		case RCC_CarControllerV3.WheelType.FWD:
-			drivetrainMode.value = 0;
-			break;
+        CheckUIs();
 
-		case RCC_CarControllerV3.WheelType.RWD:
-			drivetrainMode.value = 1;
-			break;
+    }
 
-		case RCC_CarControllerV3.WheelType.AWD:
-			drivetrainMode.value = 2;
-			break;
+    public void CheckUIs() {
 
-		case RCC_CarControllerV3.WheelType.BIASED:
-			drivetrainMode.value = 3;
-			break;
+        if (!RCC_SceneManager.Instance.activePlayerVehicle)
+            return;
 
-		}
+        if (frontCamber)
+            frontCamber.SetValueWithoutNotify(RCC_SceneManager.Instance.activePlayerVehicle.FrontLeftWheelCollider.camber);
 
-	}
+        if (rearCamber)
+            rearCamber.SetValueWithoutNotify(RCC_SceneManager.Instance.activePlayerVehicle.RearLeftWheelCollider.camber);
 
-	public void OpenMenu(GameObject activeMenu){
+        if (frontSuspensionDistances)
+            frontSuspensionDistances.SetValueWithoutNotify(RCC_SceneManager.Instance.activePlayerVehicle.FrontLeftWheelCollider.WheelCollider.suspensionDistance);
 
-		if (activeMenu.activeInHierarchy) {
-			activeMenu.SetActive (false);
-			return;
-		}
+        if (rearSuspensionDistances)
+            rearSuspensionDistances.SetValueWithoutNotify(RCC_SceneManager.Instance.activePlayerVehicle.RearLeftWheelCollider.WheelCollider.suspensionDistance);
 
-		wheelsMenu.SetActive (false);
-		configurationMenu.SetActive (false);
-		steeringAssistancesMenu.SetActive (false);
-		colorsMenu.SetActive (false);
+        if (frontSuspensionDampers)
+            frontSuspensionDampers.SetValueWithoutNotify(RCC_SceneManager.Instance.activePlayerVehicle.FrontLeftWheelCollider.WheelCollider.suspensionSpring.damper);
 
-		activeMenu.SetActive (true);
+        if (rearSuspensionDampers)
+            rearSuspensionDampers.SetValueWithoutNotify(RCC_SceneManager.Instance.activePlayerVehicle.RearLeftWheelCollider.WheelCollider.suspensionSpring.damper);
 
-	}
+        if (frontSuspensionSprings)
+            frontSuspensionSprings.SetValueWithoutNotify(RCC_SceneManager.Instance.activePlayerVehicle.FrontLeftWheelCollider.WheelCollider.suspensionSpring.spring);
 
-	public void CloseAllMenus(){
+        if (rearSuspensionSprings)
+            rearSuspensionSprings.SetValueWithoutNotify(RCC_SceneManager.Instance.activePlayerVehicle.RearLeftWheelCollider.WheelCollider.suspensionSpring.spring);
 
-		wheelsMenu.SetActive (false);
-		configurationMenu.SetActive (false);
-		steeringAssistancesMenu.SetActive (false);
-		colorsMenu.SetActive (false);
+        if (gearShiftingThreshold)
+            gearShiftingThreshold.SetValueWithoutNotify(RCC_SceneManager.Instance.activePlayerVehicle.gearShiftingThreshold);
 
-	}
+        if (clutchThreshold)
+            clutchThreshold.SetValueWithoutNotify(RCC_SceneManager.Instance.activePlayerVehicle.clutchInertia);
 
-	public void SetCustomizationMode (bool state) {
+        if (TCS)
+            TCS.SetIsOnWithoutNotify(RCC_SceneManager.Instance.activePlayerVehicle.TCS);
 
-		if (!RCC_SceneManager.Instance.activePlayerVehicle)
-			return;
+        if (ABS)
+            ABS.SetIsOnWithoutNotify(RCC_SceneManager.Instance.activePlayerVehicle.ABS);
 
-		RCC_Customization.SetCustomizationMode (RCC_SceneManager.Instance.activePlayerVehicle, state);
+        if (ESP)
+            ESP.SetIsOnWithoutNotify(RCC_SceneManager.Instance.activePlayerVehicle.ESP);
 
-		if(state)
-			CheckUIs ();
+        if (SH)
+            SH.SetIsOnWithoutNotify(RCC_SceneManager.Instance.activePlayerVehicle.steeringHelper);
 
-	}
+        if (counterSteering)
+            counterSteering.SetIsOnWithoutNotify(RCC_SceneManager.Instance.activePlayerVehicle.useCounterSteering);
 
-	public void SetFrontCambersBySlider (Slider slider) {
+        if (NOS)
+            NOS.SetIsOnWithoutNotify(RCC_SceneManager.Instance.activePlayerVehicle.useNOS);
 
-		RCC_Customization.SetFrontCambers (RCC_SceneManager.Instance.activePlayerVehicle, slider.value);
-	
-	}
+        if (turbo)
+            turbo.SetIsOnWithoutNotify(RCC_SceneManager.Instance.activePlayerVehicle.useTurbo);
 
-	public void SetRearCambersBySlider (Slider slider) {
+        if (exhaustFlame)
+            exhaustFlame.SetIsOnWithoutNotify(RCC_SceneManager.Instance.activePlayerVehicle.useExhaustFlame);
 
-		RCC_Customization.SetRearCambers (RCC_SceneManager.Instance.activePlayerVehicle, slider.value);
+        if (revLimiter)
+            revLimiter.SetIsOnWithoutNotify(RCC_SceneManager.Instance.activePlayerVehicle.useRevLimiter);
 
-	}
+        if (transmission)
+            transmission.SetIsOnWithoutNotify(RCC_SceneManager.Instance.activePlayerVehicle.AutomaticGear);
 
-	public void TogglePreviewSmokeByToggle (Toggle toggle){
+        if (maxSpeed)
+            maxSpeed.text = RCC_SceneManager.Instance.activePlayerVehicle.maxspeed.ToString();
 
-		RCC_Customization.SetSmokeParticle (RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
+        if (maxBrake)
+            maxBrake.text = RCC_SceneManager.Instance.activePlayerVehicle.brakeTorque.ToString();
 
-	}
+        if (maxTorque)
+            maxTorque.text = RCC_SceneManager.Instance.activePlayerVehicle.maxEngineTorque.ToString();
 
-	public void TogglePreviewExhaustFlameByToggle (Toggle toggle){
+        if (drivetrainMode) {
 
-		RCC_Customization.SetExhaustFlame (RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
+            switch (RCC_SceneManager.Instance.activePlayerVehicle.wheelTypeChoise) {
 
-	}
+                case RCC_CarControllerV3.WheelType.FWD:
+                    drivetrainMode.SetValueWithoutNotify(0);
+                    break;
 
-	public void SetSmokeColorByColorPicker (RCC_ColorPickerBySliders color){
+                case RCC_CarControllerV3.WheelType.RWD:
+                    drivetrainMode.SetValueWithoutNotify(1);
+                    break;
 
-		RCC_Customization.SetSmokeColor (RCC_SceneManager.Instance.activePlayerVehicle, 0, color.color);
+                case RCC_CarControllerV3.WheelType.AWD:
+                    drivetrainMode.SetValueWithoutNotify(2);
+                    break;
 
-	}
+                case RCC_CarControllerV3.WheelType.BIASED:
+                    drivetrainMode.SetValueWithoutNotify(3);
+                    break;
 
-	public void SetHeadlightColorByColorPicker (RCC_ColorPickerBySliders color){
+            }
 
-		RCC_Customization.SetHeadlightsColor (RCC_SceneManager.Instance.activePlayerVehicle, color.color);
+        }
 
-	}
+    }
 
-	public void ChangeWheelsBySlider (Slider slider){
+    public void OpenMenu(GameObject activeMenu) {
 
-		RCC_Customization.ChangeWheels (RCC_SceneManager.Instance.activePlayerVehicle, RCC_ChangableWheels.Instance.wheels[(int)slider.value].wheel);
+        if (activeMenu && activeMenu.activeInHierarchy) {
 
-	}
+            activeMenu.SetActive(false);
+            return;
 
-	public void SetFrontSuspensionTargetsBySlider (Slider slider){
+        }
 
-		RCC_Customization.SetFrontSuspensionsTargetPos (RCC_SceneManager.Instance.activePlayerVehicle, slider.value);
+        if (wheelsMenu)
+            wheelsMenu.SetActive(false);
 
-	}
+        if (configurationMenu)
+            configurationMenu.SetActive(false);
 
-	public void SetRearSuspensionTargetsBySlider (Slider slider){
+        if (steeringAssistancesMenu)
+            steeringAssistancesMenu.SetActive(false);
 
-		RCC_Customization.SetRearSuspensionsTargetPos (RCC_SceneManager.Instance.activePlayerVehicle, slider.value);
+        if (colorsMenu)
+            colorsMenu.SetActive(false);
 
-	}
+        if (activeMenu)
+            activeMenu.SetActive(true);
 
-	public void SetAllSuspensionTargetsByButton (float strength){
+    }
 
-		RCC_Customization.SetAllSuspensionsTargetPos(RCC_SceneManager.Instance.activePlayerVehicle, strength);
+    public void CloseAllMenus() {
 
-	}
+        if (wheelsMenu)
+            wheelsMenu.SetActive(false);
 
-	public void SetFrontSuspensionDistancesBySlider (Slider slider){
+        if (configurationMenu)
+            configurationMenu.SetActive(false);
 
-		RCC_Customization.SetFrontSuspensionsDistances (RCC_SceneManager.Instance.activePlayerVehicle, slider.value);
+        if (steeringAssistancesMenu)
+            steeringAssistancesMenu.SetActive(false);
 
-	}
+        if (colorsMenu)
+            colorsMenu.SetActive(false);
 
-	public void SetRearSuspensionDistancesBySlider (Slider slider){
+    }
 
-		RCC_Customization.SetRearSuspensionsDistances (RCC_SceneManager.Instance.activePlayerVehicle, slider.value);
+    public void SetCustomizationMode(bool state) {
 
-	}
+        if (!RCC_SceneManager.Instance.activePlayerVehicle)
+            return;
 
-	public void SetGearShiftingThresholdBySlider (Slider slider){
+        RCC_Customization.SetCustomizationMode(RCC_SceneManager.Instance.activePlayerVehicle, state);
 
-		RCC_Customization.SetGearShiftingThreshold (RCC_SceneManager.Instance.activePlayerVehicle, Mathf.Clamp(slider.value, .5f, .95f));
+        if (state)
+            CheckUIs();
 
-	}
+    }
 
-	public void SetClutchThresholdBySlider (Slider slider){
+    public void SetFrontCambersBySlider(Slider slider) {
 
-		RCC_Customization.SetClutchThreshold (RCC_SceneManager.Instance.activePlayerVehicle, Mathf.Clamp(slider.value, .1f, .9f));
+        RCC_Customization.SetFrontCambers(RCC_SceneManager.Instance.activePlayerVehicle, slider.value);
 
-	}
+    }
 
-	public void SetDriveTrainModeByDropdown (Dropdown dropdown){
+    public void SetRearCambersBySlider(Slider slider) {
 
-		switch (dropdown.value) {
+        RCC_Customization.SetRearCambers(RCC_SceneManager.Instance.activePlayerVehicle, slider.value);
 
-		case 0:
-			RCC_Customization.SetDrivetrainMode (RCC_SceneManager.Instance.activePlayerVehicle, RCC_CarControllerV3.WheelType.FWD);
-			break;
+    }
 
-		case 1:
-			RCC_Customization.SetDrivetrainMode (RCC_SceneManager.Instance.activePlayerVehicle, RCC_CarControllerV3.WheelType.RWD);
-			break;
+    public void TogglePreviewSmokeByToggle(Toggle toggle) {
 
-		case 2:
-			RCC_Customization.SetDrivetrainMode (RCC_SceneManager.Instance.activePlayerVehicle, RCC_CarControllerV3.WheelType.AWD);
-			break;
+        RCC_Customization.SetSmokeParticle(RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
 
-		}
+    }
 
-	}
+    public void TogglePreviewExhaustFlameByToggle(Toggle toggle) {
 
-	public void SetCounterSteeringByToggle (Toggle toggle){
+        RCC_Customization.SetExhaustFlame(RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
 
-		RCC_Customization.SetCounterSteering (RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
+    }
 
-	}
+    public void SetSmokeColorByColorPicker(RCC_ColorPickerBySliders color) {
 
-	public void SetNOSByToggle (Toggle toggle){
+        RCC_Customization.SetSmokeColor(RCC_SceneManager.Instance.activePlayerVehicle, 0, color.color);
 
-		RCC_Customization.SetNOS (RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
+    }
 
-	}
+    public void SetHeadlightColorByColorPicker(RCC_ColorPickerBySliders color) {
 
-	public void SetTurboByToggle (Toggle toggle){
+        RCC_Customization.SetHeadlightsColor(RCC_SceneManager.Instance.activePlayerVehicle, color.color);
 
-		RCC_Customization.SetTurbo (RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
+    }
 
-	}
+    public void ChangeWheelsBySlider(Slider slider) {
 
-	public void SetExhaustFlameByToggle (Toggle toggle){
+        RCC_Customization.ChangeWheels(RCC_SceneManager.Instance.activePlayerVehicle, RCC_ChangableWheels.Instance.wheels[(int)slider.value].wheel, true);
 
-		RCC_Customization.SetUseExhaustFlame (RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
+    }
 
-	}
+    public void SetFrontSuspensionTargetsBySlider(Slider slider) {
 
-	public void SetRevLimiterByToggle (Toggle toggle){
+        RCC_Customization.SetFrontSuspensionsTargetPos(RCC_SceneManager.Instance.activePlayerVehicle, slider.value);
 
-		RCC_Customization.SetRevLimiter (RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
+    }
 
-	}
+    public void SetRearSuspensionTargetsBySlider(Slider slider) {
 
-	public void SetClutchMarginByToggle (Toggle toggle){
+        RCC_Customization.SetRearSuspensionsTargetPos(RCC_SceneManager.Instance.activePlayerVehicle, slider.value);
 
-		RCC_Customization.SetClutchMargin (RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
+    }
 
-	}
+    public void SetAllSuspensionTargetsByButton(float strength) {
 
-	public void SetFrontSuspensionsSpringForceBySlider (Slider slider){
+        RCC_Customization.SetAllSuspensionsTargetPos(RCC_SceneManager.Instance.activePlayerVehicle, strength);
 
-		RCC_Customization.SetFrontSuspensionsSpringForce (RCC_SceneManager.Instance.activePlayerVehicle, Mathf.Clamp(slider.value, 10000f, 100000f));
+    }
 
-	}
+    public void SetFrontSuspensionDistancesBySlider(Slider slider) {
 
-	public void SetRearSuspensionsSpringForceBySlider (Slider slider){
+        RCC_Customization.SetFrontSuspensionsDistances(RCC_SceneManager.Instance.activePlayerVehicle, slider.value);
 
-		RCC_Customization.SetRearSuspensionsSpringForce (RCC_SceneManager.Instance.activePlayerVehicle, Mathf.Clamp(slider.value, 10000f, 100000f));
+    }
 
-	}
+    public void SetRearSuspensionDistancesBySlider(Slider slider) {
 
-	public void SetFrontSuspensionsSpringDamperBySlider (Slider slider){
+        RCC_Customization.SetRearSuspensionsDistances(RCC_SceneManager.Instance.activePlayerVehicle, slider.value);
 
-		RCC_Customization.SetFrontSuspensionsSpringDamper (RCC_SceneManager.Instance.activePlayerVehicle, Mathf.Clamp(slider.value, 1000f, 10000f));
+    }
 
-	}
+    public void SetGearShiftingThresholdBySlider(Slider slider) {
 
-	public void SetRearSuspensionsSpringDamperBySlider (Slider slider){
+        RCC_Customization.SetGearShiftingThreshold(RCC_SceneManager.Instance.activePlayerVehicle, Mathf.Clamp(slider.value, .5f, .95f));
 
-		RCC_Customization.SetRearSuspensionsSpringDamper (RCC_SceneManager.Instance.activePlayerVehicle, Mathf.Clamp(slider.value, 1000f, 10000f));
+    }
 
-	}
+    public void SetClutchThresholdBySlider(Slider slider) {
 
-	public void SetMaximumSpeedByInputField (InputField inputField){
+        RCC_Customization.SetClutchThreshold(RCC_SceneManager.Instance.activePlayerVehicle, Mathf.Clamp(slider.value, .1f, .9f));
 
-		RCC_Customization.SetMaximumSpeed (RCC_SceneManager.Instance.activePlayerVehicle, StringToFloat(inputField.text, 200f));
-		inputField.text = RCC_SceneManager.Instance.activePlayerVehicle.maxspeed.ToString ();
+    }
 
-	}
+    public void SetDriveTrainModeByDropdown(Dropdown dropdown) {
 
-	public void SetMaximumTorqueByInputField (InputField inputField){
+        switch (dropdown.value) {
 
-		RCC_Customization.SetMaximumTorque (RCC_SceneManager.Instance.activePlayerVehicle, StringToFloat(inputField.text, 2000f));
-		inputField.text = RCC_SceneManager.Instance.activePlayerVehicle.engineTorque.ToString ();
+            case 0:
+                RCC_Customization.SetDrivetrainMode(RCC_SceneManager.Instance.activePlayerVehicle, RCC_CarControllerV3.WheelType.FWD);
+                break;
 
-	}
+            case 1:
+                RCC_Customization.SetDrivetrainMode(RCC_SceneManager.Instance.activePlayerVehicle, RCC_CarControllerV3.WheelType.RWD);
+                break;
 
-	public void SetMaximumBrakeByInputField (InputField inputField){
+            case 2:
+                RCC_Customization.SetDrivetrainMode(RCC_SceneManager.Instance.activePlayerVehicle, RCC_CarControllerV3.WheelType.AWD);
+                break;
 
-		RCC_Customization.SetMaximumBrake (RCC_SceneManager.Instance.activePlayerVehicle, StringToFloat(inputField.text, 2000f));
-		inputField.text = RCC_SceneManager.Instance.activePlayerVehicle.brakeTorque.ToString ();
+        }
 
-	}
+    }
 
-	public void RepairCar (){
+    public void SetCounterSteeringByToggle(Toggle toggle) {
 
-		RCC_Customization.Repair (RCC_SceneManager.Instance.activePlayerVehicle);
+        RCC_Customization.SetCounterSteering(RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
 
-	}
+    }
 
-	public void SetESP(Toggle toggle){
+    public void SetSteeringLimitByToggle(Toggle toggle) {
 
-		RCC_Customization.SetESP (RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
+        RCC_Customization.SetSteeringLimit(RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
 
-	}
-		
-	public void SetABS(Toggle toggle){
+    }
 
-		RCC_Customization.SetABS (RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
+    public void SetNOSByToggle(Toggle toggle) {
 
-	}
+        RCC_Customization.SetNOS(RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
 
-	public void SetTCS(Toggle toggle){
+    }
 
-		RCC_Customization.SetTCS (RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
+    public void SetTurboByToggle(Toggle toggle) {
 
-	}
+        RCC_Customization.SetTurbo(RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
 
-	public void SetSH(Toggle toggle){
+    }
 
-		RCC_Customization.SetSH (RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
+    public void SetExhaustFlameByToggle(Toggle toggle) {
 
-	}
+        RCC_Customization.SetUseExhaustFlame(RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
 
-	public void SetSHStrength(Slider slider){
+    }
 
-		RCC_Customization.SetSHStrength (RCC_SceneManager.Instance.activePlayerVehicle, slider.value);
+    public void SetRevLimiterByToggle(Toggle toggle) {
 
-	}
+        RCC_Customization.SetRevLimiter(RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
 
-	public void SetTransmission(Toggle toggle){
+    }
 
-		RCC_Customization.SetTransmission (toggle.isOn);
+    public void SetFrontSuspensionsSpringForceBySlider(Slider slider) {
 
-	}
+        RCC_Customization.SetFrontSuspensionsSpringForce(RCC_SceneManager.Instance.activePlayerVehicle, Mathf.Clamp(slider.value, 10000f, 100000f));
 
-	public void SaveStats(){
+    }
 
-		RCC_Customization.SaveStats (RCC_SceneManager.Instance.activePlayerVehicle);
+    public void SetRearSuspensionsSpringForceBySlider(Slider slider) {
 
-	}
+        RCC_Customization.SetRearSuspensionsSpringForce(RCC_SceneManager.Instance.activePlayerVehicle, Mathf.Clamp(slider.value, 10000f, 100000f));
 
-	public void LoadStats(){
+    }
 
-		RCC_Customization.LoadStats (RCC_SceneManager.Instance.activePlayerVehicle);
-		CheckUIs ();
+    public void SetFrontSuspensionsSpringDamperBySlider(Slider slider) {
 
-	}
+        RCC_Customization.SetFrontSuspensionsSpringDamper(RCC_SceneManager.Instance.activePlayerVehicle, Mathf.Clamp(slider.value, 1000f, 10000f));
 
-	public void ResetStats(){
+    }
 
-		RCC_Customization.ResetStats (RCC_SceneManager.Instance.activePlayerVehicle, GameObject.FindObjectOfType<RCC_Demo>().selectableVehicles[GameObject.FindObjectOfType<RCC_Demo>().selectedVehicleIndex]);
-		CheckUIs ();
+    public void SetRearSuspensionsSpringDamperBySlider(Slider slider) {
 
-	}
+        RCC_Customization.SetRearSuspensionsSpringDamper(RCC_SceneManager.Instance.activePlayerVehicle, Mathf.Clamp(slider.value, 1000f, 10000f));
 
-	private float StringToFloat(string stringValue, float defaultValue){
-		
-		float result = defaultValue;
-		float.TryParse(stringValue, out result);
-		return result;
+    }
 
-	}
+    public void SetMaximumSpeedByInputField(InputField inputField) {
+
+        RCC_Customization.SetMaximumSpeed(RCC_SceneManager.Instance.activePlayerVehicle, StringToFloat(inputField.text, 200f));
+        inputField.text = RCC_SceneManager.Instance.activePlayerVehicle.maxspeed.ToString();
+
+    }
+
+    public void SetMaximumTorqueByInputField(InputField inputField) {
+
+        RCC_Customization.SetMaximumTorque(RCC_SceneManager.Instance.activePlayerVehicle, StringToFloat(inputField.text, 2000f));
+        inputField.text = RCC_SceneManager.Instance.activePlayerVehicle.maxEngineTorque.ToString();
+
+    }
+
+    public void SetMaximumBrakeByInputField(InputField inputField) {
+
+        RCC_Customization.SetMaximumBrake(RCC_SceneManager.Instance.activePlayerVehicle, StringToFloat(inputField.text, 2000f));
+        inputField.text = RCC_SceneManager.Instance.activePlayerVehicle.brakeTorque.ToString();
+
+    }
+
+    public void RepairCar() {
+
+        RCC_Customization.Repair(RCC_SceneManager.Instance.activePlayerVehicle);
+
+    }
+
+    public void SetESP(Toggle toggle) {
+
+        RCC_Customization.SetESP(RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
+
+    }
+
+    public void SetABS(Toggle toggle) {
+
+        RCC_Customization.SetABS(RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
+
+    }
+
+    public void SetTCS(Toggle toggle) {
+
+        RCC_Customization.SetTCS(RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
+
+    }
+
+    public void SetSH(Toggle toggle) {
+
+        RCC_Customization.SetSH(RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
+
+    }
+
+    public void SetSHStrength(Slider slider) {
+
+        RCC_Customization.SetSHStrength(RCC_SceneManager.Instance.activePlayerVehicle, slider.value);
+
+    }
+
+    public void SetTransmission(Toggle toggle) {
+
+        RCC_Customization.SetTransmission(RCC_SceneManager.Instance.activePlayerVehicle, toggle.isOn);
+
+    }
+
+    public void SaveStats() {
+
+        RCC_Customization.SaveStats(RCC_SceneManager.Instance.activePlayerVehicle);
+
+    }
+
+    public void LoadStats() {
+
+        RCC_Customization.LoadStats(RCC_SceneManager.Instance.activePlayerVehicle);
+        CheckUIs();
+
+    }
+
+    public void ResetStats() {
+
+        int selectedVehicleIndex = 0;
+
+        if (FindObjectOfType<RCC_Demo>())
+            selectedVehicleIndex = FindObjectOfType<RCC_Demo>().selectedVehicleIndex;
+
+        RCC_Customization.ResetStats(RCC_SceneManager.Instance.activePlayerVehicle, RCC_DemoVehicles.Instance.vehicles[selectedVehicleIndex]);
+
+        CheckUIs();
+
+    }
+
+    private float StringToFloat(string stringValue, float defaultValue) {
+
+        float result = defaultValue;
+        float.TryParse(stringValue, out result);
+        return result;
+
+    }
 
 }

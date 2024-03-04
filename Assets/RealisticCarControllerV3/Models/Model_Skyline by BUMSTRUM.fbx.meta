@@ -1,91 +1,255 @@
 fileFormatVersion: 2
 guid: 55ad9e52dcdf4e14ab18b5144308bfa0
-timeCreated: 1496370365
-licenseType: Store
 ModelImporter:
-  serializedVersion: 21
-  fileIDToRecycleName:
-    100000: body
-    100002: //RootNode
-    100004: wheelB
-    100006: wheelF
-    100008: car
-    100010: wheel
-    100012: wheel_2
-    100014: wheelBL
-    100016: wheelBR
-    100018: wheelFL
-    100020: wheelFR
-    100022: Body
-    100024: Wheel_FL
-    100026: Wheel_FR
-    100028: Wheel_RL
-    100030: Wheel_RR
-    400000: body
-    400002: //RootNode
-    400004: wheelB
-    400006: wheelF
-    400008: car
-    400010: wheel
-    400012: wheel_2
-    400014: wheelBL
-    400016: wheelBR
-    400018: wheelFL
-    400020: wheelFR
-    400022: Body
-    400024: Wheel_FL
-    400026: Wheel_FR
-    400028: Wheel_RL
-    400030: Wheel_RR
-    2300000: body
-    2300002: wheelB
-    2300004: wheelF
-    2300006: car
-    2300008: wheel
-    2300010: wheel_2
-    2300012: wheelBL
-    2300014: wheelBR
-    2300016: wheelFL
-    2300018: wheelFR
-    2300020: Body
-    2300022: Wheel_FL
-    2300024: Wheel_FR
-    2300026: Wheel_RL
-    2300028: Wheel_RR
-    3300000: body
-    3300002: wheelB
-    3300004: wheelF
-    3300006: car
-    3300008: wheel
-    3300010: wheel_2
-    3300012: wheelBL
-    3300014: wheelBR
-    3300016: wheelFL
-    3300018: wheelFR
-    3300020: Body
-    3300022: Wheel_FL
-    3300024: Wheel_FR
-    3300026: Wheel_RL
-    3300028: Wheel_RR
-    4300000: wheelB
-    4300002: wheelF
-    4300004: body
-    4300006: wheel
-    4300008: wheel_2
-    4300010: car
-    4300012: wheelFL
-    4300014: wheelFR
-    4300016: wheelBL
-    4300018: wheelBR
-    4300020: Wheel_FL
-    4300022: Wheel_FR
-    4300024: Wheel_RL
-    4300026: Wheel_RR
-    4300028: Body
+  serializedVersion: 25
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: body
+  - first:
+      1: 100002
+    second: //RootNode
+  - first:
+      1: 100004
+    second: wheelB
+  - first:
+      1: 100006
+    second: wheelF
+  - first:
+      1: 100008
+    second: car
+  - first:
+      1: 100010
+    second: wheel
+  - first:
+      1: 100012
+    second: wheel_2
+  - first:
+      1: 100014
+    second: wheelBL
+  - first:
+      1: 100016
+    second: wheelBR
+  - first:
+      1: 100018
+    second: wheelFL
+  - first:
+      1: 100020
+    second: wheelFR
+  - first:
+      1: 100022
+    second: Body
+  - first:
+      1: 100024
+    second: Wheel_FL
+  - first:
+      1: 100026
+    second: Wheel_FR
+  - first:
+      1: 100028
+    second: Wheel_RL
+  - first:
+      1: 100030
+    second: Wheel_RR
+  - first:
+      4: 400000
+    second: body
+  - first:
+      4: 400002
+    second: //RootNode
+  - first:
+      4: 400004
+    second: wheelB
+  - first:
+      4: 400006
+    second: wheelF
+  - first:
+      4: 400008
+    second: car
+  - first:
+      4: 400010
+    second: wheel
+  - first:
+      4: 400012
+    second: wheel_2
+  - first:
+      4: 400014
+    second: wheelBL
+  - first:
+      4: 400016
+    second: wheelBR
+  - first:
+      4: 400018
+    second: wheelFL
+  - first:
+      4: 400020
+    second: wheelFR
+  - first:
+      4: 400022
+    second: Body
+  - first:
+      4: 400024
+    second: Wheel_FL
+  - first:
+      4: 400026
+    second: Wheel_FR
+  - first:
+      4: 400028
+    second: Wheel_RL
+  - first:
+      4: 400030
+    second: Wheel_RR
+  - first:
+      23: 2300000
+    second: body
+  - first:
+      23: 2300002
+    second: wheelB
+  - first:
+      23: 2300004
+    second: wheelF
+  - first:
+      23: 2300006
+    second: car
+  - first:
+      23: 2300008
+    second: wheel
+  - first:
+      23: 2300010
+    second: wheel_2
+  - first:
+      23: 2300012
+    second: wheelBL
+  - first:
+      23: 2300014
+    second: wheelBR
+  - first:
+      23: 2300016
+    second: wheelFL
+  - first:
+      23: 2300018
+    second: wheelFR
+  - first:
+      23: 2300020
+    second: Body
+  - first:
+      23: 2300022
+    second: Wheel_FL
+  - first:
+      23: 2300024
+    second: Wheel_FR
+  - first:
+      23: 2300026
+    second: Wheel_RL
+  - first:
+      23: 2300028
+    second: Wheel_RR
+  - first:
+      33: 3300000
+    second: body
+  - first:
+      33: 3300002
+    second: wheelB
+  - first:
+      33: 3300004
+    second: wheelF
+  - first:
+      33: 3300006
+    second: car
+  - first:
+      33: 3300008
+    second: wheel
+  - first:
+      33: 3300010
+    second: wheel_2
+  - first:
+      33: 3300012
+    second: wheelBL
+  - first:
+      33: 3300014
+    second: wheelBR
+  - first:
+      33: 3300016
+    second: wheelFL
+  - first:
+      33: 3300018
+    second: wheelFR
+  - first:
+      33: 3300020
+    second: Body
+  - first:
+      33: 3300022
+    second: Wheel_FL
+  - first:
+      33: 3300024
+    second: Wheel_FR
+  - first:
+      33: 3300026
+    second: Wheel_RL
+  - first:
+      33: 3300028
+    second: Wheel_RR
+  - first:
+      43: 4300000
+    second: wheelB
+  - first:
+      43: 4300002
+    second: wheelF
+  - first:
+      43: 4300004
+    second: body
+  - first:
+      43: 4300006
+    second: wheel
+  - first:
+      43: 4300008
+    second: wheel_2
+  - first:
+      43: 4300010
+    second: car
+  - first:
+      43: 4300012
+    second: wheelFL
+  - first:
+      43: 4300014
+    second: wheelFR
+  - first:
+      43: 4300016
+    second: wheelBL
+  - first:
+      43: 4300018
+    second: wheelBR
+  - first:
+      43: 4300020
+    second: Wheel_FL
+  - first:
+      43: 4300022
+    second: Wheel_FR
+  - first:
+      43: 4300024
+    second: Wheel_RL
+  - first:
+      43: 4300026
+    second: Wheel_RR
+  - first:
+      43: 4300028
+    second: Body
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Skyline_Body
+    second: {fileID: 2100000, guid: 5c1dffe13e273bb4bab6ecf77b05271a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Skyline_Wheel
+    second: {fileID: 2100000, guid: 5c1dffe13e273bb4bab6ecf77b05271a, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -98,6 +262,8 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -112,6 +278,7 @@ ModelImporter:
     globalScale: 0.8
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
     importVisibility: 0
     importBlendShapes: 0
     importCameras: 0
@@ -119,9 +286,14 @@ ModelImporter:
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -132,10 +304,14 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 0
   copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -145,8 +321,8 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 0.8
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1

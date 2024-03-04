@@ -1,14 +1,16 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
 
 using UnityEngine;
+using UnityEngine.Audio;
 using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// Stored all general shared RCC settings here.
@@ -16,228 +18,230 @@ using System.Collections;
 [System.Serializable]
 public class RCC_Settings : ScriptableObject {
 
-	public string RCCVersion = "3.3";
-	
-	#region singleton
-	private static RCC_Settings instance;
-	public static RCC_Settings Instance{	get{if(instance == null) instance = Resources.Load("RCC Assets/RCC_Settings") as RCC_Settings; return instance;}}
-	#endregion
+    #region singleton
+    private static RCC_Settings instance;
+    public static RCC_Settings Instance { get { if (instance == null) instance = Resources.Load("RCC Assets/RCC_Settings") as RCC_Settings; return instance; } }
+    #endregion
 
-	public int controllerSelectedIndex;
-	public int behaviorSelectedIndex;
+    public int behaviorSelectedIndex = 0;       //  Current selected behavior index.
 
-	public BehaviorType selectedBehaviorType{
-		get{
-			if (overrideBehavior)
-				return behaviorTypes [behaviorSelectedIndex];
-			else
-				return null;
-		}
-	}
+    public BehaviorType selectedBehaviorType {
 
-	public bool overrideFixedTimeStep = true;
-	[Range(.005f, .06f)]public float fixedTimeStep = .02f;
-	[Range(.5f, 20f)]public float maxAngularVelocity = 6;
+        get {
 
-	public bool overrideBehavior = true;
+            if (overrideBehavior)
+                return behaviorTypes[behaviorSelectedIndex];
+            else
+                return null;
 
-	// Behavior Types
-	[System.Serializable]
-	public class BehaviorType{
+        }
 
-		public string behaviorName = "New Behavior";
+    }
 
-		[Header("Steering Helpers")]
-		public bool steeringHelper = true;
-		public bool tractionHelper = true;
-		public bool ABS = false;
-		public bool ESP = false;
-		public bool TCS = false;
-		public bool applyExternalWheelFrictions = false;
-		public bool applyRelativeTorque = false;
+    public bool overrideBehavior = true;
+    public bool overrideFPS = true;     //  Override FPS?
+    public bool overrideFixedTimeStep = true;       //  Override fixed timestep?
+    [Range(.005f, .06f)] public float fixedTimeStep = .02f;     //  Overrided fixed timestep value.
+    [Range(.5f, 20f)] public float maxAngularVelocity = 6;      //  Maximum angular velocity.
+    public int maxFPS = 60;     //  Maximum FPS.
+    public bool useShortcuts = false;       //  Use shortcuts. Shift + E = In-Scene GUI, Shift + R = Add Main Car Controller, Shift + S = RCC Settings.
 
-		public float highSpeedSteerAngleMinimum = 40f;
-		public float highSpeedSteerAngleMaximum = 40f;
+    /// <summary>
+    /// Behavior Types
+    /// </summary>
+    [System.Serializable]
+    public class BehaviorType {
 
-		public float highSpeedSteerAngleAtspeedMinimum = 100f;
-		public float highSpeedSteerAngleAtspeedMaximum = 100f;
+        public string behaviorName = "New Behavior";        //  Behavior name.
 
-		[Space()]
-		[Range(0f, 1f)]public float steerHelperAngularVelStrengthMinimum = .1f;
-		[Range(0f, 1f)]public float steerHelperAngularVelStrengthMaximum = .1f;
+        //  Driving helpers.
+        [Header("Steering Helpers")]
+        public bool steeringHelper = true;
+        public bool tractionHelper = true;
+        public bool angularDragHelper = false;
+        public bool counterSteering = true;
+        public bool limitSteering = true;
+        public bool steeringSensitivity = true;
+        public bool ABS = false;
+        public bool ESP = false;
+        public bool TCS = false;
+        public bool applyExternalWheelFrictions = false;
+        public bool applyRelativeTorque = false;
 
-		[Range(0f, 1f)]public float steerHelperLinearVelStrengthMinimum = .1f;
-		[Range(0f, 1f)]public float steerHelperLinearVelStrengthMaximum = .1f;
+        //  Steering.
+        public RCC_CarControllerV3.SteeringType steeringType = RCC_CarControllerV3.SteeringType.Curve;
+        public AnimationCurve steeringCurve = new AnimationCurve(new Keyframe(0f, 40f), new Keyframe(50f, 20f), new Keyframe(100f, 11f), new Keyframe(150f, 6f), new Keyframe(200f, 5f));
 
-		[Range(0f, 1f)]public float tractionHelperStrengthMinimum = .1f;
-		[Range(0f, 1f)]public float tractionHelperStrengthMaximum = .1f;
+        public RCC_CarControllerV3.COMAssisterTypes comAssister = RCC_CarControllerV3.COMAssisterTypes.Off;
 
-		[Space()]
-		public float antiRollFrontHorizontalMinimum = 1000f;
-		public float antiRollRearHorizontalMinimum = 1000f;
+        //  High speed steer angle limitations.
+        [Space()]
+        public float highSpeedSteerAngleMinimum = 20f;
+        public float highSpeedSteerAngleMaximum = 40f;
 
-		[Space()]
-		[Range(0f, 1f)]public float gearShiftingDelayMaximum = .15f;
+        //  High speed steer angle at speed limitations.
+        public float highSpeedSteerAngleAtspeedMinimum = 100f;
+        public float highSpeedSteerAngleAtspeedMaximum = 200f;
 
-		[Range(0f, 10f)]public float angularDrag = .1f;
+        //  Counter steering limitations.
+        [Space()]
+        public float counterSteeringMinimum = .1f;
+        public float counterSteeringMaximum = 1f;
 
-		[Header("Wheel Frictions Forward")]
-		public float forwardExtremumSlip = .4f;
-		public float forwardExtremumValue = 1f;
-		public float forwardAsymptoteSlip = .8f;
-		public float forwardAsymptoteValue = .5f;
+        //  Steering sensitivity limitations.
+        [Space()]
+        public float steeringSensitivityMinimum = .5f;
+        public float steeringSensitivityMaximum = 1f;
 
-		[Header("Wheel Frictions Sideways")]
-		public float sidewaysExtremumSlip = .2f;
-		public float sidewaysExtremumValue = 1f;
-		public float sidewaysAsymptoteSlip = .5f;
-		public float sidewaysAsymptoteValue = .75f;
-	
-	}
+        //  Steering helper angular velocity limitations.
+        [Space()]
+        [Range(0f, 1f)] public float steerHelperAngularVelStrengthMinimum = .1f;
+        [Range(0f, 1f)] public float steerHelperAngularVelStrengthMaximum = 1;
 
-	// Behavior Types
-	public BehaviorType[] behaviorTypes;
+        //  Steering helper linear velocity limitations.
+        [Range(0f, 1f)] public float steerHelperLinearVelStrengthMinimum = .1f;
+        [Range(0f, 1f)] public float steerHelperLinearVelStrengthMaximum = 1f;
 
-	public bool useFixedWheelColliders = true;
-	public bool lockAndUnlockCursor = true;
+        //  Traction helper strength limitations.
+        [Range(0f, 1f)] public float tractionHelperStrengthMinimum = .1f;
+        [Range(0f, 1f)] public float tractionHelperStrengthMaximum = 1f;
 
-	// Controller Type
-	public ControllerType controllerType;
-	public enum ControllerType{Keyboard, Mobile, XBox360One, Custom}
+        //  Anti roll horizontal limitations.
+        [Space()]
+        public float antiRollFrontHorizontalMinimum = 1000f;
+        public float antiRollRearHorizontalMinimum = 1000f;
 
-	// Keyboard Inputs
-	public string verticalInput = "Vertical";
-	public string horizontalInput = "Horizontal";
-	public string mouseXInput = "Mouse X";
-	public string mouseYInput = "Mouse Y";
+        //  Gear shifting delat limitation.
+        [Space()]
+        [Range(0f, 1f)] public float gearShiftingDelayMaximum = .15f;
 
-	public KeyCode handbrakeKB = KeyCode.Space;
-	public KeyCode startEngineKB = KeyCode.I;
-	public KeyCode lowBeamHeadlightsKB = KeyCode.L;
-	public KeyCode highBeamHeadlightsKB = KeyCode.K;
-	public KeyCode rightIndicatorKB = KeyCode.E;
-	public KeyCode leftIndicatorKB = KeyCode.Q;
-	public KeyCode hazardIndicatorKB = KeyCode.Z;
-	public KeyCode shiftGearUp = KeyCode.LeftShift;
-	public KeyCode shiftGearDown = KeyCode.LeftControl;
-	public KeyCode NGear = KeyCode.N;
-	public KeyCode boostKB = KeyCode.F;
-	public KeyCode slowMotionKB = KeyCode.G;
-	public KeyCode changeCameraKB = KeyCode.C;
-	public KeyCode recordKB = KeyCode.R;
-	public KeyCode playbackKB = KeyCode.P;
-	public KeyCode lookBackKB = KeyCode.B;
-	public KeyCode trailerAttachDetach = KeyCode.T;
+        //  Angular drag limitations.
+        [Range(0f, 10f)] public float angularDrag = .1f;
+        [Range(0f, 1f)] public float angularDragHelperMinimum = .1f;
+        [Range(0f, 1f)] public float angularDragHelperMaximum = 1f;
 
-	// XBox Inputs
-	public string Xbox_verticalInput = "Xbox_Vertical";
-	public string Xbox_horizontalInput = "Xbox_Horizontal";
-	public string Xbox_triggerLeftInput = "Xbox_TriggerLeft";
-	public string Xbox_triggerRightInput = "Xbox_TriggerRight";
-	public string Xbox_mouseXInput = "Xbox_MouseX";
-	public string Xbox_mouseYInput = "Xbox_MouseY";
+        //  Wheel frictions.
+        [Header("Wheel Frictions Forward")]
+        public float forwardExtremumSlip = .4f;
+        public float forwardExtremumValue = 1f;
+        public float forwardAsymptoteSlip = .8f;
+        public float forwardAsymptoteValue = .5f;
 
-	public string Xbox_handbrakeKB = "Xbox_B";
-	public string Xbox_startEngineKB = "Xbox_Y";
-	public string Xbox_lowBeamHeadlightsKB = "Xbox_LB";
-	public string Xbox_highBeamHeadlightsKB = "Xbox_RB";
-	public string Xbox_indicatorKB = "Xbox_DPadHorizontal";
-	public string Xbox_hazardIndicatorKB = "Xbox_DPadVertical";
-	public string Xbox_shiftGearUp = "Xbox_RB";
-	public string Xbox_shiftGearDown = "Xbox_LB";
-//	public KeyCode Xbox_NGear = KeyCode.N;
-	public string Xbox_boostKB = "Xbox_A";
-//	public KeyCode Xbox_slowMotionKB = KeyCode.G;
-	public string Xbox_changeCameraKB = "Xbox_Back";
-//	public KeyCode Xbox_recordKB = KeyCode.R;
-//	public KeyCode Xbox_playbackKB = KeyCode.P;
-	public string Xbox_lookBackKB = "Xbox_ClickRight";
-	public string Xbox_trailerAttachDetach = "Xbox_ClickLeft";
+        [Header("Wheel Frictions Sideways")]
+        public float sidewaysExtremumSlip = .2f;
+        public float sidewaysExtremumValue = 1f;
+        public float sidewaysAsymptoteSlip = .5f;
+        public float sidewaysAsymptoteValue = .75f;
 
-	// Main Controller Settings
-	public bool useVR = false;
-	public bool useAutomaticGear = true;
-	public bool runEngineAtAwake = true;
-	public bool autoReverse = true;
-	public bool autoReset = true;
-	public GameObject contactParticles;
+    }
 
-	public Units units;
-	public enum Units {KMH, MPH}
+    public bool useFixedWheelColliders = true;      //  Fixed wheelcolliders with higher mass will be used.
+    public bool lockAndUnlockCursor = true;     //  Locks cursor.
 
-	// UI Dashboard Type
-	public UIType uiType;
-	public enum UIType{UI, NGUI, None}
+    // Behavior Types
+    public BehaviorType[] behaviorTypes;
 
-	// Information telemetry about current vehicle
-	public bool useTelemetry = false;
+    // Main Controller Settings
+    public bool useAutomaticGear = true;        //  All vehicles will use automatic gear.
+    public bool useAutomaticClutch = true;      //  All vehicles will use automatic clutch.
+    public bool runEngineAtAwake = true;        //  All vehicles will start with engine running.
+    public bool autoReverse = true;     //  All vehicles can go reverse while pressing brake.
+    public bool autoReset = true;       //  All vehicles can be resetted if upside down.
 
-	// For mobile usement
-	public enum MobileController{TouchScreen, Gyro, SteeringWheel, Joystick}
-	public MobileController mobileController;
+    //  Particles.
+    public GameObject contactParticles;
+    public GameObject scratchParticles;
+    public GameObject wheelDeflateParticles;
 
-	// Mobile controller buttons and accelerometer sensitivity
-	public float UIButtonSensitivity = 3f;
-	public float UIButtonGravity = 5f;
-	public float gyroSensitivity = 2f;
+    //  Units as kmh or mph.
+    public Units units = Units.KMH;
+    public enum Units { KMH, MPH }
 
-	// Used for using the lights more efficent and realistic
-	public bool useLightsAsVertexLights = true;
-	public bool useLightProjectorForLightingEffect = false;
+    // UI Dashboard Type
+    public UIType uiType = UIType.UI;
+    public enum UIType { UI, NGUI, None }
 
-	// Other stuff
-	public bool setTagsAndLayers = false;
-	public string RCCLayer;
-	public string RCCTag;
-	public bool tagAllChildrenGameobjects = false;
+    // Information telemetry about current vehicle
+    public bool useTelemetry = false;
 
-	public GameObject chassisJoint;
-	public GameObject exhaustGas;
-	public RCC_SkidmarksManager skidmarksManager;
-	public GameObject projector;
-	public LayerMask projectorIgnoreLayer;
+    // For mobile inputs
+    public enum MobileController { TouchScreen, Gyro, SteeringWheel, Joystick }
+    public MobileController mobileController = MobileController.TouchScreen;
+    public bool mobileControllerEnabled = false;
 
-	public GameObject headLights;
-	public GameObject brakeLights;
-	public GameObject reverseLights;
-	public GameObject indicatorLights;
-	public GameObject mirrors;
+    // Mobile controller buttons and accelerometer sensitivity
+    public float UIButtonSensitivity = 10f;
+    public float UIButtonGravity = 10f;
+    public float gyroSensitivity = 2f;
 
-	public RCC_Camera RCCMainCamera;
-	public GameObject hoodCamera;
-	public GameObject cinematicCamera;
-	public GameObject RCCCanvas;
+    // Used for using the lights more efficent and realistic
+    public bool useHeadLightsAsVertexLights = false;
+    public bool useBrakeLightsAsVertexLights = true;
+    public bool useReverseLightsAsVertexLights = true;
+    public bool useIndicatorLightsAsVertexLights = true;
+    public bool useOtherLightsAsVertexLights = true;
 
-	public bool dontUseAnyParticleEffects = false;
-	public bool dontUseChassisJoint = false;
-	public bool dontUseSkidmarks = false;
+    public bool setLayers = true;       //  Setting layers.
+    public string RCCLayer = "RCC";     //  Layer of the vehicle.
+    public string WheelColliderLayer = "RCC_WheelCollider";     //  Wheelcollider layer.
+    public string DetachablePartLayer = "RCC_DetachablePart";       //  Detachable part's layer.
 
-	// Sound FX
-	public AudioClip[] gearShiftingClips;
-	public AudioClip[] crashClips;
-	public AudioClip reversingClip;
-	public AudioClip windClip;
-	public AudioClip brakeClip;
-	public AudioClip indicatorClip;
-	public AudioClip NOSClip;
-	public AudioClip turboClip;
-	public AudioClip[] blowoutClip;
-	public AudioClip[] exhaustFlameClips;
-	public bool useSharedAudioSources = true;
+    //  Other prefabs.
+    public GameObject exhaustGas;
+    public RCC_SkidmarksManager skidmarksManager;
 
-	[Range(0f, 1f)]public float maxGearShiftingSoundVolume = .25f;
-	[Range(0f, 1f)]public float maxCrashSoundVolume = 1f;
-	[Range(0f, 1f)]public float maxWindSoundVolume = .1f;
-	[Range(0f, 1f)]public float maxBrakeSoundVolume = .1f;
+    // Light prefabs.
+    public GameObject headLights;
+    public GameObject brakeLights;
+    public GameObject reverseLights;
+    public GameObject indicatorLights;
+    public GameObject lightTrailers;
+    public GameObject mirrors;
 
-	// Used for folding sections of RCC Settings
-	public bool foldGeneralSettings = false;
-	public bool foldBehaviorSettings = false;
-	public bool foldControllerSettings = false;
-	public bool foldUISettings = false;
-	public bool foldWheelPhysics = false;
-	public bool foldSFX = false;
-	public bool foldOptimization = false;
-	public bool foldTagsAndLayers = false;
+    //  Camera prefabs.
+    public RCC_Camera RCCMainCamera;
+    public GameObject hoodCamera;
+    public GameObject cinematicCamera;
+
+    //  UI prefabs.
+    public GameObject RCCCanvas;
+    public GameObject RCCTelemetry;
+    public GameObject RCCModificationCanvas;
+
+    public bool dontUseAnyParticleEffects = false;      //  Particles will not be used.
+    public bool dontUseSkidmarks = false;       //  Skidmarks will not be used.
+
+    // Sound FX.
+    public AudioMixerGroup audioMixer;
+    public AudioClip[] gearShiftingClips;
+    public AudioClip[] crashClips;
+    public AudioClip reversingClip;
+    public AudioClip windClip;
+    public AudioClip brakeClip;
+    public AudioClip wheelDeflateClip;
+    public AudioClip wheelInflateClip;
+    public AudioClip wheelFlatClip;
+    public AudioClip indicatorClip;
+    public AudioClip bumpClip;
+    public AudioClip NOSClip;
+    public AudioClip turboClip;
+    public AudioClip[] blowoutClip;
+    public AudioClip[] exhaustFlameClips;
+
+    //  Volume limitations.
+    [Range(0f, 1f)] public float maxGearShiftingSoundVolume = .25f;
+    [Range(0f, 1f)] public float maxCrashSoundVolume = 1f;
+    [Range(0f, 1f)] public float maxWindSoundVolume = .1f;
+    [Range(0f, 1f)] public float maxBrakeSoundVolume = .1f;
+
+    // Used for folding sections of RCC Settings.
+    public bool foldGeneralSettings = false;
+    public bool foldBehaviorSettings = false;
+    public bool foldControllerSettings = false;
+    public bool foldUISettings = false;
+    public bool foldWheelPhysics = false;
+    public bool foldSFX = false;
+    public bool foldOptimization = false;
+    public bool foldTagsAndLayers = false;
 
 }

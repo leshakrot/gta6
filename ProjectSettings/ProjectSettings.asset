@@ -810,11 +810,23 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: CROSS_PLATFORM_INPUT;MOBILE_INPUT;BCG_RCC
-    Standalone: CROSS_PLATFORM_INPUT;INVECTOR_BASIC;INVECTOR_MELEE;INVECTOR_SHOOTER;BCG_RCC
-    WebGL: INVECTOR_BASIC;INVECTOR_MELEE;INVECTOR_SHOOTER;BCG_RCC;USE_GLEY_TRAFFIC
-    Windows Store Apps: MOBILE_INPUT
-    iPhone: CROSS_PLATFORM_INPUT;MOBILE_INPUT;BCG_RCC
+    Android: CROSS_PLATFORM_INPUT;MOBILE_INPUT;BCG_RCC;BCG_ENTEREXIT
+    EmbeddedLinux: BCG_RCC;BCG_ENTEREXIT
+    GameCoreScarlett: BCG_RCC;BCG_ENTEREXIT
+    GameCoreXboxOne: BCG_RCC;BCG_ENTEREXIT
+    LinuxHeadlessSimulation: BCG_RCC;BCG_ENTEREXIT
+    Nintendo Switch: BCG_RCC;BCG_ENTEREXIT
+    PS4: BCG_RCC;BCG_ENTEREXIT
+    PS5: BCG_RCC;BCG_ENTEREXIT
+    QNX: BCG_RCC;BCG_ENTEREXIT
+    Stadia: BCG_RCC;BCG_ENTEREXIT
+    Standalone: CROSS_PLATFORM_INPUT;INVECTOR_BASIC;INVECTOR_MELEE;INVECTOR_SHOOTER;BCG_RCC;BCG_ENTEREXIT
+    VisionOS: BCG_RCC;BCG_ENTEREXIT
+    WebGL: INVECTOR_BASIC;INVECTOR_MELEE;INVECTOR_SHOOTER;BCG_RCC;USE_GLEY_TRAFFIC;BCG_ENTEREXIT
+    Windows Store Apps: MOBILE_INPUT;BCG_RCC;BCG_ENTEREXIT
+    XboxOne: BCG_RCC;BCG_ENTEREXIT
+    iPhone: CROSS_PLATFORM_INPUT;MOBILE_INPUT;BCG_RCC;BCG_ENTEREXIT
+    tvOS: BCG_RCC;BCG_ENTEREXIT
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
@@ -920,7 +932,7 @@ PlayerSettings:
   hmiLogStartupTiming: 0
   hmiCpuConfiguration: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 0
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
   cloudProjectId: bd1b706c-87e7-4675-88f7-512139423050
   framebufferDepthMemorylessMode: 0

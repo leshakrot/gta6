@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
@@ -16,22 +16,32 @@ using System.Collections.Generic;
 /// </summary>
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller/AI/RCC AI Brake Zones Container")]
 public class RCC_AIBrakeZonesContainer : MonoBehaviour {
-	
-	public List<Transform> brakeZones = new List<Transform>();		// Brake Zones list.
 
-	// Used for drawing gizmos on Editor.
-	void OnDrawGizmos() {
-		
-		for(int i = 0; i < brakeZones.Count; i ++){
+    public List<Transform> brakeZones = new List<Transform>();      // Brake Zones list.
 
-			Gizmos.matrix = brakeZones[i].transform.localToWorldMatrix;
-			Gizmos.color = new Color(1f, 0f, 0f, .25f);
-			Vector3 colliderBounds = brakeZones[i].GetComponent<BoxCollider>().size;
+    private void Awake() {
 
-			Gizmos.DrawCube(Vector3.zero, colliderBounds);
+        // Changing all layers to ignore raycasts to prevent lens flare occlusion.
+        foreach (var item in brakeZones)
+            item.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
 
-		}
-		
-	}
-	
+    }
+
+    /// <summary>
+    /// Used for drawing gizmos on Editor.
+    /// </summary>
+    private void OnDrawGizmos() {
+
+        for (int i = 0; i < brakeZones.Count; i++) {
+
+            Gizmos.matrix = brakeZones[i].transform.localToWorldMatrix;
+            Gizmos.color = new Color(1f, 0f, 0f, .25f);
+            Vector3 colliderBounds = brakeZones[i].GetComponent<BoxCollider>().size;
+
+            Gizmos.DrawCube(Vector3.zero, colliderBounds);
+
+        }
+
+    }
+
 }

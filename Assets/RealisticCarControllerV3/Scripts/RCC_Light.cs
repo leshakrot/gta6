@@ -1,367 +1,574 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
-/// General lighting system for vehicles. It has all kind of lights such as Headlight, Brake Light, Indicator Light, Reverse Light.
+/// General lighting system for vehicles. It has all kind of lights such as Headlight, Brake Light, Indicator Light, Reverse Light, Park Light, etc...
 /// </summary>
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller/Light/RCC Light")]
-public class RCC_Light : MonoBehaviour {
-
-	// Getting an Instance of Main Shared RCC Settings.
-	#region RCC Settings Instance
-
-	private RCC_Settings RCCSettingsInstance;
-	private RCC_Settings RCCSettings {
-		get {
-			if (RCCSettingsInstance == null) {
-				RCCSettingsInstance = RCC_Settings.Instance;
-				return RCCSettingsInstance;
-			}
-			return RCCSettingsInstance;
-		}
-	}
-
-	#endregion
-
-	private RCC_CarControllerV3 carController;
-	private Light _light;
-	private Projector projector;
-	private LensFlare lensFlare;
-	private Camera mainCamera;
-
-	public float flareBrightness = 1.5f;
-	private float finalFlareBrightness;
-
-	public LightType lightType;
-	public enum LightType{HeadLight, BrakeLight, ReverseLight, Indicator, ParkLight, HighBeamHeadLight, External};
-	public float inertia = 1f;
-	public Flare flare;
+[RequireComponent(typeof(Light))]
+public class RCC_Light : RCC_Core {
 
-	public int refreshRate = 30;
-	private float refreshTimer = 0f;
+    // Car controller.
+    public RCC_CarControllerV3 CarController {
+        get {
+            if (_carController == null)
+                _carController = GetComponentInParent<RCC_CarControllerV3>();
+            return _carController;
+        }
+        set {
+            _carController = value;
+        }
+    }
+    private RCC_CarControllerV3 _carController;
 
-	private bool parkLightFound = false;
-	private bool highBeamLightFound = false;
-
-	// For Indicators.
-	private RCC_CarControllerV3.IndicatorsOn indicatorsOn;
-	private AudioSource indicatorSound;
-	public AudioClip indicatorClip{get{return RCCSettings.indicatorClip;}}
-
-	void Start () {
-		
-		carController = GetComponentInParent<RCC_CarControllerV3>();
-		_light = GetComponent<Light>();
-		_light.enabled = true;
-		lensFlare = GetComponent<LensFlare> ();
-
-		if (lensFlare) {
-			
-			if (_light.flare != null)
-				_light.flare = null;
-			
-		}
-
-		if(RCCSettings.useLightProjectorForLightingEffect){
-			
-			projector = GetComponent<Projector>();
-			if(projector == null){
-				projector = ((GameObject)Instantiate(RCCSettings.projector, transform.position, transform.rotation)).GetComponent<Projector>();
-				projector.transform.SetParent(transform, true);
-			}
-			projector.ignoreLayers = RCCSettings.projectorIgnoreLayer;
-			if(lightType != LightType.HeadLight)
-				projector.transform.localRotation = Quaternion.Euler(20f, transform.localPosition.z > 0f ? 0f : 180f, 0f);
-			Material newMaterial = new Material(projector.material);
-			projector.material = newMaterial ;
-
-		}
-
-		if(RCCSettings.useLightsAsVertexLights){
-			_light.renderMode = LightRenderMode.ForceVertex;
-			_light.cullingMask = 0;
-		}else{
-			_light.renderMode = LightRenderMode.ForcePixel;
-		}
-
-		if(lightType == LightType.Indicator){
-			
-			if(!carController.transform.Find("All Audio Sources/Indicator Sound AudioSource"))
-				indicatorSound = RCC_CreateAudioSource.NewAudioSource(carController.gameObject, "Indicator Sound AudioSource", 1f, 3f, 1, indicatorClip, false, false, false);
-			else
-				indicatorSound = carController.transform.Find("All Audio Sources/Indicator Sound AudioSource").GetComponent<AudioSource>();
-			
-		}
+    // Actual light component.
+    public Light LightSource {
+        get {
+            if (_light == null)
+                _light = GetComponent<Light>();
+            return _light;
+        }
+    }
+    private Light _light;
 
-		RCC_Light[] allLights = carController.GetComponentsInChildren<RCC_Light> ();
+    private LensFlare lensFlare;        //  Lensflare if used.
+    private TrailRenderer trail;        //  Trailrenderer in used.
 
-		for (int i = 0; i < allLights.Length; i++) {
+    public float defaultIntensity = 1f;     //  Default intensity of the light.
+    public float flareBrightness = 1.5f;        //  Max flare brigthness of the light.
+    private float finalFlareBrightness;     //  Calculated final flare brightness of the light.
 
-			if (allLights [i].lightType == LightType.ParkLight)
-				parkLightFound = true;
+    public LightType lightType = LightType.HeadLight;       //  Light type.
+    public enum LightType { HeadLight, BrakeLight, ReverseLight, Indicator, ParkLight, HighBeamHeadLight, External };
+    public float inertia = 1f;      //  Light inertia. 
+    public LightRenderMode renderMode = LightRenderMode.Auto;
+    public bool overrideRenderMode = false;
+    public Flare flare;     //  Lensflare if used.
 
-			if (allLights [i].lightType == LightType.HighBeamHeadLight)
-				highBeamLightFound = true;
+    public int refreshRate = 30;        //  Refresh rate.
+    private float refreshTimer = 0f;        //  Refresh rate interval timer.
 
-		}
+    private bool parkLightFound = false;        //  If park light found, this means don't illuminate brake lights for tail lights.
+    private bool highBeamLightFound = false;        //  If high beam light found, this means don't illuminate normal headlights for high beam headlights.
 
-		CheckRotation ();
-		CheckLensFlare ();
+    public RCC_Emission[] emission;     //  Emission for illuminating the texture.
+    public bool useEmissionTexture = false;     //  Use the emission texture.
 
-	}
+    public float strength = 100f;       //  	Strength of the light. 
+    private float orgStrength = 100f;       //	Original strength of the light. We will be using this original value while restoring the light.
 
-	void OnEnable(){
+    public bool isBreakable = true;     //	Can it break at certain damage?
+    public int breakPoint = 35;     //	    Light will be broken at this point.
+    private bool broken = false;        //	Is this light broken currently?
 
-		if(!_light)
-			_light = GetComponent<Light>();
+    // For Indicators.
+    private RCC_CarControllerV3.IndicatorsOn indicatorsOn;
+    private AudioSource indicatorSound;
+    public AudioClip IndicatorClip { get { return RCC_Settings.Instance.indicatorClip; } }
 
-		_light.intensity = 0f;
+    private void Awake() {
 
-	}
+        //  Initializing the light is it's attached to the vehicle. Do not init the light if it's not attached to the vehicle (Used for trailers. Trailers have not main car controller script. Assigning car controller of the light when trailer is attached/detached).
+        Initialize();
 
-	void Update () {
-		
-		if(RCCSettings.useLightProjectorForLightingEffect)
-			Projectors();
+    }
 
-		if (lensFlare)
-			LensFlare ();
+    /// <summary>
+    /// Initializes the light.
+    /// </summary>
+    public void Initialize() {
 
-		switch(lightType){
+        //  Getting actual light component, make sure it's enabled. And then getting lensflare and trailrenderer if attached.
+        lensFlare = GetComponent<LensFlare>();
+        trail = GetComponentInChildren<TrailRenderer>();
 
-		case LightType.HeadLight:
-			if (highBeamLightFound) {
+        //  Make sure light is enabled.
+        LightSource.enabled = true;
 
-				Lighting (carController.lowBeamHeadLightsOn ? .5f : 0f, 50f, 90f);
+        //  If default intensity of the light is set to 0, override it.
+        defaultIntensity = LightSource.intensity;
 
-			}else{
+        orgStrength = strength;     //      Getting original strength of the light. We will be using this original value while restoring the light.
 
-				Lighting (carController.lowBeamHeadLightsOn ? .5f : 0f, 50f, 90f);
+        //  If lensflare found, set brightness to 0, color to white, and set flare texture. This is only for initialization process.
+        if (lensFlare) {
 
-				if (!carController.lowBeamHeadLightsOn && !carController.highBeamHeadLightsOn)
-					Lighting (0f);
-				if (carController.lowBeamHeadLightsOn && !carController.highBeamHeadLightsOn) {
-					Lighting (.5f, 50f, 90f);
-					transform.localEulerAngles = new Vector3 (10f, 0f, 0f);
-				} else if (carController.highBeamHeadLightsOn) {
-					Lighting (.5f, 100f, 45f);
-					transform.localEulerAngles = new Vector3 (0f, 0f, 0f);
-				}
+            lensFlare.brightness = 0f;
+            lensFlare.color = Color.white;
+            lensFlare.fadeSpeed = 20f;
 
-			}
-			break;
-
-		case LightType.BrakeLight:
-			
-			if(parkLightFound)
-				Lighting(carController._brakeInput >= .1f ? 1f : 0f);
-			else
-				Lighting(carController._brakeInput >= .1f ? 1f : !carController.lowBeamHeadLightsOn ? 0f : .25f);
-			break;
-
-		case LightType.ReverseLight:
-			Lighting(carController.direction == -1 ? 1f : 0f);
-			break;
-
-		case LightType.ParkLight:
-			Lighting((!carController.lowBeamHeadLightsOn ? 0f : .5f));
-			break;
-
-		case LightType.Indicator:
-			indicatorsOn = carController.indicatorsOn;
-			Indicators();
-			break;
-
-		case LightType.HighBeamHeadLight:
-			Lighting(carController.highBeamHeadLightsOn ? 1f : 0f, 200f, 45f);
-			break;
-
-		}
-		
-	}
-
-	void Lighting(float input){
+            if (LightSource.flare != null)
+                LightSource.flare = null;
 
-		_light.intensity = Mathf.Lerp(_light.intensity, input, Time.deltaTime * inertia * 20f);
+            lensFlare.flare = flare;
 
-	}
+        }
 
-	void Lighting(float input, float range, float spotAngle){
+        if (!overrideRenderMode) {
 
-		_light.intensity = Mathf.Lerp(_light.intensity, input, Time.deltaTime * inertia * 20f);
-		_light.range = range;
-		_light.spotAngle = spotAngle;
+            switch (lightType) {
 
-	}
+                case LightType.HeadLight:
 
-	void Indicators(){
+                    //  If light option in RCC Settings is set to "Use Vertex", set render mode of the light to "ForceVertex". Otherwise, force to "ForcePixel".
+                    if (RCC_Settings.Instance.useHeadLightsAsVertexLights)
+                        renderMode = LightRenderMode.ForceVertex;
+                    else
+                        renderMode = LightRenderMode.ForcePixel;
 
-		Vector3 relativePos = carController.transform.InverseTransformPoint (transform.position);
+                    break;
 
-		switch(indicatorsOn){
+                case LightType.BrakeLight:
 
-		case RCC_CarControllerV3.IndicatorsOn.Left:
+                    //  If light option in RCC Settings is set to "Use Vertex", set render mode of the light to "ForceVertex". Otherwise, force to "ForcePixel".
+                    if (RCC_Settings.Instance.useBrakeLightsAsVertexLights)
+                        renderMode = LightRenderMode.ForceVertex;
+                    else
+                        renderMode = LightRenderMode.ForcePixel;
 
-			if(relativePos.x > 0f){
-				Lighting (0);
-				break;
-			}
+                    break;
 
-			if(carController.indicatorTimer >= .5f){
-				Lighting (0);
-				if(indicatorSound.isPlaying)
-					indicatorSound.Stop();
-			}else{
-				Lighting (1);
-				if(!indicatorSound.isPlaying && carController.indicatorTimer <= .05f)
-					indicatorSound.Play();
-			}
-			if(carController.indicatorTimer >= 1f)
-				carController.indicatorTimer = 0f;
-			break;
+                case LightType.ReverseLight:
 
-		case RCC_CarControllerV3.IndicatorsOn.Right:
+                    //  If light option in RCC Settings is set to "Use Vertex", set render mode of the light to "ForceVertex". Otherwise, force to "ForcePixel".
+                    if (RCC_Settings.Instance.useReverseLightsAsVertexLights)
+                        renderMode = LightRenderMode.ForceVertex;
+                    else
+                        renderMode = LightRenderMode.ForcePixel;
 
-			if(relativePos.x < 0f){
-				Lighting (0);
-				break;
-			}
+                    break;
 
-			if(carController.indicatorTimer >= .5f){
-				Lighting (0);
-			if(indicatorSound.isPlaying)
-				indicatorSound.Stop();
-			}else{
-				Lighting (1);
-				if(!indicatorSound.isPlaying && carController.indicatorTimer <= .05f)
-					indicatorSound.Play();
-			}
-			if(carController.indicatorTimer >= 1f)
-				carController.indicatorTimer = 0f;
-			break;
+                case LightType.Indicator:
 
-		case RCC_CarControllerV3.IndicatorsOn.All:
-			
-			if(carController.indicatorTimer >= .5f){
-				Lighting (0);
-				if(indicatorSound.isPlaying)
-					indicatorSound.Stop();
-			}else{
-				Lighting (1);
-				if(!indicatorSound.isPlaying && carController.indicatorTimer <= .05f)
-					indicatorSound.Play();
-			}
-			if(carController.indicatorTimer >= 1f)
-				carController.indicatorTimer = 0f;
-			break;
+                    //  If light option in RCC Settings is set to "Use Vertex", set render mode of the light to "ForceVertex". Otherwise, force to "ForcePixel".
+                    if (RCC_Settings.Instance.useIndicatorLightsAsVertexLights)
+                        renderMode = LightRenderMode.ForceVertex;
+                    else
+                        renderMode = LightRenderMode.ForcePixel;
 
-		case RCC_CarControllerV3.IndicatorsOn.Off:
-			
-			Lighting (0);
-			carController.indicatorTimer = 0f;
-			break;
-			
-		}
+                    break;
 
-	}
+                case LightType.ParkLight:
 
-	private void Projectors(){
+                    //  If light option in RCC Settings is set to "Use Vertex", set render mode of the light to "ForceVertex". Otherwise, force to "ForcePixel".
+                    if (RCC_Settings.Instance.useOtherLightsAsVertexLights)
+                        renderMode = LightRenderMode.ForceVertex;
+                    else
+                        renderMode = LightRenderMode.ForcePixel;
 
-		if(!_light.enabled){
-			projector.enabled = false;
-			return;
-		}else{
-			projector.enabled = true;
-		}
+                    break;
 
-		projector.material.color = _light.color * (_light.intensity / 5f);
+                case LightType.External:
 
-		projector.farClipPlane = Mathf.Lerp(10f, 40f, (_light.range - 50) / 150f);
-		projector.fieldOfView = Mathf.Lerp(40f, 30f, (_light.range - 50) / 150f);
+                    //  If light option in RCC Settings is set to "Use Vertex", set render mode of the light to "ForceVertex". Otherwise, force to "ForcePixel".
+                    if (RCC_Settings.Instance.useOtherLightsAsVertexLights)
+                        renderMode = LightRenderMode.ForceVertex;
+                    else
+                        renderMode = LightRenderMode.ForcePixel;
 
-	}
+                    break;
 
-	private void LensFlare(){
+            }
 
-		if (refreshTimer > (1f / refreshRate)) {
-			
-			refreshTimer = 0f;
+        }
 
-			if(!mainCamera)
-				mainCamera = RCC_SceneManager.Instance.activeMainCamera;
+        LightSource.renderMode = renderMode;
 
-			if (!mainCamera)
-				return;
+        if (CarController) {
 
-			float distanceTocam = Vector3.Distance(transform.position, mainCamera.transform.position);
-			float angle = 1f;
+            //  If light type is indicator, create audiosource for indicator.
+            if (lightType == LightType.Indicator) {
 
-			if(lightType != LightType.External)
-				angle = Vector3.Angle(transform.forward,  mainCamera.transform.position - transform.position);
+                if (!CarController.transform.Find("All Audio Sources/Indicator Sound AudioSource"))
+                    indicatorSound = NewAudioSource(RCC_Settings.Instance.audioMixer, CarController.gameObject, "Indicator Sound AudioSource", 1f, 3f, 1, IndicatorClip, false, false, false);
+                else
+                    indicatorSound = CarController.transform.Find("All Audio Sources/Indicator Sound AudioSource").GetComponent<AudioSource>();
 
-			if(angle != 0)
-				finalFlareBrightness = flareBrightness * (4f / distanceTocam) * ((300f - (3f * angle)) / 300f) / 3f;
+            }
 
-			lensFlare.brightness = finalFlareBrightness * _light.intensity;
-			lensFlare.color = _light.color;
+            //  Getting all lights attached to this vehicle.
+            RCC_Light[] allLights = CarController.AllLights;
 
-		}
+            //  Checking if vehicle has park light or highbeam headlight. 
+            //  If park light found, this means don't illuminate brake lights for tail lights.
+            //  If high beam light found, this means don't illuminate normal headlights for high beam headlights.
+            for (int i = 0; i < allLights.Length; i++) {
 
-		refreshTimer += Time.deltaTime;
+                if (allLights[i].lightType == LightType.ParkLight)
+                    parkLightFound = true;
 
-	}
+                if (allLights[i].lightType == LightType.HighBeamHeadLight)
+                    highBeamLightFound = true;
 
-	private void CheckRotation(){
+            }
 
-		Vector3 relativePos = transform.GetComponentInParent<RCC_CarControllerV3>().transform.InverseTransformPoint (transform.position);
+        }
 
-		if (relativePos.z > 0f) {
+    }
 
-			if (Mathf.Abs (transform.localRotation.y) > .5f)
-				transform.localRotation = Quaternion.identity;
+    private void OnEnable() {
 
-		} else {
+        //  Make sure intensity of the light is set to 0 on enable.
+        LightSource.intensity = 0f;
 
-			if (Mathf.Abs (transform.localRotation.y) < .5f)
-				transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+    }
 
-		}
+    private void Update() {
 
-	}
+        //  If no car controller found, return.
+        if (!CarController)
+            return;
 
-	private void CheckLensFlare(){
+        //  If lensflare found, use them.
+        if (lensFlare)
+            LensFlare();
 
-		if (transform.GetComponent<LensFlare> () == null) {
+        //  If trail renderer found, use them.
+        if (trail)
+            TrailRenderer();
 
-			gameObject.AddComponent<LensFlare> ();
-			LensFlare lf = gameObject.GetComponent<LensFlare> ();
-			lf.brightness = 0f;
-			lf.color = Color.white;
-			lf.fadeSpeed = 20f;
+        //  If use emission texture is enabled, use them.
+        if (useEmissionTexture) {
 
-		}
+            foreach (RCC_Emission item in emission)
+                item.Emission(LightSource);
 
-		if(gameObject.GetComponent<LensFlare>().flare == null)
-			gameObject.GetComponent<LensFlare>().flare = flare;
-			
-		gameObject.GetComponent<Light> ().flare = null;
+        }
 
-	}
+        //  If light is broken due to damage, set intensity of the light to 0.
+        if (broken) {
 
-	void Reset(){
+            Lighting(0f);
+            return;
 
-		CheckRotation ();
-		CheckLensFlare ();
+        }
 
-	}
-		
+        //  Light types. Illuminating lights with given values.
+        switch (lightType) {
+
+            case LightType.HeadLight:
+                if (highBeamLightFound) {
+
+                    Lighting(CarController.lowBeamHeadLightsOn ? defaultIntensity : 0f, 50f, 90f);
+
+                } else {
+
+                    Lighting(CarController.lowBeamHeadLightsOn ? defaultIntensity : 0f, 50f, 90f);
+
+                    if (!CarController.lowBeamHeadLightsOn && !CarController.highBeamHeadLightsOn)
+                        Lighting(0f);
+                    if (CarController.lowBeamHeadLightsOn && !CarController.highBeamHeadLightsOn) {
+                        Lighting(defaultIntensity, 50f, 90f);
+                        transform.localEulerAngles = new Vector3(10f, 0f, 0f);
+                    } else if (CarController.highBeamHeadLightsOn) {
+                        Lighting(defaultIntensity, 100f, 45f);
+                        transform.localEulerAngles = new Vector3(0f, 0f, 0f);
+                    }
+
+                }
+                break;
+
+            case LightType.BrakeLight:
+
+                if (parkLightFound)
+                    Lighting(CarController.brakeInput >= .1f ? defaultIntensity : 0f);
+                else
+                    Lighting(CarController.brakeInput >= .1f ? defaultIntensity : !CarController.lowBeamHeadLightsOn ? 0f : .25f);
+                break;
+
+            case LightType.ReverseLight:
+                Lighting(CarController.direction == -1 ? defaultIntensity : 0f);
+                break;
+
+            case LightType.ParkLight:
+                Lighting((!CarController.lowBeamHeadLightsOn ? 0f : defaultIntensity));
+                break;
+
+            case LightType.Indicator:
+                indicatorsOn = CarController.indicatorsOn;
+                Indicators();
+                break;
+
+            case LightType.HighBeamHeadLight:
+                Lighting(CarController.highBeamHeadLightsOn ? defaultIntensity : 0f, 200f, 45f);
+                break;
+
+        }
+
+    }
+
+    /// <summary>
+    /// Illuminates the light with given input (intensity).
+    /// </summary>
+    /// <param name="input"></param>
+    private void Lighting(float input) {
+
+        if (input >= .05f)
+            LightSource.intensity = Mathf.Lerp(LightSource.intensity, input, Time.deltaTime * inertia * 20f);
+        else
+            LightSource.intensity = 0f;
+
+    }
+
+    /// <summary>
+    /// Illuminates the light with given input (intensity), range, and spot angle..
+    /// </summary>
+    /// <param name="input"></param>
+    /// <param name="range"></param>
+    /// <param name="spotAngle"></param>
+    private void Lighting(float input, float range, float spotAngle) {
+
+        if (input >= .05f)
+            LightSource.intensity = Mathf.Lerp(LightSource.intensity, input, Time.deltaTime * inertia * 20f);
+        else
+            LightSource.intensity = 0f;
+
+        LightSource.range = range;
+        LightSource.spotAngle = spotAngle;
+
+    }
+
+    /// <summary>
+    /// Operating indicators with timer.
+    /// </summary>
+    private void Indicators() {
+
+        //  Is this indicator at left or right side?
+        Vector3 relativePos = CarController.transform.InverseTransformPoint(transform.position);
+
+        //  If indicator is at left side, and indicator is set to left side as well, illuminate the light with timer.
+        //  If indicator is at right side, and indicator is set to right side as well, illuminate the light with timer.
+        //  Play created audio source while illuminating the light.
+        switch (indicatorsOn) {
+
+            case RCC_CarControllerV3.IndicatorsOn.Left:
+
+                if (relativePos.x > 0f) {
+
+                    Lighting(0);
+                    break;
+
+                }
+
+                if (CarController.indicatorTimer >= .5f) {
+
+                    Lighting(0);
+
+                    if (indicatorSound && indicatorSound.isPlaying)
+                        indicatorSound.Stop();
+
+                } else {
+
+                    Lighting(defaultIntensity);
+
+                    if (indicatorSound && !indicatorSound.isPlaying && CarController.indicatorTimer <= .05f)
+                        indicatorSound.Play();
+
+                }
+
+                if (CarController.indicatorTimer >= 1f)
+                    CarController.indicatorTimer = 0f;
+
+                break;
+
+            case RCC_CarControllerV3.IndicatorsOn.Right:
+
+                if (relativePos.x < 0f) {
+
+                    Lighting(0);
+                    break;
+
+                }
+
+                if (CarController.indicatorTimer >= .5f) {
+
+                    Lighting(0);
+
+                    if (indicatorSound && indicatorSound.isPlaying)
+                        indicatorSound.Stop();
+
+                } else {
+
+                    Lighting(defaultIntensity);
+
+                    if (indicatorSound && !indicatorSound.isPlaying && CarController.indicatorTimer <= .05f)
+                        indicatorSound.Play();
+
+                }
+
+                if (CarController.indicatorTimer >= 1f)
+                    CarController.indicatorTimer = 0f;
+
+                break;
+
+            case RCC_CarControllerV3.IndicatorsOn.All:
+
+                if (CarController.indicatorTimer >= .5f) {
+
+                    Lighting(0);
+
+                    if (indicatorSound && indicatorSound.isPlaying)
+                        indicatorSound.Stop();
+
+                } else {
+
+                    Lighting(defaultIntensity);
+
+                    if (indicatorSound && !indicatorSound.isPlaying && CarController.indicatorTimer <= .05f)
+                        indicatorSound.Play();
+
+                }
+
+                if (CarController.indicatorTimer >= 1f)
+                    CarController.indicatorTimer = 0f;
+
+                break;
+
+            case RCC_CarControllerV3.IndicatorsOn.Off:
+
+                Lighting(0);
+                CarController.indicatorTimer = 0f;
+                break;
+
+        }
+
+    }
+
+    /// <summary>
+    /// Operating lensflares related to camera angle.
+    /// </summary>
+    private void LensFlare() {
+
+        //  Lensflares are not affected by collider of the vehicle. They will ignore it. Below code will calculate the angle of the light-camera, and sets intensity of the lensflare.
+
+        //  Working with refresh rate.
+        if (refreshTimer > (1f / refreshRate)) {
+
+            refreshTimer = 0f;
+
+            if (!Camera.main)
+                return;
+
+            float distanceTocam = Vector3.Distance(transform.position, Camera.main.transform.position);
+            float angle = 1f;
+
+            if (lightType != LightType.External)
+                angle = Vector3.Angle(transform.forward, Camera.main.transform.position - transform.position);
+
+            if (angle != 0)
+                finalFlareBrightness = flareBrightness * (4f / distanceTocam) * ((300f - (3f * angle)) / 300f) / 3f;
+
+            lensFlare.brightness = finalFlareBrightness * LightSource.intensity;
+            lensFlare.color = LightSource.color;
+
+        }
+
+        refreshTimer += Time.deltaTime;
+
+    }
+
+    /// <summary>
+    /// Operating trailrenderers.
+    /// </summary>
+    private void TrailRenderer() {
+
+        //  If intensity of the light is high enough, enable emission of the trail renderer. And set color.
+        trail.emitting = LightSource.intensity > .1f ? true : false;
+        trail.startColor = LightSource.color;
+
+    }
+
+    /// <summary>
+    /// Checks rotation of the light if it's facing to wrong direction.
+    /// </summary>
+    private void CheckRotation() {
+
+        Vector3 relativePos = CarController.transform.InverseTransformPoint(transform.position);
+
+        //  If light is at front side...
+        if (relativePos.z > 0f) {
+
+            //  ... and Y rotation of the light is over 90 degrees, reset it to 0.
+            if (Mathf.Abs(transform.localRotation.y) > .5f)
+                transform.localRotation = Quaternion.identity;
+
+        } else {
+
+            //  If light is at rear side...
+            //  ... and Y rotation of the light is over 90 degrees, reset it to 0.
+            if (Mathf.Abs(transform.localRotation.y) < .5f)
+                transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+
+        }
+
+    }
+
+    /// <summary>
+    /// Listening vehicle collisions for braking the light.
+    /// </summary>
+    /// <param name="impulse"></param>
+    public void OnCollision(float impulse) {
+
+        // If light is broken, return.
+        if (broken)
+            return;
+
+        //	Decreasing strength of the light related to collision impulse.
+        strength -= impulse * 10f;
+        strength = Mathf.Clamp(strength, 0f, Mathf.Infinity);
+
+        //	Check joint of the part based on strength.
+        if (strength <= breakPoint)
+            broken = true;
+
+    }
+
+    /// <summary>
+    /// Repairs, and restores the light.
+    /// </summary>
+    public void OnRepair() {
+
+        strength = orgStrength;
+        broken = false;
+
+    }
+
+    private void OnDisable() {
+
+        //  Make sure intensity of the light is set to 0 on disable.
+        LightSource.intensity = 0f;
+
+    }
+
+    private void Reset() {
+
+        CheckRotation();
+
+    }
+
+    private void OnValidate() {
+
+        if (emission != null) {
+
+            foreach (RCC_Emission item in emission) {
+
+                if (item.multiplier == 0)
+                    item.multiplier = 1f;
+
+            }
+
+        }
+
+    }
+
 }

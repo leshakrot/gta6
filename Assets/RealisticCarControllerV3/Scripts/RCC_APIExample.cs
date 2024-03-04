@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
@@ -16,47 +16,64 @@ using UnityEngine;
 ///</summary>
 public class RCC_APIExample : MonoBehaviour {
 
-	public RCC_CarControllerV3 spawnVehiclePrefab;			// Vehicle prefab we gonna spawn.
-	private RCC_CarControllerV3 currentVehiclePrefab;		// Spawned vehicle.
-	public Transform spawnTransform;								// Spawn transform.
+    public RCC_CarControllerV3 spawnVehiclePrefab;      // Vehicle prefab we gonna spawn.
+    private RCC_CarControllerV3 currentVehiclePrefab;       // Spawned vehicle.
+    public Transform spawnTransform;        // Spawn transform.
 
-	public bool playerVehicle;			// Spawn as a player vehicle?
-	public bool controllable;			// Spawn as controllable vehicle?
-	public bool engineRunning;		// Spawn with running engine?
+    public bool playerVehicle;      // Spawn as a player vehicle?
+    public bool controllable;       // Spawn as controllable vehicle?
+    public bool engineRunning;      // Spawn with running engine?
 
-	public void Spawn(){
+    /// <summary>
+    /// Spawning the vehicle with given settings.
+    /// </summary>
+    public void Spawn() {
 
-		// Spawning the vehicle with given settings.
-		currentVehiclePrefab = RCC.SpawnRCC (spawnVehiclePrefab, spawnTransform.position, spawnTransform.rotation, playerVehicle, controllable, engineRunning);
+        // Spawning the vehicle with given settings.
+        currentVehiclePrefab = RCC.SpawnRCC(spawnVehiclePrefab, spawnTransform.position, spawnTransform.rotation, playerVehicle, controllable, engineRunning);
 
-	}
+    }
 
-	public void SetPlayer(){
+    /// <summary>
+    /// Sets the player vehicle.
+    /// </summary>
+    public void SetPlayer() {
 
-		// Registers the vehicle as player vehicle.
-		RCC.RegisterPlayerVehicle (currentVehiclePrefab);
+        // Registers the vehicle as player vehicle.
+        RCC.RegisterPlayerVehicle(currentVehiclePrefab);
 
-	}
+    }
 
-	public void SetControl(bool control){
+    /// <summary>
+    /// Sets controllable state of the player vehicle.
+    /// </summary>
+    /// <param name="control"></param>
+    public void SetControl(bool control) {
 
-		// Enables / disables controllable state of the vehicle.
-		RCC.SetControl (currentVehiclePrefab, control);
+        // Enables / disables controllable state of the vehicle.
+        RCC.SetControl(currentVehiclePrefab, control);
 
-	}
+    }
 
-	public void SetEngine(bool engine){
+    /// <summary>
+    /// Sets the engine state of the player vehicle.
+    /// </summary>
+    /// <param name="engine"></param>
+    public void SetEngine(bool engine) {
 
-		// Starts / kills engine of the vehicle.
-		RCC.SetEngine (currentVehiclePrefab, engine);
+        // Starts / kills engine of the vehicle.
+        RCC.SetEngine(currentVehiclePrefab, engine);
 
-	}
+    }
 
-	public void DeRegisterPlayer(){
+    /// <summary>
+    /// Deregisters the player vehicle.
+    /// </summary>
+    public void DeRegisterPlayer() {
 
-		// Deregisters the vehicle from as player vehicle.
-		RCC.DeRegisterPlayerVehicle ();
+        // Deregisters the vehicle from as player vehicle.
+        RCC.DeRegisterPlayerVehicle();
 
-	}
+    }
 
 }

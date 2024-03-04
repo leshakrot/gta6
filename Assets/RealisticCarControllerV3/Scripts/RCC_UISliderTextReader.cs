@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
@@ -10,6 +10,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// Receives float from UI Slider, and displays the value as a text.
@@ -17,26 +18,26 @@ using System.Collections;
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller/UI/RCC UI Slider Text Reader")]
 public class RCC_UISliderTextReader : MonoBehaviour {
 
-	public Slider slider;
-	public Text text;
+    public Slider slider;       //  UI Slider.
+    public Text text;       //  UI Text.
 
-	void Awake () {
+    private void Awake() {
 
-		if(!slider)
-			slider = GetComponentInParent<Slider> ();
-		
-		if(!text)
-			text = GetComponentInChildren<Text> (); 
-	
-	}
+        if (!slider)
+            slider = GetComponentInParent<Slider>();
 
-	void Update () {
+        if (!text)
+            text = GetComponentInChildren<Text>();
 
-		if (!slider || !text)
-			return;
-		
-		text.text = slider.value.ToString ("F1");
+    }
 
-	}
+    private void Update() {
+
+        if (!slider || !text)
+            return;
+
+        text.text = slider.value.ToString("F1");
+
+    }
 
 }

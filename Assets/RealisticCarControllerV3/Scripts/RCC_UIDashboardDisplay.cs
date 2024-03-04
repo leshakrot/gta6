@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
@@ -16,283 +16,246 @@ using UnityEngine.UI;
 /// Handles RCC Canvas dashboard elements.
 /// </summary>
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller/UI/RCC UI Dashboard Displayer")]
-[RequireComponent (typeof(RCC_DashboardInputs))]
+[RequireComponent(typeof(RCC_DashboardInputs))]
 public class RCC_UIDashboardDisplay : MonoBehaviour {
 
-	// Getting an Instance of Main Shared RCC Settings.
-	#region RCC Settings Instance
+    //  Inputs of the dashboard elements.
+    private RCC_DashboardInputs inputs;
+    private RCC_DashboardInputs Inputs {
 
-	private RCC_Settings RCCSettingsInstance;
-	private RCC_Settings RCCSettings {
-		get {
-			if (RCCSettingsInstance == null) {
-				RCCSettingsInstance = RCC_Settings.Instance;
-				return RCCSettingsInstance;
-			}
-			return RCCSettingsInstance;
-		}
-	}
+        get {
 
-	#endregion
+            if (inputs == null)
+                inputs = GetComponent<RCC_DashboardInputs>();
 
-	private RCC_DashboardInputs inputs;
+            return inputs;
 
-	public DisplayType displayType;
-	public enum DisplayType{Full, Customization, TopButtonsOnly, Off}
+        }
 
-	public GameObject topButtons;
-	public GameObject controllerButtons;
-	public GameObject gauges;
-	public GameObject customizationMenu;
-	
-	public Text RPMLabel;
-	public Text KMHLabel;
-	public Text GearLabel;
-	public Text recordingLabel;
+    }
 
-	public Image ABS;
-	public Image ESP;
-	public Image Park;
-	public Image Headlights;
-	public Image leftIndicator;
-	public Image rightIndicator;
-	public Image heatIndicator;
-	public Image fuelIndicator;
-	public Image rpmIndicator;
+    public DisplayType displayType = DisplayType.Full;     //  Current display type.
+    public enum DisplayType { Full, Customization, TopButtonsOnly, Off }
 
-	public Dropdown mobileControllers;
+    public RCC_CarControllerV3 vehicle;
+    public bool autoAssignVehicle = true;
 
-	void Awake(){
+    //  Buttons, texts, images, and dropdown menus.
+    [Header("Panels")]
+    public GameObject controllerButtons;
+    public GameObject gauges;
+    public GameObject customizationMenu;
 
-		inputs = GetComponent<RCC_DashboardInputs>();
+    [Header("Texts")]
+    public Text RPMLabel;
+    public Text KMHLabel;
+    public Text GearLabel;
+    public Text recordingLabel;
 
-		if (!inputs) {
+    [Header("Images")]
+    public Image ABS;
+    public Image ESP;
+    public Image Park;
+    public Image Headlights;
+    public Image leftIndicator;
+    public Image rightIndicator;
+    public Image heatIndicator;
+    public Image fuelIndicator;
+    public Image rpmIndicator;
 
-			enabled = false;
-			return;
+    [Header("Colors")]
+    public Color color_On = Color.yellow;
+    public Color color_Off = Color.white;
 
-		}
+    [Header("Dropdowns")]
+    public Dropdown mobileControllersDropdown;
 
-	}
-	
-	void Start () {
-		
-		CheckController ();
-		
-	}
+    private void Update() {
 
-	void OnEnable(){
+        if (mobileControllersDropdown)
+            mobileControllersDropdown.interactable = RCC_Settings.Instance.mobileControllerEnabled;
 
-		RCC_SceneManager.OnMainControllerChanged += CheckController;
+        //  Enabling / disabling corresponding elements related to choosen display type.
+        switch (displayType) {
 
-	}
+            case DisplayType.Full:
 
-	private void CheckController(){
+                if (controllerButtons && !controllerButtons.activeSelf)
+                    controllerButtons.SetActive(true);
 
-		if (RCCSettings.controllerType == RCC_Settings.ControllerType.Keyboard || RCCSettings.controllerType == RCC_Settings.ControllerType.XBox360One) {
+                if (gauges && !gauges.activeSelf)
+                    gauges.SetActive(true);
 
-			if(mobileControllers)
-				mobileControllers.interactable = false;
-			
-		}
+                if (customizationMenu && customizationMenu.activeSelf)
+                    customizationMenu.SetActive(false);
 
-		if (RCCSettings.controllerType == RCC_Settings.ControllerType.Mobile) {
+                break;
 
-			if(mobileControllers)
-				mobileControllers.interactable = true;
-			
-		}
+            case DisplayType.Customization:
 
-	}
+                if (controllerButtons && controllerButtons.activeSelf)
+                    controllerButtons.SetActive(false);
 
-	void Update(){
+                if (gauges && gauges.activeSelf)
+                    gauges.SetActive(false);
 
-		switch (displayType) {
+                if (customizationMenu && !customizationMenu.activeSelf)
+                    customizationMenu.SetActive(true);
 
-		case DisplayType.Full:
+                break;
 
-			if(topButtons && !topButtons.activeInHierarchy)
-				topButtons.SetActive(true);
+            case DisplayType.TopButtonsOnly:
 
-			if(controllerButtons && !controllerButtons.activeInHierarchy)
-				controllerButtons.SetActive(true);
+                if (controllerButtons.activeSelf)
+                    controllerButtons.SetActive(false);
 
-			if(gauges && !gauges.activeInHierarchy)
-				gauges.SetActive(true);
+                if (gauges.activeSelf)
+                    gauges.SetActive(false);
 
-			if(customizationMenu && customizationMenu.activeInHierarchy)
-				customizationMenu.SetActive(false);
+                if (customizationMenu.activeSelf)
+                    customizationMenu.SetActive(false);
 
-			break;
+                break;
 
-		case DisplayType.Customization:
+            case DisplayType.Off:
 
-			if(topButtons && topButtons.activeInHierarchy)
-				topButtons.SetActive(false);
+                if (controllerButtons && controllerButtons.activeSelf)
+                    controllerButtons.SetActive(false);
 
-			if(controllerButtons && controllerButtons.activeInHierarchy)
-				controllerButtons.SetActive(false);
+                if (gauges && gauges.activeSelf)
+                    gauges.SetActive(false);
 
-			if(gauges && gauges.activeInHierarchy)
-				gauges.SetActive(false);
+                if (customizationMenu && customizationMenu.activeSelf)
+                    customizationMenu.SetActive(false);
 
-			if(customizationMenu && !customizationMenu.activeInHierarchy)
-				customizationMenu.SetActive(true);
+                break;
 
-			break;
+        }
 
-		case DisplayType.TopButtonsOnly:
+    }
 
-			if(!topButtons.activeInHierarchy)
-				topButtons.SetActive(true);
+    private void LateUpdate() {
 
-			if(controllerButtons.activeInHierarchy)
-				controllerButtons.SetActive(false);
+        //  If inputs are not enabled yet, disable it and return.
+        if (!Inputs.enabled)
+            return;
 
-			if(gauges.activeInHierarchy)
-				gauges.SetActive(false);
+        if (autoAssignVehicle && RCC_SceneManager.Instance.activePlayerVehicle)
+            vehicle = RCC_SceneManager.Instance.activePlayerVehicle;
 
-			if(customizationMenu.activeInHierarchy)
-				customizationMenu.SetActive(false);
+        if (!vehicle)
+            return;
 
-			break;
+        if (RPMLabel)
+            RPMLabel.text = Inputs.RPM.ToString("0");
 
-		case DisplayType.Off:
+        if (KMHLabel) {
 
-			if(topButtons &&topButtons.activeInHierarchy)
-				topButtons.SetActive(false);
+            if (RCC_Settings.Instance.units == RCC_Settings.Units.KMH)
+                KMHLabel.text = Inputs.KMH.ToString("0") + "\nKMH";
+            else
+                KMHLabel.text = (Inputs.KMH * 0.62f).ToString("0") + "\nMPH";
 
-			if(controllerButtons &&controllerButtons.activeInHierarchy)
-				controllerButtons.SetActive(false);
+        }
 
-			if(gauges &&gauges.activeInHierarchy)
-				gauges.SetActive(false);
+        if (GearLabel) {
 
-			if(customizationMenu &&customizationMenu.activeInHierarchy)
-				customizationMenu.SetActive(false);
+            if (!Inputs.NGear && !Inputs.changingGear)
+                GearLabel.text = Inputs.direction == 1 ? (Inputs.Gear + 1).ToString("0") : "R";
+            else
+                GearLabel.text = "N";
 
-			break;
+        }
 
-		}
+        if (recordingLabel) {
 
-	}
-	
-	void LateUpdate () {
+            switch (RCC_SceneManager.Instance.recordMode) {
 
-		if (RCC_SceneManager.Instance.activePlayerVehicle) {
-	
-			if (RPMLabel)
-				RPMLabel.text = inputs.RPM.ToString ("0");
-		
-			if (KMHLabel) {
-			
-				if (RCCSettings.units == RCC_Settings.Units.KMH)
-					KMHLabel.text = inputs.KMH.ToString ("0") + "\nKMH";
-				else
-					KMHLabel.text = (inputs.KMH * 0.62f).ToString ("0") + "\nMPH";
-			
-			}
+                case RCC_SceneManager.RecordMode.Neutral:
 
-			if (GearLabel) {
-			
-				if (!inputs.NGear && !inputs.changingGear)
-					GearLabel.text = inputs.direction == 1 ? (inputs.Gear + 1).ToString ("0") : "R";
-				else
-					GearLabel.text = "N";
-			
-			}
+                    if (recordingLabel.gameObject.activeSelf)
+                        recordingLabel.gameObject.SetActive(false);
 
-			if (recordingLabel) {
+                    recordingLabel.text = "";
 
-				switch (RCC_SceneManager.Instance.recordMode) {
+                    break;
 
-				case RCC_SceneManager.RecordMode.Neutral:
+                case RCC_SceneManager.RecordMode.Play:
 
-					if (recordingLabel.gameObject.activeInHierarchy)
-						recordingLabel.gameObject.SetActive (false);
+                    if (!recordingLabel.gameObject.activeSelf)
+                        recordingLabel.gameObject.SetActive(true);
 
-					recordingLabel.text = "";
+                    recordingLabel.text = "Playing";
+                    recordingLabel.color = Color.green;
 
-					break;
+                    break;
 
-				case RCC_SceneManager.RecordMode.Play:
+                case RCC_SceneManager.RecordMode.Record:
 
-					if (!recordingLabel.gameObject.activeInHierarchy)
-						recordingLabel.gameObject.SetActive (true);
+                    if (!recordingLabel.gameObject.activeSelf)
+                        recordingLabel.gameObject.SetActive(true);
 
-					recordingLabel.text = "Playing";
-					recordingLabel.color = Color.green;
+                    recordingLabel.text = "Recording";
+                    recordingLabel.color = Color.red;
 
-					break;
+                    break;
 
-				case RCC_SceneManager.RecordMode.Record:
+            }
 
-					if (!recordingLabel.gameObject.activeInHierarchy)
-						recordingLabel.gameObject.SetActive (true);
+        }
 
-					recordingLabel.text = "Recording";
-					recordingLabel.color = Color.red;
+        if (ABS)
+            ABS.color = Inputs.ABS == true ? color_On : color_Off;
 
-					break;
+        if (ESP)
+            ESP.color = Inputs.ESP == true ? color_On : color_Off;
 
-				}
+        if (Park)
+            Park.color = Inputs.Park == true ? Color.red : color_Off;
 
-			}
+        if (Headlights)
+            Headlights.color = Inputs.Headlights == true ? Color.green : color_Off;
 
-			if (ABS)
-				ABS.color = inputs.ABS == true ? Color.yellow : Color.white;
-			if (ESP)
-				ESP.color = inputs.ESP == true ? Color.yellow : Color.white;
-			if (Park)
-				Park.color = inputs.Park == true ? Color.red : Color.white;
-			if (Headlights)
-				Headlights.color = inputs.Headlights == true ? Color.green : Color.white;
-			if (heatIndicator)
-				heatIndicator.color = RCC_SceneManager.Instance.activePlayerVehicle.engineHeat >= 100f ? Color.red : new Color (.1f, 0f, 0f);
-			if (fuelIndicator)
-				fuelIndicator.color = RCC_SceneManager.Instance.activePlayerVehicle.fuelTank < 10f ? Color.red : new Color (.1f, 0f, 0f); 
-			if (rpmIndicator)
-				rpmIndicator.color = RCC_SceneManager.Instance.activePlayerVehicle.engineRPM >= RCC_SceneManager.Instance.activePlayerVehicle.maxEngineRPM - 500f ? Color.red : new Color (.1f, 0f, 0f); 
-		
-			if (leftIndicator && rightIndicator) {
+        if (heatIndicator)
+            heatIndicator.color = vehicle.engineHeat >= 100f ? Color.red : new Color(.1f, 0f, 0f);
 
-				switch (inputs.indicators) {
+        if (fuelIndicator)
+            fuelIndicator.color = vehicle.fuelTank < 10f ? Color.red : new Color(.1f, 0f, 0f);
 
-				case RCC_CarControllerV3.IndicatorsOn.Left:
-					leftIndicator.color = new Color (1f, .5f, 0f);
-					rightIndicator.color = new Color (.5f, .25f, 0f);
-					break;
-				case RCC_CarControllerV3.IndicatorsOn.Right:
-					leftIndicator.color = new Color (.5f, .25f, 0f);
-					rightIndicator.color = new Color (1f, .5f, 0f);
-					break;
-				case RCC_CarControllerV3.IndicatorsOn.All:
-					leftIndicator.color = new Color (1f, .5f, 0f);
-					rightIndicator.color = new Color (1f, .5f, 0f);
-					break;
-				case RCC_CarControllerV3.IndicatorsOn.Off:
-					leftIndicator.color = new Color (.5f, .25f, 0f);
-					rightIndicator.color = new Color (.5f, .25f, 0f);
-					break;
+        if (rpmIndicator)
+            rpmIndicator.color = vehicle.engineRPM >= vehicle.maxEngineRPM - 500f ? Color.red : new Color(.1f, 0f, 0f);
 
-				}
+        if (leftIndicator && rightIndicator) {
 
-			}
+            switch (Inputs.indicators) {
 
-		}
+                case RCC_CarControllerV3.IndicatorsOn.Left:
+                    leftIndicator.color = new Color(1f, .5f, 0f);
+                    rightIndicator.color = new Color(.5f, .25f, 0f);
+                    break;
+                case RCC_CarControllerV3.IndicatorsOn.Right:
+                    leftIndicator.color = new Color(.5f, .25f, 0f);
+                    rightIndicator.color = new Color(1f, .5f, 0f);
+                    break;
+                case RCC_CarControllerV3.IndicatorsOn.All:
+                    leftIndicator.color = new Color(1f, .5f, 0f);
+                    rightIndicator.color = new Color(1f, .5f, 0f);
+                    break;
+                case RCC_CarControllerV3.IndicatorsOn.Off:
+                    leftIndicator.color = new Color(.5f, .25f, 0f);
+                    rightIndicator.color = new Color(.5f, .25f, 0f);
+                    break;
 
-	}
+            }
 
-	public void SetDisplayType(DisplayType _displayType){
+        }
 
-		displayType = _displayType;
+    }
 
-	}
+    public void SetDisplayType(DisplayType _displayType) {
 
-	void OnDisable(){
+        displayType = _displayType;
 
-		RCC_SceneManager.OnMainControllerChanged -= CheckController;
-
-	}
+    }
 
 }

@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
@@ -10,6 +10,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
 /// <summary>
@@ -18,108 +19,112 @@ using UnityEngine.EventSystems;
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller/UI/Mobile/RCC UI Controller Button")]
 public class RCC_UIController : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 
-	// Getting an Instance of Main Shared RCC Settings.
-	#region RCC Settings Instance
+    private Button button;      //  UI button.
+    private Slider slider;      //  UI slider.
 
-	private RCC_Settings RCCSettingsInstance;
-	private RCC_Settings RCCSettings {
-		get {
-			if (RCCSettingsInstance == null) {
-				RCCSettingsInstance = RCC_Settings.Instance;
-				return RCCSettingsInstance;
-			}
-			return RCCSettingsInstance;
-		}
-	}
+    public float input = 0f;       //  Input as float.
+    private float Sensitivity { get { return RCC_Settings.Instance.UIButtonSensitivity; } }     //  Sensitivity.
+    private float Gravity { get { return RCC_Settings.Instance.UIButtonGravity; } }     //  Gravity.
 
-	#endregion
+    public bool pressing = false;       //  Is pressing now?
 
-	private Button button;
-	private Slider slider;
+    private void Awake() {
 
-	internal float input;
-	private float sensitivity{get{return RCCSettings.UIButtonSensitivity;}}
-	private float gravity{get{return RCCSettings.UIButtonGravity;}}
-	public bool pressing;
+        //  Getting components.
+        button = GetComponent<Button>();
+        slider = GetComponent<Slider>();
 
-	void Awake(){
+    }
 
-		button = GetComponent<Button> ();
-		slider = GetComponent<Slider> ();
+    private void OnEnable() {
 
-	}
+        //  Resetting on enable.
+        input = 0f;
+        pressing = false;
 
-	public void OnPointerDown(PointerEventData eventData){
-		
-		pressing = true;
+        if (slider)
+            slider.value = 0f;
 
-	}
+    }
 
-	public void OnPointerUp(PointerEventData eventData){
-		 
-		pressing = false;
-		
-	}
+    /// <summary>
+    /// When pushed down the button.
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void OnPointerDown(PointerEventData eventData) {
 
-	void OnPress (bool isPressed){
+        pressing = true;
 
-		if(isPressed)
-			pressing = true;
-		else
-			pressing = false;
+    }
 
-	}
+    /// <summary>
+    /// When released the button.
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void OnPointerUp(PointerEventData eventData) {
 
-	void Update(){
+        pressing = false;
 
-		if (button && !button.interactable) {
-			
-			pressing = false;
-			input = 0f;
-			return;
+    }
 
-		}
+    private void LateUpdate() {
 
-		if (slider && !slider.interactable) {
+        //  If button is not interactable, return with 0.
+        if (button && !button.interactable) {
 
-			pressing = false;
-			input = 0f;
-			slider.value = 0f;
-			return;
+            pressing = false;
+            input = 0f;
+            return;
 
-		}
+        }
 
-		if (slider) {
+        //  If slider is not interactable, return with 0.
+        if (slider && !slider.interactable) {
 
-			if(pressing)
-				input = slider.value;
-			else
-				input = 0f;
+            pressing = false;
+            input = 0f;
+            slider.value = 0f;
+            return;
 
-			slider.value = input;
+        }
 
-		} else {
+        //  If slider selected, receive input. Otherwise, it's a button.
+        if (slider) {
 
-			if (pressing)
-				input += Time.deltaTime * sensitivity;
-			else
-				input -= Time.deltaTime * gravity;
+            if (pressing)
+                input = slider.value;
+            else
+                input = 0f;
 
-		}
+            slider.value = input;
 
-		if(input < 0f)
-			input = 0f;
-		
-		if(input > 1f)
-			input = 1f;
-		
-	}
+        } else {
 
-	void OnDisable(){
+            if (pressing)
+                input += Time.deltaTime * Sensitivity;
+            else
+                input -= Time.deltaTime * Gravity;
 
-		input = 0f;
-		pressing = false;
+        }
 
-	}
+        //  Clamping input.
+        if (input < 0f)
+            input = 0f;
+
+        if (input > 1f)
+            input = 1f;
+
+    }
+
+    private void OnDisable() {
+
+        //  Resetting on disable.
+        input = 0f;
+        pressing = false;
+
+        if (slider)
+            slider.value = 0f;
+
+    }
 
 }

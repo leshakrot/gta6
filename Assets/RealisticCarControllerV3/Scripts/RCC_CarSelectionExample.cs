@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
@@ -13,155 +13,172 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// A simple example manager for how the car selection scene should work. 
+/// A simple example manager for how the car selection scene works. 
 /// </summary>
 public class RCC_CarSelectionExample : MonoBehaviour {
 
-	private List<RCC_CarControllerV3> _spawnedVehicles = new List<RCC_CarControllerV3> ();		// Our spawned vehicle list. No need to instantiate same vehicles over and over again. 
+    private List<RCC_CarControllerV3> _spawnedVehicles = new List<RCC_CarControllerV3>();       // Our spawned vehicle list. No need to instantiate same vehicles over and over again. 
 
-	public Transform spawnPosition;		// Spawn transform.
-	public int selectedIndex = 0;			// Selected vehicle index. Next and previous buttons are affecting this value.
+    public Transform spawnPosition;     // Spawn transform.
+    public int selectedIndex = 0;           // Selected vehicle index. Next and previous buttons are affecting this value.
 
-	public RCC_Camera RCCCamera;		// Enabling / disabling camera selection script on RCC Camera if choosen.
-	public string nextScene;
+    public RCC_Camera RCCCamera;        // Enabling / disabling camera selection script on RCC Camera if choosen.
+    public string nextScene;        //  Name of the target scene when we select the vehicle.
 
-	void Start () {
+    private void Start() {
 
-		//	Getting RCC Camera.
-		if(!RCCCamera)
-			RCCCamera = GameObject.FindObjectOfType<RCC_Camera> ();
+        //	Getting RCC Camera.
+        if (!RCCCamera)
+            RCCCamera = RCC_SceneManager.Instance.activePlayerCamera;
 
-		// First, we are instantiating all vehicles and store them in _spawnedVehicles list.
-		CreateVehicles ();
-		
-	}
+        // First, we are instantiating all vehicles and store them in _spawnedVehicles list.
+        CreateVehicles();
 
-	private void CreateVehicles(){
+    }
 
-		for (int i = 0; i < RCC_Vehicles.Instance.vehicles.Length; i++) {
+    /// <summary>
+    /// Creating all vehicles at once.
+    /// </summary>
+    private void CreateVehicles() {
 
-			// Spawning the vehicle with no controllable, no player, and engine off. We don't want to let player control the vehicle while in selection menu.
-			RCC_CarControllerV3 spawnedVehicle = RCC.SpawnRCC (RCC_Vehicles.Instance.vehicles[i], spawnPosition.position, spawnPosition.rotation, false, false, false);
-			// Disabling spawned vehicle. 
-			spawnedVehicle.gameObject.SetActive (false);
-			// Adding and storing it in _spawnedVehicles list.
-			_spawnedVehicles.Add (spawnedVehicle);
+        for (int i = 0; i < RCC_DemoVehicles.Instance.vehicles.Length; i++) {
 
-		}
+            // Spawning the vehicle with no controllable, no player, and engine off. We don't want to let player control the vehicle while in selection menu.
+            RCC_CarControllerV3 spawnedVehicle = RCC.SpawnRCC(RCC_DemoVehicles.Instance.vehicles[i], spawnPosition.position, spawnPosition.rotation, false, false, false);
 
-		SpawnVehicle ();
+            // Disabling spawned vehicle. 
+            spawnedVehicle.gameObject.SetActive(false);
 
-		// If RCC Camera is choosen, it wil enable RCC_CameraCarSelection script. This script was used for orbiting camera.
-		if (RCCCamera) {
+            // Adding and storing it in _spawnedVehicles list.
+            _spawnedVehicles.Add(spawnedVehicle);
 
-			if (RCCCamera.GetComponent<RCC_CameraCarSelection> ())
-				RCCCamera.GetComponent<RCC_CameraCarSelection> ().enabled = true;
+        }
 
-		}
+        SpawnVehicle();
 
-	}
-	
-	// Increasing selected index, disabling all other vehicles, enabling current selected vehicle.
-	public void NextVehicle () {
+        // If RCC Camera is choosen, it wil enable RCC_CameraCarSelection script. This script was used for orbiting camera.
+        if (RCCCamera) {
 
-		selectedIndex++;
+            if (RCCCamera.GetComponent<RCC_CameraCarSelection>())
+                RCCCamera.GetComponent<RCC_CameraCarSelection>().enabled = true;
 
-		// If index exceeds maximum, return to 0.
-		if (selectedIndex > _spawnedVehicles.Count - 1)
-			selectedIndex = 0;
+        }
 
-		SpawnVehicle ();
-		
-	}
+    }
 
-	// Decreasing selected index, disabling all other vehicles, enabling current selected vehicle.
-	public void PreviousVehicle () {
+    /// <summary>
+    /// Increasing selected index, disabling all other vehicles, enabling current selected vehicle.
+    /// </summary>
+    public void NextVehicle() {
 
-		selectedIndex--;
+        selectedIndex++;
 
-		// If index is below 0, return to maximum.
-		if (selectedIndex < 0)
-			selectedIndex = _spawnedVehicles.Count - 1;
+        // If index exceeds maximum, return to 0.
+        if (selectedIndex > _spawnedVehicles.Count - 1)
+            selectedIndex = 0;
 
-		SpawnVehicle ();
+        SpawnVehicle();
 
-	}
+    }
 
-	// Spawns the current selected vehicle.
-	public void SpawnVehicle(){
+    /// <summary>
+    /// Decreasing selected index, disabling all other vehicles, enabling current selected vehicle.
+    /// </summary>
+    public void PreviousVehicle() {
 
-		// Disabling all vehicles.
-		for (int i = 0; i < _spawnedVehicles.Count; i++)
-			_spawnedVehicles [i].gameObject.SetActive (false);
+        selectedIndex--;
 
-		// And enabling only selected vehicle.
-		_spawnedVehicles [selectedIndex].gameObject.SetActive (true);
+        // If index is below 0, return to maximum.
+        if (selectedIndex < 0)
+            selectedIndex = _spawnedVehicles.Count - 1;
 
-//		RCC_SceneManager.Instance.RegisterPlayer (_spawnedVehicles [selectedIndex], false, false);
-		RCC_SceneManager.Instance.activePlayerVehicle = _spawnedVehicles [selectedIndex];
+        SpawnVehicle();
 
-	}
+    }
 
-	// Registering the spawned vehicle as player vehicle, enabling controllable.
-	public void SelectVehicle(){
+    /// <summary>
+    /// Spawns the current selected vehicle.
+    /// </summary>
+    public void SpawnVehicle() {
 
-		// Registers the vehicle as player vehicle.
-		RCC.RegisterPlayerVehicle (_spawnedVehicles[selectedIndex]);
+        // Disabling all vehicles.
+        for (int i = 0; i < _spawnedVehicles.Count; i++)
+            _spawnedVehicles[i].gameObject.SetActive(false);
 
-		// Starts engine and enabling controllable when selected.
-		_spawnedVehicles [selectedIndex].StartEngine ();
-		_spawnedVehicles [selectedIndex].SetCanControl(true);
+        // And enabling only selected vehicle.
+        _spawnedVehicles[selectedIndex].gameObject.SetActive(true);
 
-		// Save the selected vehicle for instantianting it on next scene.
-		PlayerPrefs.SetInt ("SelectedRCCVehicle", selectedIndex);
+        RCC_SceneManager.Instance.activePlayerVehicle = _spawnedVehicles[selectedIndex];
 
-		// If RCC Camera is choosen, it will disable RCC_CameraCarSelection script. This script was used for orbiting camera.
-		if (RCCCamera) {
+    }
 
-			if (RCCCamera.GetComponent<RCC_CameraCarSelection> ())
-				RCCCamera.GetComponent<RCC_CameraCarSelection> ().enabled = false;
+    /// <summary>
+    /// Registering the spawned vehicle as player vehicle, enabling controllable.
+    /// </summary>
+    public void SelectVehicle() {
 
-		}
+        // Registers the vehicle as player vehicle.
+        RCC.RegisterPlayerVehicle(_spawnedVehicles[selectedIndex]);
 
-		if(nextScene != "")
-			OpenScene ();
+        // Starts engine and enabling controllable when selected.
+        _spawnedVehicles[selectedIndex].StartEngine();
+        _spawnedVehicles[selectedIndex].SetCanControl(true);
 
-	}
+        // Save the selected vehicle for instantianting it on next scene.
+        PlayerPrefs.SetInt("SelectedRCCVehicle", selectedIndex);
 
-	// Deactivates selected vehicle and returns to the car selection.
-	public void DeSelectVehicle(){
+        // If RCC Camera is choosen, it will disable RCC_CameraCarSelection script. This script was used for orbiting camera.
+        if (RCCCamera) {
 
-		// De-registers the vehicle.
-		RCC.DeRegisterPlayerVehicle ();
+            if (RCCCamera.GetComponent<RCC_CameraCarSelection>())
+                RCCCamera.GetComponent<RCC_CameraCarSelection>().enabled = false;
 
-		// Resets position and rotation.
-		_spawnedVehicles [selectedIndex].transform.position = spawnPosition.position;
-		_spawnedVehicles [selectedIndex].transform.rotation = spawnPosition.rotation;
+        }
 
-		// Kills engine and disables controllable.
-		_spawnedVehicles [selectedIndex].KillEngine ();
-		_spawnedVehicles [selectedIndex].SetCanControl(false);
+        if (!string.IsNullOrEmpty(nextScene))
+            OpenScene();
 
-		// Resets the velocity of the vehicle.
-		_spawnedVehicles [selectedIndex].GetComponent<Rigidbody> ().ResetInertiaTensor ();
-		_spawnedVehicles [selectedIndex].GetComponent<Rigidbody> ().velocity = Vector3.zero;
-		_spawnedVehicles [selectedIndex].GetComponent<Rigidbody> ().angularVelocity = Vector3.zero;
+    }
 
-		// If RCC Camera is choosen, it wil enable RCC_CameraCarSelection script. This script was used for orbiting camera.
-		if (RCCCamera) {
-			
-			if (RCCCamera.GetComponent<RCC_CameraCarSelection> ())
-				RCCCamera.GetComponent<RCC_CameraCarSelection> ().enabled = true;
-			
-		}
+    /// <summary>
+    /// Deactivates selected vehicle and returns to the car selection.
+    /// </summary>
+    public void DeSelectVehicle() {
 
-	}
+        // De-registers the vehicle.
+        RCC.DeRegisterPlayerVehicle();
 
-	public void OpenScene(){
+        // Resets position and rotation.
+        _spawnedVehicles[selectedIndex].transform.position = spawnPosition.position;
+        _spawnedVehicles[selectedIndex].transform.rotation = spawnPosition.rotation;
 
-		//	Loads next scene.
-		SceneManager.LoadScene (nextScene);
+        // Kills engine and disables controllable.
+        _spawnedVehicles[selectedIndex].KillEngine();
+        _spawnedVehicles[selectedIndex].SetCanControl(false);
 
-	}
+        // Resets the velocity of the vehicle.
+        _spawnedVehicles[selectedIndex].GetComponent<Rigidbody>().ResetInertiaTensor();
+        _spawnedVehicles[selectedIndex].GetComponent<Rigidbody>().velocity = Vector3.zero;
+        _spawnedVehicles[selectedIndex].GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+
+        // If RCC Camera is choosen, it wil enable RCC_CameraCarSelection script. This script was used for orbiting camera.
+        if (RCCCamera) {
+
+            if (RCCCamera.GetComponent<RCC_CameraCarSelection>())
+                RCCCamera.GetComponent<RCC_CameraCarSelection>().enabled = true;
+
+        }
+
+    }
+
+    /// <summary>
+    /// Loads the target scene.
+    /// </summary>
+    public void OpenScene() {
+
+        //	Loads next scene.
+        SceneManager.LoadScene(nextScene);
+
+    }
 
 }

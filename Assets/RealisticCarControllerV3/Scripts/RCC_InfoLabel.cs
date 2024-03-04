@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
@@ -13,79 +13,71 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Handles RCC Canvas dashboard elements.
+/// Displays UI info.
 /// </summary>
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller/UI/RCC UI Info Displayer")]
-[RequireComponent (typeof(Text))]
-public class RCC_InfoLabel : MonoBehaviour {
+[RequireComponent(typeof(Text))]
+public class RCC_InfoLabel : RCC_Singleton<RCC_InfoLabel> {
 
-	#region singleton
-	private static RCC_InfoLabel instance;
-	public static RCC_InfoLabel Instance{
+    private Text text;      //  UI text.
+    private float timer = 1.5f;       //  Timeout to close the info panel.
 
-		get{
+    private void Awake() {
 
-			if (instance == null) {
+        //  Getting text component and disabling it.
+        text = GetComponent<Text>();
+        text.enabled = false;
 
-				if (GameObject.FindObjectOfType<RCC_InfoLabel> ())
-					instance = GameObject.FindObjectOfType<RCC_InfoLabel> ();
+    }
 
-			}
+    private void OnEnable() {
 
-			return instance;
+        text.text = "";
+        timer = 1.5f;
 
-		}
+    }
 
-	}
-	#endregion
+    private void Update() {
 
-	private Text text;
-	private float timer = 1f;
+        //  If timer is below 1.5, text is enabled. Otherwise disable.
+        if (timer < 1.5f) {
 
-	void Start () {
+            if (!text.enabled)
+                text.enabled = true;
 
-		text = GetComponent<Text> ();
-		text.enabled = false;
-		
-	}
+        } else {
 
-	void Update(){
+            if (text.enabled)
+                text.enabled = false;
 
-		if (timer < 1f) {
-			
-			if (!text.enabled)
-				text.enabled = true;
-			
-		} else {
-			
-			if (text.enabled)
-				text.enabled = false;
-			
-		}
+        }
 
-		timer += Time.deltaTime;
+        //  Increasing timer.
+        timer += Time.deltaTime;
 
-	}
+    }
 
-	public void ShowInfo (string info) {
+    /// <summary>
+    /// Shows info.
+    /// </summary>
+    /// <param name="info"></param>
+    public void ShowInfo(string info) {
 
-		if (!text)
-			return;
+        //  If no text found, return.
+        if (!text)
+            return;
 
-		text.text = info;
-		timer = 0f;
+        //  Display info.
+        text.text = info;
+        timer = 0f;
 
-//		StartCoroutine (ShowInfoCo(info, time));
-		
-	}
+    }
 
-	IEnumerator ShowInfoCo(string info, float time){
+    private void OnDisable() {
 
-		text.enabled = true;
-		text.text = info;
-		yield return new WaitForSeconds (time);
-		text.enabled = false;
+        text.text = "";
+        timer = 1.5f;
 
-	}
+    }
 
 }

@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -12,6 +13,10 @@ MonoBehaviour:
   m_Name: RCC_ChangableWheels
   m_EditorClassIdentifier: 
   wheels:
-  - wheel: {fileID: 1000010383167818, guid: 0cac135d1378f7a48a4f5cf7c7b502e9, type: 2}
-  - wheel: {fileID: 1000010017674812, guid: aa33a36521bd79e4cb3d15b758afbb7f, type: 2}
-  - wheel: {fileID: 1000010537197664, guid: c3b7712cdfb400545a470f212696de06, type: 2}
+  - wheel: {fileID: 8895668465151374516, guid: 26ab865a7169f4248b3c69b5ef3ccef3, type: 3}
+  - wheel: {fileID: 8594930776675238536, guid: 2c3f87e2c23da3d429eaed60c06f91af, type: 3}
+  - wheel: {fileID: 1279189629830538198, guid: 49cc3b5a4b04d0342ad7efff88e9d475, type: 3}
+  - wheel: {fileID: 27968622994812625, guid: 5efa4ef47b4e24548ada9449d9cc529c, type: 3}
+  - wheel: {fileID: 785005931775620856, guid: 15705ab7626bb4b4fafe58147bff60c7, type: 3}
+  - wheel: {fileID: 8212529537354534429, guid: 43f9e40522cc6d647b8263c092854a43, type: 3}
+  - wheel: {fileID: 758500115619116473, guid: d37cc64ab2e60ee40bab99002d11e11f, type: 3}

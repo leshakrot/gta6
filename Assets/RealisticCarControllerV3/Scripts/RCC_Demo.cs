@@ -1,14 +1,15 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -17,161 +18,177 @@ using UnityEngine.SceneManagement;
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller/UI/RCC Demo Manager")]
 public class RCC_Demo : MonoBehaviour {
 
-	[Header("Spawnable Vehicles")]
-	public RCC_CarControllerV3[] selectableVehicles;
+    [HideInInspector] public int selectedVehicleIndex = 0;      // An integer index value used to spawn a new vehicle.
+    [HideInInspector] public int selectedBehaviorIndex = 0;     // An integer index value used to set a new behavior mode.
 
-	internal int selectedVehicleIndex = 0;		// An integer index value used for spawning a new vehicle.
-	internal int selectedBehaviorIndex = 0;		// An integer index value used for setting behavior mode.
+    /// <summary>
+    /// An integer index value used for spawning a new vehicle.
+    /// </summary>
+    /// <param name="index"></param>
+    public void SelectVehicle(int index) {
 
-	// An integer index value used for spawning a new vehicle.
-	public void SelectVehicle (int index) {
+        selectedVehicleIndex = index;
 
-		selectedVehicleIndex = index;
-	
-	}
+    }
 
-	public void Spawn () {
+    /// <summary>
+    /// Spawns the player vehicle.
+    /// </summary>
+    public void Spawn() {
 
-		// Last known position and rotation of last active vehicle.
-		Vector3 lastKnownPos = new Vector3();
-		Quaternion lastKnownRot = new Quaternion();
+        // Last known position and rotation of last active vehicle.
+        Vector3 lastKnownPos = new Vector3();
+        Quaternion lastKnownRot = new Quaternion();
 
-		// Checking if there is a player vehicle on the scene.
-		if(RCC_SceneManager.Instance.activePlayerVehicle){
+        // Checking if there is a player vehicle on the scene.
+        if (RCC_SceneManager.Instance.activePlayerVehicle) {
 
-			lastKnownPos = RCC_SceneManager.Instance.activePlayerVehicle.transform.position;
-			lastKnownRot = RCC_SceneManager.Instance.activePlayerVehicle.transform.rotation;
+            lastKnownPos = RCC_SceneManager.Instance.activePlayerVehicle.transform.position;
+            lastKnownRot = RCC_SceneManager.Instance.activePlayerVehicle.transform.rotation;
 
-		}
+        }
 
-		// If last known position and rotation is not assigned, camera's position and rotation will be used.
-		if(lastKnownPos == Vector3.zero){
-			
-			if(RCC_SceneManager.Instance.activePlayerCamera){
-				
-				lastKnownPos = RCC_SceneManager.Instance.activePlayerCamera.transform.position;
-				lastKnownRot = RCC_SceneManager.Instance.activePlayerCamera.transform.rotation;
+        // If last known position and rotation is not assigned, camera's position and rotation will be used.
+        if (lastKnownPos == Vector3.zero) {
 
-			}
+            if (RCC_SceneManager.Instance.activePlayerCamera) {
 
-		}
+                lastKnownPos = RCC_SceneManager.Instance.activePlayerCamera.transform.position;
+                lastKnownRot = RCC_SceneManager.Instance.activePlayerCamera.transform.rotation;
 
-		// We don't need X and Z rotation angle. Just Y.
-		lastKnownRot.x = 0f;
-		lastKnownRot.z = 0f;
+            }
 
-		RCC_CarControllerV3 lastVehicle = RCC_SceneManager.Instance.activePlayerVehicle;
+        }
 
-		#if BCG_ENTEREXIT
+        // We don't need X and Z rotation angle. Just Y.
+        lastKnownRot.x = 0f;
+        lastKnownRot.z = 0f;
 
-		BCG_EnterExitVehicle lastEnterExitVehicle;
-		bool enterExitVehicleFound = false;
+        // Is there any last vehicle?
+        RCC_CarControllerV3 lastVehicle = RCC_SceneManager.Instance.activePlayerVehicle;
 
-		if (lastVehicle) {
+#if BCG_ENTEREXIT
 
-			lastEnterExitVehicle = lastVehicle.GetComponentInChildren<BCG_EnterExitVehicle> ();
+        BCG_EnterExitVehicle lastEnterExitVehicle;
+        bool enterExitVehicleFound = false;
 
-			if(lastEnterExitVehicle && lastEnterExitVehicle.driver){
+        if (lastVehicle) {
 
-				enterExitVehicleFound = true;
-				BCG_EnterExitManager.Instance.waitTime = 10f;
-				lastEnterExitVehicle.driver.GetOut();
+            lastEnterExitVehicle = lastVehicle.GetComponentInChildren<BCG_EnterExitVehicle>();
 
-			}
+            if (lastEnterExitVehicle && lastEnterExitVehicle.driver) {
 
-		}
+                enterExitVehicleFound = true;
+                BCG_EnterExitManager.Instance.waitTime = 10f;
+                lastEnterExitVehicle.driver.GetOut();
 
-		#endif
+            }
 
-		// If we have controllable vehicle by player on scene, destroy it.
-		if(lastVehicle)
-			Destroy(lastVehicle.gameObject);
+        }
 
-		// Here we are creating our new vehicle.
-		RCC.SpawnRCC(selectableVehicles[selectedVehicleIndex], lastKnownPos, lastKnownRot, true, true, true);
-		 
-		#if BCG_ENTEREXIT
+#endif
 
-		if(enterExitVehicleFound){
+        // If we have controllable vehicle by player on scene, destroy it.
+        if (lastVehicle)
+            Destroy(lastVehicle.gameObject);
 
-			lastEnterExitVehicle = null;
+        // Here we are creating our new vehicle.
+        RCC.SpawnRCC(RCC_DemoVehicles.Instance.vehicles[selectedVehicleIndex], lastKnownPos, lastKnownRot, true, true, true);
 
-			lastEnterExitVehicle = RCC_SceneManager.Instance.activePlayerVehicle.GetComponentInChildren<BCG_EnterExitVehicle> ();
+#if BCG_ENTEREXIT
 
-			if(!lastEnterExitVehicle){
-				
-				lastEnterExitVehicle = RCC_SceneManager.Instance.activePlayerVehicle.gameObject.AddComponent<BCG_EnterExitVehicle> ();
+        if (enterExitVehicleFound) {
 
-			}
+            lastEnterExitVehicle = null;
 
-			if(BCG_EnterExitManager.Instance.BCGCharacterPlayer.characterPlayer && lastEnterExitVehicle && lastEnterExitVehicle.driver == null){
-				
-				BCG_EnterExitManager.Instance.waitTime = 10f;
-				BCG_EnterExitManager.Instance.BCGCharacterPlayer.characterPlayer.GetIn(lastEnterExitVehicle);
+            lastEnterExitVehicle = RCC_SceneManager.Instance.activePlayerVehicle.GetComponentInChildren<BCG_EnterExitVehicle>();
 
-			}
+            if (!lastEnterExitVehicle)
+                lastEnterExitVehicle = RCC_SceneManager.Instance.activePlayerVehicle.gameObject.AddComponent<BCG_EnterExitVehicle>();
 
-		}
-		
-		#endif
+            if (BCG_EnterExitManager.Instance.activePlayer && lastEnterExitVehicle && lastEnterExitVehicle.driver == null) {
 
-	}
+                BCG_EnterExitManager.Instance.waitTime = 10f;
+                BCG_EnterExitManager.Instance.activePlayer.GetIn(lastEnterExitVehicle);
 
-	// An integer index value used for setting behavior mode.
-	public void SetBehavior(int index){
+            }
 
-		selectedBehaviorIndex = index;
+        }
 
-	}
+#endif
 
-	// Here we are setting new selected behavior to corresponding one.
-	public void InitBehavior(){
+    }
 
-		RCC.SetBehavior(selectedBehaviorIndex);
+    /// <summary>
+    /// An integer index value used for setting behavior mode.
+    /// </summary>
+    /// <param name="index"></param>
+    public void SetBehavior(int index) {
 
-	}
+        selectedBehaviorIndex = index;
 
-	//	Sets the main controller type.
-	public void SetController(int index){
+    }
 
-		RCC.SetController (index);
+    /// <summary>
+    /// Here we are setting new selected behavior to corresponding one.
+    /// </summary>
+    public void InitBehavior() {
 
-	}
+        RCC.SetBehavior(selectedBehaviorIndex);
 
-	// Sets the mobile controller type.
-	public void SetMobileController(int index){
+    }
 
-		switch(index){
+    /// <summary>
+    /// Sets the mobile controller type.
+    /// </summary>
+    /// <param name="index"></param>
+    public void SetMobileController(int index) {
 
-		case 0:
-			RCC.SetMobileController (RCC_Settings.MobileController.TouchScreen);
-			break;
-		case 1:
-			RCC.SetMobileController (RCC_Settings.MobileController.Gyro);
-			break;
-		case 2:
-			RCC.SetMobileController (RCC_Settings.MobileController.SteeringWheel);
-			break;
-		case 3:
-			RCC.SetMobileController (RCC_Settings.MobileController.Joystick);
-			break;
+        switch (index) {
 
-		}
+            case 0:
+                RCC.SetMobileController(RCC_Settings.MobileController.TouchScreen);
+                break;
+            case 1:
+                RCC.SetMobileController(RCC_Settings.MobileController.Gyro);
+                break;
+            case 2:
+                RCC.SetMobileController(RCC_Settings.MobileController.SteeringWheel);
+                break;
+            case 3:
+                RCC.SetMobileController(RCC_Settings.MobileController.Joystick);
+                break;
 
-	}
+        }
 
-	// Simply restarting the current scene.
-	public void RestartScene(){
+    }
 
-		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex);
+    /// <summary>
+    /// Sets the quality.
+    /// </summary>
+    /// <param name="index">Index.</param>
+    public void SetQuality(int index) {
 
-	}
+        QualitySettings.SetQualityLevel(index);
 
-	// Simply quit application. Not working on Editor.
-	public void Quit(){
+    }
 
-		Application.Quit();
+    /// <summary>
+    /// Simply restarting the current scene.
+    /// </summary>
+    public void RestartScene() {
 
-	}
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+    }
+
+    /// <summary>
+    /// Simply quit application. Not working on Editor.
+    /// </summary>
+    public void Quit() {
+
+        Application.Quit();
+
+    }
 
 }

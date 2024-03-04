@@ -1,14 +1,15 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 /// <summary>
@@ -17,39 +18,40 @@ using UnityEngine.UI;
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller/UI/RCC UI Dashboard Colors")]
 public class RCC_DashboardColors : MonoBehaviour {
 
-	public Image[] huds;
-	public Color hudColor = Color.white;
+    public Image[] huds;
+    public Color hudColor = Color.white;
 
-	public Slider hudColor_R;
-	public Slider hudColor_G;
-	public Slider hudColor_B;
+    public Slider hudColor_R;
+    public Slider hudColor_G;
+    public Slider hudColor_B;
 
-	void Start () {
+    private void Start() {
 
-		if(huds == null || huds.Length < 1)
-			enabled = false;
+        if (huds == null || huds.Length < 1)
+            enabled = false;
 
-		if(hudColor_R && hudColor_G && hudColor_B){
-			
-			hudColor_R.value = hudColor.r;
-			hudColor_G.value = hudColor.g;
-			hudColor_B.value = hudColor.b;
+        if (hudColor_R && hudColor_G && hudColor_B) {
 
-		}
-	
-	}
+            hudColor_R.value = hudColor.r;
+            hudColor_G.value = hudColor.g;
+            hudColor_B.value = hudColor.b;
 
-	void Update () {
+        }
 
-		if(hudColor_R && hudColor_G && hudColor_B)
-			hudColor = new Color(hudColor_R.value, hudColor_G.value, hudColor_B.value);
+    }
 
-		for (int i = 0; i < huds.Length; i++) {
+    private void Update() {
 
-			huds[i].color = new Color(hudColor.r, hudColor.g, hudColor.b, huds[i].color.a);
+        if (hudColor_R && hudColor_G && hudColor_B)
+            hudColor = new Color(hudColor_R.value, hudColor_G.value, hudColor_B.value);
 
-		}
-	
-	}
+        for (int i = 0; i < huds.Length; i++) {
+
+            if (huds[i] != null)
+                huds[i].color = new Color(hudColor.r, hudColor.g, hudColor.b, huds[i].color.a);
+
+        }
+
+    }
 
 }

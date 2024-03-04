@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
@@ -10,293 +10,347 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// UI buttons used in options panel. It has an enum for all kind of buttons. 
 /// </summary>
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller/UI/RCC UI Dashboard Button")]
-public class RCC_UIDashboardButton : MonoBehaviour {
-	
-	public ButtonType _buttonType;
-	public enum ButtonType{Start, ABS, ESP, TCS, Headlights, LeftIndicator, RightIndicator, Gear, Low, Med, High, SH, GearUp, GearDown, HazardLights, SlowMo, Record, Replay, Neutral, ChangeCamera};
-	private Scrollbar gearSlider;
+public class RCC_UIDashboardButton : MonoBehaviour, IPointerClickHandler {
 
-	public int gearDirection = 0;
+    private Button button;        //  Button.
 
-	void Start(){
+    public ButtonType _buttonType = ButtonType.ABS;      //  Type of the button.
+    public enum ButtonType { Start, ABS, ESP, TCS, Headlights, LeftIndicator, RightIndicator, Gear, Low, Med, High, SH, GearUp, GearDown, HazardLights, SlowMo, Record, Replay, Neutral, ChangeCamera };
+    private Scrollbar gearSlider;
 
-		if(_buttonType == ButtonType.Gear && GetComponentInChildren<Scrollbar>()){
-			
-			gearSlider = GetComponentInChildren<Scrollbar>();
-			gearSlider.onValueChanged.AddListener (delegate {ChangeGear ();});
+    public int gearDirection = 0;
 
-		}
+    /// <summary>
+    /// When clicked.
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void OnPointerClick(PointerEventData eventData) {
 
-	}
+        OnClicked();
 
-	void OnEnable(){
+    }
 
-		Check();
+    private void Awake() {
 
-	}
-	
-	public void OnClicked () {
+        button = GetComponent<Button>();
 
-		if (!RCC_SceneManager.Instance.activePlayerVehicle)
-			return;
-		
-		switch(_buttonType){
-			
-		case ButtonType.Start:
+        //  If this button type is a gear selector, get scrollbar and add listener.
+        if (_buttonType == ButtonType.Gear && GetComponentInChildren<Scrollbar>()) {
 
-			RCC_SceneManager.Instance.activePlayerVehicle.KillOrStartEngine();
-			
-			break;
-			
-		case ButtonType.ABS:
+            gearSlider = GetComponentInChildren<Scrollbar>();
+            gearSlider.onValueChanged.AddListener(delegate { ChangeGear(); });
 
-			RCC_SceneManager.Instance.activePlayerVehicle.ABS = !RCC_SceneManager.Instance.activePlayerVehicle.ABS;
-			
-			break;
-			
-		case ButtonType.ESP:
+        }
 
-			RCC_SceneManager.Instance.activePlayerVehicle.ESP = !RCC_SceneManager.Instance.activePlayerVehicle.ESP;
-			
-			break;
-			
-		case ButtonType.TCS:
+    }
 
-			RCC_SceneManager.Instance.activePlayerVehicle.TCS = !RCC_SceneManager.Instance.activePlayerVehicle.TCS;
-			
-			break;
+    private void OnEnable() {
 
-		case ButtonType.SH:
+        //  Updating image of the button.
+        UpdateImageOfButton();
 
-			RCC_SceneManager.Instance.activePlayerVehicle.steeringHelper = !RCC_SceneManager.Instance.activePlayerVehicle.steeringHelper;
+    }
 
-			break;
-			
-		case ButtonType.Headlights:
+    /// <summary>
+    /// When clicked.
+    /// </summary>
+    private void OnClicked() {
 
-			if(!RCC_SceneManager.Instance.activePlayerVehicle.highBeamHeadLightsOn && RCC_SceneManager.Instance.activePlayerVehicle.lowBeamHeadLightsOn){
-			
-				RCC_SceneManager.Instance.activePlayerVehicle.highBeamHeadLightsOn = true;
-				RCC_SceneManager.Instance.activePlayerVehicle.lowBeamHeadLightsOn = true;
-				break;
+        switch (_buttonType) {
 
-			}
+            case ButtonType.Low:
 
-			if(!RCC_SceneManager.Instance.activePlayerVehicle.lowBeamHeadLightsOn)
-				RCC_SceneManager.Instance.activePlayerVehicle.lowBeamHeadLightsOn = true;
-		
-			if(RCC_SceneManager.Instance.activePlayerVehicle.highBeamHeadLightsOn){
-			
-				RCC_SceneManager.Instance.activePlayerVehicle.lowBeamHeadLightsOn = false;
-				RCC_SceneManager.Instance.activePlayerVehicle.highBeamHeadLightsOn = false;
+                QualitySettings.SetQualityLevel(1);
 
-			}
-			
-			break;
+                break;
 
-		case ButtonType.LeftIndicator:
+            case ButtonType.Med:
 
-			if(RCC_SceneManager.Instance.activePlayerVehicle.indicatorsOn != RCC_CarControllerV3.IndicatorsOn.Left)
-				RCC_SceneManager.Instance.activePlayerVehicle.indicatorsOn = RCC_CarControllerV3.IndicatorsOn.Left;
-			else
-				RCC_SceneManager.Instance.activePlayerVehicle.indicatorsOn = RCC_CarControllerV3.IndicatorsOn.Off;
+                QualitySettings.SetQualityLevel(3);
 
-			break;
+                break;
 
-		case ButtonType.RightIndicator:
+            case ButtonType.High:
 
-			if(RCC_SceneManager.Instance.activePlayerVehicle.indicatorsOn != RCC_CarControllerV3.IndicatorsOn.Right)
-				RCC_SceneManager.Instance.activePlayerVehicle.indicatorsOn = RCC_CarControllerV3.IndicatorsOn.Right;
-			else
-				RCC_SceneManager.Instance.activePlayerVehicle.indicatorsOn = RCC_CarControllerV3.IndicatorsOn.Off;
+                QualitySettings.SetQualityLevel(5);
 
-			break;
+                break;
 
-		case ButtonType.HazardLights:
+            case ButtonType.SlowMo:
 
-			if(RCC_SceneManager.Instance.activePlayerVehicle.indicatorsOn != RCC_CarControllerV3.IndicatorsOn.All)
-				RCC_SceneManager.Instance.activePlayerVehicle.indicatorsOn = RCC_CarControllerV3.IndicatorsOn.All;
-			else
-				RCC_SceneManager.Instance.activePlayerVehicle.indicatorsOn = RCC_CarControllerV3.IndicatorsOn.Off;
+                if (Time.timeScale != .2f)
+                    Time.timeScale = .2f;
+                else
+                    Time.timeScale = 1f;
 
-			break;
+                break;
 
-		case ButtonType.Low:
+            case ButtonType.Record:
 
-			QualitySettings.SetQualityLevel (1);
+                RCC.StartStopRecord();
 
-			break;
+                break;
 
-		case ButtonType.Med:
+            case ButtonType.Replay:
 
-			QualitySettings.SetQualityLevel (3);
+                RCC.StartStopReplay();
 
-			break;
+                break;
 
-		case ButtonType.High:
+            case ButtonType.Neutral:
 
-			QualitySettings.SetQualityLevel (5);
+                RCC.StopRecordReplay();
 
-			break;
+                break;
 
-		case ButtonType.GearUp:
+            case ButtonType.ChangeCamera:
 
-			RCC_SceneManager.Instance.activePlayerVehicle.GearShiftUp ();
+                RCC.ChangeCamera();
 
-			break;
+                break;
 
-		case ButtonType.GearDown:
 
-			RCC_SceneManager.Instance.activePlayerVehicle.GearShiftDown ();
+            case ButtonType.Start:
 
-			break;
+                if (RCC_SceneManager.Instance.activePlayerVehicle)
+                    RCC_SceneManager.Instance.activePlayerVehicle.KillOrStartEngine();
 
-		case ButtonType.SlowMo:
+                break;
 
-			if (Time.timeScale != .2f)
-				Time.timeScale = .2f;
-			else
-				Time.timeScale = 1f;
+            case ButtonType.ABS:
 
-			break;
+                if (RCC_SceneManager.Instance.activePlayerVehicle)
+                    RCC_SceneManager.Instance.activePlayerVehicle.ABS = !RCC_SceneManager.Instance.activePlayerVehicle.ABS;
 
-		case ButtonType.Record:
+                break;
 
-			RCC.StartStopRecord ();
+            case ButtonType.ESP:
 
-			break;
+                if (RCC_SceneManager.Instance.activePlayerVehicle)
+                    RCC_SceneManager.Instance.activePlayerVehicle.ESP = !RCC_SceneManager.Instance.activePlayerVehicle.ESP;
 
-		case ButtonType.Replay:
+                break;
 
-			RCC.StartStopReplay ();
+            case ButtonType.TCS:
 
-			break;
+                if (RCC_SceneManager.Instance.activePlayerVehicle)
+                    RCC_SceneManager.Instance.activePlayerVehicle.TCS = !RCC_SceneManager.Instance.activePlayerVehicle.TCS;
 
-		case ButtonType.Neutral:
+                break;
 
-			RCC.StopRecordReplay ();
+            case ButtonType.SH:
 
-			break;
+                if (RCC_SceneManager.Instance.activePlayerVehicle)
+                    RCC_SceneManager.Instance.activePlayerVehicle.steeringHelper = !RCC_SceneManager.Instance.activePlayerVehicle.steeringHelper;
 
-		case ButtonType.ChangeCamera:
+                break;
 
-			RCC.ChangeCamera ();
+            case ButtonType.Headlights:
 
-			break;
-			
-		}
-		
-		Check();
-		
-	}
-	
-	public void Check(){
+                if (RCC_SceneManager.Instance.activePlayerVehicle) {
 
-		if (!GetComponent<Image> ())
-			return;
+                    if (!RCC_SceneManager.Instance.activePlayerVehicle.highBeamHeadLightsOn && RCC_SceneManager.Instance.activePlayerVehicle.lowBeamHeadLightsOn) {
 
-		if (!RCC_SceneManager.Instance.activePlayerVehicle)
-			return;
-		
-		switch(_buttonType){
-			
-		case ButtonType.ABS:
+                        RCC_SceneManager.Instance.activePlayerVehicle.highBeamHeadLightsOn = true;
+                        RCC_SceneManager.Instance.activePlayerVehicle.lowBeamHeadLightsOn = true;
+                        break;
 
-			if(RCC_SceneManager.Instance.activePlayerVehicle.ABS)
-				GetComponent<Image>().color = new Color(1, 1, 1, 1);
-			else
-				GetComponent<Image>().color = new Color(.25f, .25f, .25f, 1);
-			
-			break;
-			
-		case ButtonType.ESP:
+                    }
 
-			if(RCC_SceneManager.Instance.activePlayerVehicle.ESP)
-				GetComponent<Image>().color = new Color(1, 1, 1, 1);
-			else
-				GetComponent<Image>().color = new Color(.25f, .25f, .25f, 1);
-			
-			break;
-			
-		case ButtonType.TCS:
+                    if (!RCC_SceneManager.Instance.activePlayerVehicle.lowBeamHeadLightsOn)
+                        RCC_SceneManager.Instance.activePlayerVehicle.lowBeamHeadLightsOn = true;
 
-			if(RCC_SceneManager.Instance.activePlayerVehicle.TCS)
-				GetComponent<Image>().color = new Color(1, 1, 1, 1);
-			else
-				GetComponent<Image>().color = new Color(.25f, .25f, .25f, 1);
-			
-			break;
+                    if (RCC_SceneManager.Instance.activePlayerVehicle.highBeamHeadLightsOn) {
 
-		case ButtonType.SH:
+                        RCC_SceneManager.Instance.activePlayerVehicle.lowBeamHeadLightsOn = false;
+                        RCC_SceneManager.Instance.activePlayerVehicle.highBeamHeadLightsOn = false;
 
-			if(RCC_SceneManager.Instance.activePlayerVehicle.steeringHelper)
-				GetComponent<Image>().color = new Color(1, 1, 1, 1);
-			else
-				GetComponent<Image>().color = new Color(.25f, .25f, .25f, 1);
+                    }
 
-			break;
-			
-		case ButtonType.Headlights:
+                }
 
-			if(RCC_SceneManager.Instance.activePlayerVehicle.lowBeamHeadLightsOn || RCC_SceneManager.Instance.activePlayerVehicle.highBeamHeadLightsOn)
-				GetComponent<Image>().color = new Color(1, 1, 1, 1);
-			else
-				GetComponent<Image>().color = new Color(.25f, .25f, .25f, 1);
-			
-			break;
-			
-		}
-		
-	}
+                break;
 
-	public void ChangeGear(){
+            case ButtonType.LeftIndicator:
 
-		if (!RCC_SceneManager.Instance.activePlayerVehicle)
-			return;
+                if (RCC_SceneManager.Instance.activePlayerVehicle) {
 
-		if(gearDirection == Mathf.CeilToInt(gearSlider.value * 2))
-			return;
+                    if (RCC_SceneManager.Instance.activePlayerVehicle.indicatorsOn != RCC_CarControllerV3.IndicatorsOn.Left)
+                        RCC_SceneManager.Instance.activePlayerVehicle.indicatorsOn = RCC_CarControllerV3.IndicatorsOn.Left;
+                    else
+                        RCC_SceneManager.Instance.activePlayerVehicle.indicatorsOn = RCC_CarControllerV3.IndicatorsOn.Off;
 
-		gearDirection = Mathf.CeilToInt(gearSlider.value * 2);
+                }
 
-		RCC_SceneManager.Instance.activePlayerVehicle.semiAutomaticGear = true;
+                break;
 
-		switch(gearDirection){
+            case ButtonType.RightIndicator:
 
-		case 0:
-			RCC_SceneManager.Instance.activePlayerVehicle.StartCoroutine("ChangeGear", 0);
-			RCC_SceneManager.Instance.activePlayerVehicle.NGear = false;
-			break;
+                if (RCC_SceneManager.Instance.activePlayerVehicle) {
 
-		case 1:
-			RCC_SceneManager.Instance.activePlayerVehicle.NGear = true;
-			break;
+                    if (RCC_SceneManager.Instance.activePlayerVehicle.indicatorsOn != RCC_CarControllerV3.IndicatorsOn.Right)
+                        RCC_SceneManager.Instance.activePlayerVehicle.indicatorsOn = RCC_CarControllerV3.IndicatorsOn.Right;
+                    else
+                        RCC_SceneManager.Instance.activePlayerVehicle.indicatorsOn = RCC_CarControllerV3.IndicatorsOn.Off;
 
-		case 2:
-			RCC_SceneManager.Instance.activePlayerVehicle.StartCoroutine("ChangeGear", -1);
-			RCC_SceneManager.Instance.activePlayerVehicle.NGear = false;
-			break;
+                }
 
-		}
+                break;
 
-	}
+            case ButtonType.HazardLights:
 
-	void OnDisable(){
+                if (RCC_SceneManager.Instance.activePlayerVehicle) {
 
-//		if (!RCC_SceneManager.Instance.activePlayerVehicle)
-//			return;
-//
-//		if(_buttonType == ButtonType.Gear){
-//
-//			RCC_SceneManager.Instance.activePlayerVehicle.semiAutomaticGear = false;
-//
-//		}
+                    if (RCC_SceneManager.Instance.activePlayerVehicle.indicatorsOn != RCC_CarControllerV3.IndicatorsOn.All)
+                        RCC_SceneManager.Instance.activePlayerVehicle.indicatorsOn = RCC_CarControllerV3.IndicatorsOn.All;
+                    else
+                        RCC_SceneManager.Instance.activePlayerVehicle.indicatorsOn = RCC_CarControllerV3.IndicatorsOn.Off;
 
-	}
-	
+                }
+
+                break;
+
+            case ButtonType.GearUp:
+
+                if (RCC_SceneManager.Instance.activePlayerVehicle)
+                    RCC_SceneManager.Instance.activePlayerVehicle.GearShiftUp();
+
+                break;
+
+            case ButtonType.GearDown:
+
+                if (RCC_SceneManager.Instance.activePlayerVehicle)
+                    RCC_SceneManager.Instance.activePlayerVehicle.GearShiftDown();
+
+                break;
+
+        }
+
+        UpdateImageOfButton();
+
+    }
+
+    /// <summary>
+    /// Checking ABS, ESP, TCS, SH, And Headlights button. This will illuminate the corresponding button.
+    /// </summary>
+    public void UpdateImageOfButton() {
+
+        if (!button)
+            return;
+
+        //  If no image attached to the button, return.
+        if (!button.image)
+            return;
+
+        //  If no player vehicle found, return.
+        if (!RCC_SceneManager.Instance.activePlayerVehicle)
+            return;
+
+        //  Illuminating the image of the button when it's on.
+        switch (_buttonType) {
+
+            case ButtonType.ABS:
+
+                if (RCC_SceneManager.Instance.activePlayerVehicle.ABS)
+                    button.image.color = new Color(1, 1, 1, 1);
+                else
+                    button.image.color = new Color(.25f, .25f, .25f, 1);
+
+                break;
+
+            case ButtonType.ESP:
+
+                if (RCC_SceneManager.Instance.activePlayerVehicle.ESP)
+                    button.image.color = new Color(1, 1, 1, 1);
+                else
+                    button.image.color = new Color(.25f, .25f, .25f, 1);
+
+                break;
+
+            case ButtonType.TCS:
+
+                if (RCC_SceneManager.Instance.activePlayerVehicle.TCS)
+                    button.image.color = new Color(1, 1, 1, 1);
+                else
+                    button.image.color = new Color(.25f, .25f, .25f, 1);
+
+                break;
+
+            case ButtonType.SH:
+
+                if (RCC_SceneManager.Instance.activePlayerVehicle.steeringHelper)
+                    button.image.color = new Color(1, 1, 1, 1);
+                else
+                    button.image.color = new Color(.25f, .25f, .25f, 1);
+
+                break;
+
+            case ButtonType.Headlights:
+
+                if (RCC_SceneManager.Instance.activePlayerVehicle.lowBeamHeadLightsOn || RCC_SceneManager.Instance.activePlayerVehicle.highBeamHeadLightsOn)
+                    button.image.color = new Color(1, 1, 1, 1);
+                else
+                    button.image.color = new Color(.25f, .25f, .25f, 1);
+
+                break;
+
+        }
+
+    }
+
+    /// <summary>
+    /// Changes the gear.
+    /// </summary>
+    public void ChangeGear() {
+
+        if (!RCC_SceneManager.Instance.activePlayerVehicle)
+            return;
+
+        if (gearDirection == Mathf.CeilToInt(gearSlider.value * 2))
+            return;
+
+        gearDirection = Mathf.CeilToInt(gearSlider.value * 2);
+
+        RCC_SceneManager.Instance.activePlayerVehicle.semiAutomaticGear = true;
+
+        switch (gearDirection) {
+
+            case 0:
+                RCC_SceneManager.Instance.activePlayerVehicle.StartCoroutine("ChangeGear", 0);
+                RCC_SceneManager.Instance.activePlayerVehicle.NGear = false;
+                break;
+
+            case 1:
+                RCC_SceneManager.Instance.activePlayerVehicle.NGear = true;
+                break;
+
+            case 2:
+                RCC_SceneManager.Instance.activePlayerVehicle.StartCoroutine("ChangeGear", -1);
+                RCC_SceneManager.Instance.activePlayerVehicle.NGear = false;
+                break;
+
+        }
+
+    }
+
+    private void OnDisable() {
+
+        //		if (!RCC_SceneManager.Instance.activePlayerVehicle)
+        //			return;
+        //
+        //		if(_buttonType == ButtonType.Gear){
+        //
+        //			RCC_SceneManager.Instance.activePlayerVehicle.semiAutomaticGear = false;
+        //
+        //		}
+
+    }
+
 }

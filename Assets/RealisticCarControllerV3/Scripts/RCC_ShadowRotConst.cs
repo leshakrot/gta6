@@ -1,14 +1,15 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// Locks rotation of the shadow projector to avoid stretching.
@@ -16,18 +17,18 @@ using System.Collections;
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller/Misc/RCC Shadow")]
 public class RCC_ShadowRotConst : MonoBehaviour {
 
-	private Transform root;
+    private Transform root;     //  Root of the vehicle.
 
-	void Start () {
+    private void Awake() {
 
-		root = GetComponentInParent<RCC_CarControllerV3>().transform;
-	
-	}
+        root = GetComponentInParent<RCC_CarControllerV3>().transform;
 
-	void Update () {
+    }
 
-		transform.rotation = Quaternion.Euler(90, root.eulerAngles.y, 0);
-	
-	}
+    private void Update() {
+
+        transform.rotation = Quaternion.Euler(90f, root.eulerAngles.y, 0f);
+
+    }
 
 }

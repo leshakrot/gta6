@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
@@ -12,300 +12,309 @@ using System.Collections;
 using System.Collections.Generic;
 
 /// <summary>
-/// Truck trailer has additional wheelcolliders. This script handles center of mass of the trailer, wheelcolliders, and antiroll.
+/// Truck trailer has additional wheelcolliders. This script handles center of mass of the trailer, wheelcolliders, ligths, etc...
 /// </summary>
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller/Misc/RCC Truck Trailer")]
-[RequireComponent (typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(ConfigurableJoint))]
 public class RCC_TruckTrailer : MonoBehaviour {
 
-	private RCC_CarControllerV3 carController;
-	private Rigidbody rigid;
-	private ConfigurableJoint joint;
+    private RCC_CarControllerV3 carController;      //  Car controller of this trailer.
+    private Rigidbody rigid;        //  Rigidbody.
+    private ConfigurableJoint joint;        //  Configurable joint of this trailer.
 
-	public Transform COM;
-	private bool isSleeping = false;
+    /// <summary>
+    /// Wheel colliders and models.
+    /// </summary>
+    [System.Serializable]
+    public class TrailerWheel {
 
-	[System.Serializable]
-	public class TrailerWheel{
+        public WheelCollider wheelCollider;
+        public Transform wheelModel;
 
-		public WheelCollider wheelCollider;
-		public Transform wheelModel;
+        public void Torque(float torque) {
 
-		public float compression;
-		public float wheelRotation = 0f;
+            wheelCollider.motorTorque = torque;
 
-		public void AddTorque(float torque){
+        }
 
-			wheelCollider.motorTorque = torque;
+        public void Brake(float torque) {
 
-		}
+            wheelCollider.brakeTorque = torque;
 
-	}
+        }
 
-	//Extra Wheels.
-	public TrailerWheel[] trailerWheels;
+    }
+    public TrailerWheel[] trailerWheels;        //  All trailer wheels.
 
-	private WheelCollider[] allWheelColliders;
-	private List<WheelCollider> leftWheelColliders = new List<WheelCollider>();
-	private List<WheelCollider> rightWheelColliders = new List<WheelCollider>();
+    public Transform COM;       //  Center of mass.
+    public GameObject legs;     //  Legs will be enabled when trailer is detached.
+    private bool isSleeping = false;        //  Is rigidbody of the trailer is sleeping?
 
-	public float antiRoll = 20000f;
+    private float timer = 0f;       //  Timer for attach / detach process.
+    public bool attached = false;       //  Is this trailer attached now?
 
-	public bool attached = false;
+    public bool brakeWhenDetached = false;
+    public float brakeForce = 5000f;
 
-	public class JointRestrictions{
+    /// <summary>
+    /// Joint restrictions of the trailer.
+    /// </summary>
+    private class JointRestrictions {
 
-		public ConfigurableJointMotion motionX;
-		public ConfigurableJointMotion motionY;
-		public ConfigurableJointMotion motionZ;
+        public ConfigurableJointMotion motionX;
+        public ConfigurableJointMotion motionY;
+        public ConfigurableJointMotion motionZ;
 
-		public ConfigurableJointMotion angularMotionX;
-		public ConfigurableJointMotion angularMotionY;
-		public ConfigurableJointMotion angularMotionZ;
+        public ConfigurableJointMotion angularMotionX;
+        public ConfigurableJointMotion angularMotionY;
+        public ConfigurableJointMotion angularMotionZ;
 
-		public void Get(ConfigurableJoint configurableJoint){
+        public void Get(ConfigurableJoint configurableJoint) {
 
-			motionX = configurableJoint.xMotion;
-			motionY = configurableJoint.yMotion;
-			motionZ = configurableJoint.zMotion;
+            motionX = configurableJoint.xMotion;
+            motionY = configurableJoint.yMotion;
+            motionZ = configurableJoint.zMotion;
 
-			angularMotionX = configurableJoint.angularXMotion;
-			angularMotionY = configurableJoint.angularYMotion;
-			angularMotionZ = configurableJoint.angularZMotion;
+            angularMotionX = configurableJoint.angularXMotion;
+            angularMotionY = configurableJoint.angularYMotion;
+            angularMotionZ = configurableJoint.angularZMotion;
 
-		}
+        }
 
-		public void Set(ConfigurableJoint configurableJoint){
+        public void Set(ConfigurableJoint configurableJoint) {
 
-			configurableJoint.xMotion = motionX;
-			configurableJoint.yMotion = motionY;
-			configurableJoint.zMotion = motionZ;
+            configurableJoint.xMotion = motionX;
+            configurableJoint.yMotion = motionY;
+            configurableJoint.zMotion = motionZ;
 
-			configurableJoint.angularXMotion = angularMotionX;
-			configurableJoint.angularYMotion = angularMotionY;
-			configurableJoint.angularZMotion = angularMotionZ;
+            configurableJoint.angularXMotion = angularMotionX;
+            configurableJoint.angularYMotion = angularMotionY;
+            configurableJoint.angularZMotion = angularMotionZ;
 
-		}
+        }
 
-		public void Reset(ConfigurableJoint configurableJoint){
+        public void Reset(ConfigurableJoint configurableJoint) {
 
-			configurableJoint.xMotion = ConfigurableJointMotion.Free;
-			configurableJoint.yMotion = ConfigurableJointMotion.Free;
-			configurableJoint.zMotion = ConfigurableJointMotion.Free;
+            configurableJoint.xMotion = ConfigurableJointMotion.Free;
+            configurableJoint.yMotion = ConfigurableJointMotion.Free;
+            configurableJoint.zMotion = ConfigurableJointMotion.Free;
 
-			configurableJoint.angularXMotion = ConfigurableJointMotion.Free;
-			configurableJoint.angularYMotion = ConfigurableJointMotion.Free;
-			configurableJoint.angularZMotion = ConfigurableJointMotion.Free;
+            configurableJoint.angularXMotion = ConfigurableJointMotion.Free;
+            configurableJoint.angularYMotion = ConfigurableJointMotion.Free;
+            configurableJoint.angularZMotion = ConfigurableJointMotion.Free;
 
-		}
+        }
 
-	}
+    }
+    private JointRestrictions jointRestrictions = new JointRestrictions();
+    private RCC_Light[] lights;
 
-	public JointRestrictions jointRestrictions = new JointRestrictions();
+    private void Start() {
 
-	void Start () {
+        rigid = GetComponent<Rigidbody>();      //	Getting rigidbody.
+        joint = GetComponentInParent<ConfigurableJoint>();      //	Getting configurable joint.
+        jointRestrictions.Get(joint);       //	Getting current limitations of the joint.
 
-		rigid = GetComponent<Rigidbody>();
-		joint = GetComponentInParent<ConfigurableJoint> ();
-		jointRestrictions.Get (joint);
+        // Fixing stutering bug of the rigid.
+        rigid.interpolation = RigidbodyInterpolation.None;
+        rigid.interpolation = RigidbodyInterpolation.Interpolate;
+        joint.configuredInWorldSpace = true;
 
-		rigid.interpolation = RigidbodyInterpolation.None;
-		rigid.interpolation = RigidbodyInterpolation.Interpolate;
-		joint.configuredInWorldSpace = true;
+        //	If joint is connected as default, attach the trailer. Otherwise detach.
+        if (joint.connectedBody) {
 
-		allWheelColliders = GetComponentsInChildren<WheelCollider> ();
+            AttachTrailer(joint.connectedBody.gameObject.GetComponent<RCC_CarControllerV3>());
 
-		for (int i = 0; i < allWheelColliders.Length; i++) {
+        } else {
 
-			if(allWheelColliders[i].transform.localPosition.x < 0f)
-				leftWheelColliders.Add(allWheelColliders[i]);
-			else
-				rightWheelColliders.Add(allWheelColliders[i]);
+            carController = null;
+            joint.connectedBody = null;
+            jointRestrictions.Reset(joint);
 
-		}
+        }
 
-		if (joint.connectedBody) {
-			
-			AttachTrailer (joint.connectedBody.gameObject.GetComponent<RCC_CarControllerV3> ());
+    }
 
-		} else {
-			
-			carController = null;
-			joint.connectedBody = null;
-			jointRestrictions.Reset (joint);
+    private void FixedUpdate() {
 
-		}
+        attached = joint.connectedBody;     //	Is trailer attached now?
+        rigid.centerOfMass = transform.InverseTransformPoint(COM.transform.position);       //	Setting center of mass.
 
-	}
+        //	Applying torque to the wheels.
+        for (int i = 0; i < trailerWheels.Length; i++) {
 
-	void FixedUpdate(){
+            if (carController) {
 
-		attached = joint.connectedBody;
-		
-		rigid.centerOfMass = transform.InverseTransformPoint(COM.transform.position);
+                trailerWheels[i].Torque(carController.throttleInput * (attached ? 1f : 0f));
+                trailerWheels[i].Brake((attached ? 0f : 5000f));
 
-		if (!carController)
-			return;
+            } else {
 
-		AntiRollBars();
+                trailerWheels[i].Torque(0f);
+                trailerWheels[i].Brake((brakeWhenDetached ? brakeForce : 0f));
 
-		for (int i = 0; i < trailerWheels.Length; i++)
-			trailerWheels [i].AddTorque (carController._gasInput * (attached ? 1f : 0f));
+            }
 
-	}
+        }
 
-	void Update(){
+    }
 
-		if(rigid.velocity.magnitude < .01f && Mathf.Abs(rigid.angularVelocity.magnitude) < .01f)
-			isSleeping = true;
-		else
-			isSleeping = false;
+    private void Update() {
 
-		WheelAlign ();
+        //	If trailer is not moving, enable sleeping mode.
+        if (rigid.velocity.magnitude < .01f && Mathf.Abs(rigid.angularVelocity.magnitude) < .01f)
+            isSleeping = true;
+        else
+            isSleeping = false;
 
-	}
+        // Timer was used for attach/detach delay.
+        if (timer > 0f)
+            timer -= Time.deltaTime;
 
-	// Aligning wheel model position and rotation.
-	public void WheelAlign (){
-		
-		if (isSleeping)
-			return;
+        timer = Mathf.Clamp01(timer);       //	Clamping timer between 0f - 1f.
 
-		for (int i = 0; i < trailerWheels.Length; i++) {
+        WheelAlign();  // Aligning wheel model position and rotation.
 
-			// Return if no wheel model selected.
-			if(!trailerWheels[i].wheelModel){
+    }
 
-				Debug.LogError(transform.name + " wheel of the " + transform.name + " is missing wheel model. This wheel is disabled");
-				enabled = false;
-				return;
+    /// <summary>
+    /// Aligning wheel model position and rotation.
+    /// </summary>
+    private void WheelAlign() {
 
-			}
+        //	If trailer is sleeping, return.
+        if (isSleeping)
+            return;
 
-			WheelHit GroundHit;
-			bool grounded = trailerWheels[i].wheelCollider.GetGroundHit(out GroundHit );
+        for (int i = 0; i < trailerWheels.Length; i++) {
 
-			float newCompression = trailerWheels[i].compression;
+            // Return if no wheel model selected.
+            if (!trailerWheels[i].wheelModel) {
 
-			if (grounded)
-				newCompression = 1f - ((Vector3.Dot(trailerWheels[i].wheelCollider.transform.position - GroundHit.point, trailerWheels[i].wheelCollider.transform.up) - (trailerWheels[i].wheelCollider.radius * trailerWheels[i].wheelCollider.transform.lossyScale.y)) / trailerWheels[i].wheelCollider.suspensionDistance);
-			else
-				newCompression = trailerWheels[i].wheelCollider.suspensionDistance;
+                Debug.LogError(transform.name + " wheel of the " + transform.name + " is missing wheel model. This wheel is disabled");
+                enabled = false;
+                return;
 
-			trailerWheels[i].compression = Mathf.Lerp (trailerWheels[i].compression, newCompression, Time.deltaTime * 50f);
+            }
 
-			// Set the position of the wheel model.
-			trailerWheels[i].wheelModel.position = trailerWheels[i].wheelCollider.transform.position;
-			trailerWheels[i].wheelModel.position += (trailerWheels[i].wheelCollider.transform.up * (trailerWheels[i].compression - 1.0f) * trailerWheels[i].wheelCollider.suspensionDistance);
+            // Locating correct position and rotation for the wheel.
+            Vector3 wheelPosition;
+            Quaternion wheelRotation;
 
-			// X axis rotation of the wheel.
-			trailerWheels[i].wheelRotation += trailerWheels[i].wheelCollider.rpm * 6f * Time.deltaTime;
-			trailerWheels[i].wheelModel.rotation = trailerWheels[i].wheelCollider.transform.rotation * Quaternion.Euler(trailerWheels[i].wheelRotation, trailerWheels[i].wheelCollider.steerAngle, trailerWheels[i].wheelCollider.transform.rotation.z);
+            trailerWheels[i].wheelCollider.GetWorldPose(out wheelPosition, out wheelRotation);
 
-			// Gizmos for wheel forces and slips.
-			float extension = (-trailerWheels[i].wheelCollider.transform.InverseTransformPoint(GroundHit.point).y - (trailerWheels[i].wheelCollider.radius * trailerWheels[i].wheelCollider.transform.lossyScale.y)) / trailerWheels[i].wheelCollider.suspensionDistance;
+            //	Assigning position and rotation to the wheel model.
+            trailerWheels[i].wheelModel.transform.SetPositionAndRotation(wheelPosition, wheelRotation);
 
-			Debug.DrawLine(GroundHit.point, GroundHit.point + trailerWheels[i].wheelCollider.transform.up * (GroundHit.force / rigid.mass), extension <= 0.0 ? Color.magenta : Color.white);
-			Debug.DrawLine(GroundHit.point, GroundHit.point - trailerWheels[i].wheelCollider.transform.forward * GroundHit.forwardSlip * 2f, Color.green);
-			Debug.DrawLine(GroundHit.point, GroundHit.point - trailerWheels[i].wheelCollider.transform.right * GroundHit.sidewaysSlip * 2f, Color.red);
+        }
 
-		}
+    }
 
-	}
+    /// <summary>
+    /// Detach the trailer.
+    /// </summary>
+    public void DetachTrailer() {
 
-	public void DetachTrailer(){
+        foreach (RCC_Light item in lights) {
 
-		carController = null;
-		joint.connectedBody = null;
-		jointRestrictions.Reset (joint);
+            item.CarController = null;
 
-		if (RCC_SceneManager.Instance.activePlayerCamera)
-			StartCoroutine(RCC_SceneManager.Instance.activePlayerCamera.AutoFocus ());
+        }
 
-	}
+        // Resetting attachedTrailer of car controller.
+        carController.attachedTrailer = null;
+        carController = null;
+        lights = null;
+        timer = 1f;
+        joint.connectedBody = null;
+        jointRestrictions.Reset(joint);
 
-	public void AttachTrailer(RCC_CarControllerV3 vehicle){
+        if (legs)
+            legs.SetActive(true);
 
-		carController = vehicle;
+        if (RCC_SceneManager.Instance.activePlayerCamera && RCC_SceneManager.Instance.activePlayerCamera.TPSAutoFocus)
+            StartCoroutine(RCC_SceneManager.Instance.activePlayerCamera.AutoFocus());
 
-		antiRoll = vehicle.antiRollRearHorizontal;
+    }
 
-		joint.connectedBody = vehicle.rigid;
-		jointRestrictions.Set (joint);
+    /// <summary>
+    /// Attach the trailer.
+    /// </summary>
+    /// <param name="vehicle"></param>
+    public void AttachTrailer(RCC_CarControllerV3 vehicle) {
 
-		vehicle.attachedTrailer = this;
+        // If delay is short, return.
+        if (timer > 0)
+            return;
 
-		if (RCC_SceneManager.Instance.activePlayerCamera)
-			StartCoroutine(RCC_SceneManager.Instance.activePlayerCamera.AutoFocus (transform, carController.transform));
+        carController = vehicle;        //	Assigning car controller.
+        lights = GetComponentsInChildren<RCC_Light>();       //	Getting car controller lights.
+        timer = 1f;     //	Setting timer.
 
-	}
+        joint.connectedBody = vehicle.Rigid;        //	Connecting joint.
+                                                    //joint.autoConfigureConnectedAnchor = false;		//	Setting auto configuration off of the joint.
+                                                    //Vector3 jointVector = joint.connectedAnchor;		//	Resetting X axis of the connected anchor on attachment.
+                                                    //jointVector.x = 0f;
+                                                    //joint.connectedAnchor = jointVector;
+        jointRestrictions.Set(joint);       //	Enabling limitations of the joint.
 
-	public void AntiRollBars (){
+        // If trailer has legs, disable on attach.
+        if (legs)
+            legs.SetActive(false);
 
-		for (int i = 0; i < leftWheelColliders.Count; i++) {
+        //	Initializing lights of the trailer. Parent car controller will take control of them.
+        foreach (RCC_Light item in lights) {
 
-			WheelHit FrontWheelHit;
+            item.CarController = carController;
 
-			float travelFL = 1.0f;
-			float travelFR = 1.0f;
+        }
 
-			bool groundedFL= leftWheelColliders[i].GetGroundHit(out FrontWheelHit);
+        // Assigning attachedTrailer of car controller.
+        vehicle.attachedTrailer = this;
+        rigid.isKinematic = false;
 
-			if (groundedFL)
-				travelFL = (-leftWheelColliders[i].transform.InverseTransformPoint(FrontWheelHit.point).y - leftWheelColliders[i].radius) / leftWheelColliders[i].suspensionDistance;
+        // If autofocus is enabled on RCC Camera, run it.
+        if (RCC_SceneManager.Instance.activePlayerCamera && RCC_SceneManager.Instance.activePlayerCamera.TPSAutoFocus)
+            StartCoroutine(RCC_SceneManager.Instance.activePlayerCamera.AutoFocus(transform, carController.transform));
 
-			bool groundedFR= rightWheelColliders[i].GetGroundHit(out FrontWheelHit);
+    }
 
-			if (groundedFR)
-				travelFR = (-rightWheelColliders[i].transform.InverseTransformPoint(FrontWheelHit.point).y - rightWheelColliders[i].radius) / rightWheelColliders[i].suspensionDistance;
+    private void Reset() {
 
-			float antiRollForceFrontHorizontal= (travelFL - travelFR) * antiRoll;
+        if (COM == null) {
 
-			if (groundedFL)
-				rigid.AddForceAtPosition(leftWheelColliders[i].transform.up * -antiRollForceFrontHorizontal, leftWheelColliders[i].transform.position); 
-			if (groundedFR)
-				rigid.AddForceAtPosition(rightWheelColliders[i].transform.up * antiRollForceFrontHorizontal, rightWheelColliders[i].transform.position); 
+            GameObject com = new GameObject("COM");
+            com.transform.SetParent(transform, false);
+            com.transform.localPosition = Vector3.zero;
+            com.transform.localRotation = Quaternion.identity;
+            com.transform.localScale = Vector3.one;
+            COM = com.transform;
 
-			WheelHit RearWheelHit;
+        }
 
-			float travelRL = 1.0f;
-			float travelRR = 1.0f;
+        if (transform.Find("Wheel Models") == null) {
 
-			bool groundedRL= leftWheelColliders[i].GetGroundHit(out RearWheelHit);
+            GameObject com = new GameObject("Wheel Models");
+            com.transform.SetParent(transform, false);
+            com.transform.localPosition = Vector3.zero;
+            com.transform.localRotation = Quaternion.identity;
+            com.transform.localScale = Vector3.one;
 
-			if (groundedRL)
-				travelRL = (-leftWheelColliders[i].transform.InverseTransformPoint(RearWheelHit.point).y - leftWheelColliders[i].radius) / leftWheelColliders[i].suspensionDistance;
+        }
 
-			bool groundedRR= rightWheelColliders[i].GetGroundHit(out RearWheelHit);
+        if (transform.Find("Wheel Colliders") == null) {
 
-			if (groundedRR)
-				travelRR = (-rightWheelColliders[i].transform.InverseTransformPoint(RearWheelHit.point).y - rightWheelColliders[i].radius) / rightWheelColliders[i].suspensionDistance;
+            GameObject com = new GameObject("Wheel Colliders");
+            com.transform.SetParent(transform, false);
+            com.transform.localPosition = Vector3.zero;
+            com.transform.localRotation = Quaternion.identity;
+            com.transform.localScale = Vector3.one;
 
-			float antiRollForceRearHorizontal= (travelRL - travelRR) * antiRoll;
+        }
 
-			if (groundedRL)
-				rigid.AddForceAtPosition(leftWheelColliders[i].transform.up * -antiRollForceRearHorizontal, leftWheelColliders[i].transform.position); 
-			if (groundedRR)
-				rigid.AddForceAtPosition(rightWheelColliders[i].transform.up * antiRollForceRearHorizontal, rightWheelColliders[i].transform.position);
+        GetComponent<Rigidbody>().mass = 5000;
 
-		}
-
-	}
-
-	void OnTriggerEnter(Collider col){
-
-//		RCC_TrailerAttachPoint attacher = col.gameObject.GetComponent<RCC_TrailerAttachPoint> ();
-//
-//		if (!attacher)
-//			return;
-//
-//		RCC_CarControllerV3 vehicle = attacher.gameObject.GetComponentInParent<RCC_CarControllerV3> ();
-//
-//		if (!vehicle || !attacher)
-//			return;
-//		
-//		AttachTrailer (vehicle, attacher);
-
-	}
+    }
 
 }

@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
@@ -12,320 +12,373 @@ using System.Collections;
 using System.Collections.Generic;
 
 /// <summary>
-/// Record / Replay system. Saves player's input on record, and replays it when on playback.
+/// Record / Replay system. Saves player's input, vehicle rigid velocity, position, and rotation on record, and replays it when on playback.
 /// </summary>
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller/Misc/RCC Recorder")]
 public class RCC_Recorder : MonoBehaviour {
-	
-	[System.Serializable]
-	public class Recorded{
 
-		public string recordName = "New Record";
+    /// <summary>
+    /// Recorded clip.
+    /// </summary>
+    [System.Serializable]
+    public class RecordedClip {
 
-		[HideInInspector]public PlayerInput[] inputs;
-		[HideInInspector]public PlayerTransform[] transforms;
-		[HideInInspector]public PlayerRigidBody[] rigids;
+        public string recordName = "New Record";        //  Record name.
 
-		public Recorded (PlayerInput[] _inputs, PlayerTransform[] _transforms, PlayerRigidBody[] _rigids, string _recordName){
+        [HideInInspector] public PlayerInput[] inputs;      //  All inputs recorded frame by frame.
+        [HideInInspector] public PlayerTransform[] transforms;      //  All position and rotation recorded frame by frame.
+        [HideInInspector] public PlayerRigidBody[] rigids;      //  All velocities recorded frame by frame.
 
-			inputs = _inputs;
-			transforms = _transforms;
-			rigids = _rigids;
-			recordName = _recordName;
+        public RecordedClip(PlayerInput[] _inputs, PlayerTransform[] _transforms, PlayerRigidBody[] _rigids, string _recordName) {
 
-		}
+            inputs = _inputs;
+            transforms = _transforms;
+            rigids = _rigids;
+            recordName = _recordName;
 
-	}
+        }
 
-	public Recorded recorded;
+    }
 
-	public RCC_CarControllerV3 carController;
+    public RecordedClip recorded;       //  Last recorded clip.
 
-	public List <PlayerInput> Inputs = new List<PlayerInput>();
-	public List <PlayerTransform> Transforms = new List<PlayerTransform>();
-	public List <PlayerRigidBody> RigidBodies = new List<PlayerRigidBody>();
+    public RCC_CarControllerV3 carController;       //  Car controller.
 
-	[System.Serializable]
-	public class PlayerInput{
+    public List<PlayerInput> Inputs;        //  Inputs.
+    public List<PlayerTransform> Transforms;        //  Positions and rotations.
+    public List<PlayerRigidBody> Rigidbodies;       //  Velocities.
 
-		public float gasInput = 0f;
-		public float brakeInput = 0f;
-		public float steerInput = 0f;
-		public float handbrakeInput = 0f;
-		public float clutchInput = 0f;
-		public float boostInput = 0f;
-		public float idleInput = 0f;
-		public float fuelInput = 0f;
-		public int direction = 1;
-		public bool canGoReverse = false;
-		public int currentGear = 0;
-		public bool changingGear = false;
+    /// <summary>
+    /// Inputs of the vehicle.
+    /// </summary>
+    [System.Serializable]
+    public class PlayerInput {
 
-		public RCC_CarControllerV3.IndicatorsOn indicatorsOn = RCC_CarControllerV3.IndicatorsOn.Off;
-		public bool lowBeamHeadLightsOn = false;
-		public bool highBeamHeadLightsOn = false;
+        public float throttleInput = 0f;
+        public float brakeInput = 0f;
+        public float steerInput = 0f;
+        public float handbrakeInput = 0f;
+        public float clutchInput = 0f;
+        public float boostInput = 0f;
+        public float fuelInput = 0f;
+        public int direction = 1;
+        public bool canGoReverse = false;
+        public int currentGear = 0;
+        public bool changingGear = false;
 
-		public PlayerInput(float _gasInput, float _brakeInput, float _steerInput, float _handbrakeInput, float _clutchInput, float _boostInput, float _idleInput, float _fuelInput, int _direction, bool _canGoReverse, int _currentGear, bool _changingGear, RCC_CarControllerV3.IndicatorsOn _indicatorsOn, bool _lowBeamHeadLightsOn, bool _highBeamHeadLightsOn){
-			
-			gasInput = _gasInput;
-			brakeInput = _brakeInput;
-			steerInput = _steerInput;
-			handbrakeInput = _handbrakeInput;
-			clutchInput = _clutchInput;
-			boostInput = _boostInput;
-			idleInput = _idleInput;
-			fuelInput = _fuelInput;
-			direction = _direction;
-			canGoReverse = _canGoReverse;
-			currentGear = _currentGear;
-			changingGear = _changingGear;
+        public RCC_CarControllerV3.IndicatorsOn indicatorsOn = RCC_CarControllerV3.IndicatorsOn.Off;
+        public bool lowBeamHeadLightsOn = false;
+        public bool highBeamHeadLightsOn = false;
 
-			indicatorsOn = _indicatorsOn;
-			lowBeamHeadLightsOn = _lowBeamHeadLightsOn;
-			highBeamHeadLightsOn = _highBeamHeadLightsOn;
+        public PlayerInput(float _gasInput, float _brakeInput, float _steerInput, float _handbrakeInput, float _clutchInput, float _boostInput, float _fuelInput, int _direction, bool _canGoReverse, int _currentGear, bool _changingGear, RCC_CarControllerV3.IndicatorsOn _indicatorsOn, bool _lowBeamHeadLightsOn, bool _highBeamHeadLightsOn) {
 
-		}
+            throttleInput = _gasInput;
+            brakeInput = _brakeInput;
+            steerInput = _steerInput;
+            handbrakeInput = _handbrakeInput;
+            clutchInput = _clutchInput;
+            boostInput = _boostInput;
+            fuelInput = _fuelInput;
+            direction = _direction;
+            canGoReverse = _canGoReverse;
+            currentGear = _currentGear;
+            changingGear = _changingGear;
 
-	}
+            indicatorsOn = _indicatorsOn;
+            lowBeamHeadLightsOn = _lowBeamHeadLightsOn;
+            highBeamHeadLightsOn = _highBeamHeadLightsOn;
 
-	[System.Serializable]
-	public class PlayerTransform{
+        }
 
-		public Vector3 position;
-		public Quaternion rotation;
+    }
 
-		public PlayerTransform(Vector3 _pos, Quaternion _rot){
+    /// <summary>
+    /// Position and rotation of the vehicle.
+    /// </summary>
+    [System.Serializable]
+    public class PlayerTransform {
 
-			position = _pos;
-			rotation = _rot;
+        public Vector3 position;
+        public Quaternion rotation;
 
-		}
+        public PlayerTransform(Vector3 _pos, Quaternion _rot) {
 
-	}
+            position = _pos;
+            rotation = _rot;
 
-	[System.Serializable]
-	public class PlayerRigidBody{
+        }
 
-		public Vector3 velocity;
-		public Vector3 angularVelocity;
+    }
 
-		public PlayerRigidBody(Vector3 _vel, Vector3 _angVel){
+    /// <summary>
+    /// Linear and angular velocity of the vehicle.
+    /// </summary>
+    [System.Serializable]
+    public class PlayerRigidBody {
 
-			velocity = _vel;
-			angularVelocity = _angVel;
+        public Vector3 velocity;
+        public Vector3 angularVelocity;
 
-		}
+        public PlayerRigidBody(Vector3 _vel, Vector3 _angVel) {
 
-	}
+            velocity = _vel;
+            angularVelocity = _angVel;
 
-	public enum Mode{Neutral, Play, Record}
-	public Mode mode;
+        }
 
-	public void Record(){
-		
-		if (mode != Mode.Record) {
-			mode = Mode.Record;
-		} else {
-			mode = Mode.Neutral;
-			SaveRecord ();
-		}
+    }
 
-		if(mode == Mode.Record){
+    //  Current state.
+    public enum Mode { Neutral, Play, Record }
+    public Mode mode = Mode.Neutral;
 
-			Inputs.Clear();
-			Transforms.Clear ();
-			RigidBodies.Clear ();
+    private void Awake() {
 
-		}
+        //  Creating new lists for inputs, transforms, and rigids.
+        Inputs = new List<PlayerInput>();
+        Transforms = new List<PlayerTransform>();
+        Rigidbodies = new List<PlayerRigidBody>();
 
-	}
+    }
 
-	public void SaveRecord(){
+    private void OnEnable() {
 
-		print ("Record saved!");
-		recorded = new Recorded(Inputs.ToArray(), Transforms.ToArray(), RigidBodies.ToArray(), RCC_Records.Instance.records.Count.ToString() + "_" + carController.transform.name);
-		RCC_Records.Instance.records.Add (recorded);
+        // Listening input events.
+        RCC_InputManager.OnRecord += RCC_InputManager_OnRecord;
+        RCC_InputManager.OnReplay += RCC_InputManager_OnReplay;
 
-	}
+    }
 
-//	public static void createNewRecipe(RecipeType type)
-//	{
-//		AssetDatabase.CreateAsset (type, "Assets/Resources/RecipeObject/"+type.name.Replace(" ", "")+".asset");
-//		AssetDatabase.SaveAssets ();
-//		EditorUtility.FocusProjectWindow ();
-//		Selection.activeObject = type;
-//	}
+    /// <summary>
+    /// Replay.
+    /// </summary>
+    private void RCC_InputManager_OnReplay() {
 
-	public void Play(){
+        RCC_SceneManager.Instance.Play();
 
-		if (recorded == null)
-			return;
+    }
 
-		if (mode != Mode.Play)
-			mode = Mode.Play;
-		else
-			mode = Mode.Neutral;
+    /// <summary>
+    /// Record
+    /// </summary>
+    private void RCC_InputManager_OnRecord() {
 
-		if (mode == Mode.Play)
-			carController.externalController = true;
-		else
-			carController.externalController = false;
+        RCC_SceneManager.Instance.Record();
 
-		if(mode == Mode.Play){
+    }
 
-			StartCoroutine(Replay());
+    /// <summary>
+    /// Record.
+    /// </summary>
+    public void Record() {
 
-			if (recorded != null && recorded.transforms.Length > 0) {
-				
-				carController.transform.position = recorded.transforms [0].position;
-				carController.transform.rotation = recorded.transforms [0].rotation;
+        //  If current state is not record, set it to record. Otherwise set it to neutral and save the clip.
+        if (mode != Mode.Record) {
 
-			}
+            mode = Mode.Record;
 
-			StartCoroutine(Revel());
+        } else {
 
-		}
+            mode = Mode.Neutral;
+            SaveRecord();
 
-	}
+        }
 
-	public void Play(Recorded _recorded){
-		
-		recorded = _recorded;
+        //  If mode is set to record before, clear all lists. That means we've saved the clip.
+        if (mode == Mode.Record) {
 
-		print ("Replaying record " + recorded.recordName);
+            Inputs.Clear();
+            Transforms.Clear();
+            Rigidbodies.Clear();
 
-		if (recorded == null)
-			return;
+        }
 
-		if (mode != Mode.Play)
-			mode = Mode.Play;
-		else
-			mode = Mode.Neutral;
+    }
 
-		if (mode == Mode.Play)
-			carController.externalController = true;
-		else
-			carController.externalController = false;
+    /// <summary>
+    /// Save record clip.
+    /// </summary>
+    public void SaveRecord() {
 
-		if(mode == Mode.Play){
+        print("Record saved!");
+        recorded = new RecordedClip(Inputs.ToArray(), Transforms.ToArray(), Rigidbodies.ToArray(), RCC_Records.Instance.records.Count.ToString() + "_" + carController.transform.name);
+        RCC_Records.Instance.records.Add(recorded);
 
-			StartCoroutine(Replay());
+    }
 
-			if (recorded != null && recorded.transforms.Length > 0) {
+    /// <summary>
+    /// Play.
+    /// </summary>
+    public void Play() {
 
-				carController.transform.position = recorded.transforms [0].position;
-				carController.transform.rotation = recorded.transforms [0].rotation;
+        //  If clip not found, return.
+        if (recorded == null)
+            return;
 
-			}
+        //  If current state is not play, set it to play. Otherwise set it to neutral.
+        if (mode != Mode.Play)
+            mode = Mode.Play;
+        else
+            mode = Mode.Neutral;
 
-			StartCoroutine(Revel());
+        //  If current state is play, enable external controller of the car controller.
+        if (mode == Mode.Play)
+            carController.externalController = true;
+        else
+            carController.externalController = false;
 
-		}
+        if (mode == Mode.Play) {
 
-	}
+            StartCoroutine(Replay());
 
-	public void Stop(){
+            if (recorded != null && recorded.transforms.Length > 0) {
 
-		mode = Mode.Neutral;
-		carController.externalController = false;
+                carController.transform.SetPositionAndRotation(recorded.transforms[0].position, recorded.transforms[0].rotation);
 
-	}
+            }
 
-	private IEnumerator Replay(){
-		
-		for(int i = 0; i<recorded.inputs.Length && mode == Mode.Play; i++){
-			
-			carController.externalController = true;
-			carController.gasInput = recorded.inputs[i].gasInput;
-			carController.brakeInput = recorded.inputs[i].brakeInput;
-			carController.steerInput = recorded.inputs[i].steerInput;
-			carController.handbrakeInput = recorded.inputs[i].handbrakeInput;
-			carController.clutchInput = recorded.inputs[i].clutchInput;
-			carController.boostInput = recorded.inputs[i].boostInput;
-			carController.idleInput = recorded.inputs[i].idleInput;
-			carController.fuelInput = recorded.inputs[i].fuelInput;
-			carController.direction = recorded.inputs[i].direction;
-			carController.canGoReverseNow = recorded.inputs[i].canGoReverse;
-			carController.currentGear = recorded.inputs[i].currentGear;
-			carController.changingGear = recorded.inputs[i].changingGear;
+            StartCoroutine(Revel());
 
-			carController.indicatorsOn = recorded.inputs[i].indicatorsOn;
-			carController.lowBeamHeadLightsOn = recorded.inputs[i].lowBeamHeadLightsOn;
-			carController.highBeamHeadLightsOn = recorded.inputs[i].highBeamHeadLightsOn;
+        }
 
-			yield return new WaitForFixedUpdate();
+    }
 
-		}
-			
-		mode = Mode.Neutral;
+    /// <summary>
+    /// Play.
+    /// </summary>
+    /// <param name="_recorded"></param>
+    public void Play(RecordedClip _recorded) {
 
-		carController.externalController = false;
+        recorded = _recorded;
 
-	}
+        print("Replaying record " + recorded.recordName);
 
-	private IEnumerator Repos(){
+        if (recorded == null)
+            return;
 
-		for(int i = 0; i<recorded.transforms.Length && mode == Mode.Play; i++){
+        if (mode != Mode.Play)
+            mode = Mode.Play;
+        else
+            mode = Mode.Neutral;
 
-			carController.transform.position = recorded.transforms [i].position;
-			carController.transform.rotation = recorded.transforms [i].rotation;
+        if (mode == Mode.Play)
+            carController.externalController = true;
+        else
+            carController.externalController = false;
 
-			yield return new WaitForEndOfFrame();
+        if (mode == Mode.Play) {
 
-		}
+            StartCoroutine(Replay());
 
-		mode = Mode.Neutral;
+            if (recorded != null && recorded.transforms.Length > 0) {
 
-		carController.externalController = false;
+                carController.transform.SetPositionAndRotation(recorded.transforms[0].position, recorded.transforms[0].rotation);
 
-	}
+            }
 
-	private IEnumerator Revel(){
+            StartCoroutine(Revel());
 
-		for(int i = 0; i<recorded.rigids.Length && mode == Mode.Play; i++){
+        }
 
-			carController.rigid.velocity = recorded.rigids [i].velocity;
-			carController.rigid.angularVelocity = recorded.rigids [i].angularVelocity;
+    }
 
-			yield return new WaitForFixedUpdate();
+    /// <summary>
+    /// Stop.
+    /// </summary>
+    public void Stop() {
 
-		}
+        mode = Mode.Neutral;
+        carController.externalController = false;
 
-		mode = Mode.Neutral;
+    }
 
-		carController.externalController = false;
+    /// <summary>
+    /// Replay.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator Replay() {
 
-	}
-		
-	void FixedUpdate () {
+        for (int i = 0; i < recorded.inputs.Length && mode == Mode.Play; i++) {
 
-		carController = RCC_SceneManager.Instance.activePlayerVehicle;
+            carController.externalController = true;
+            carController.throttleInput = recorded.inputs[i].throttleInput;
+            carController.brakeInput = recorded.inputs[i].brakeInput;
+            carController.steerInput = recorded.inputs[i].steerInput;
+            carController.handbrakeInput = recorded.inputs[i].handbrakeInput;
+            carController.clutchInput = recorded.inputs[i].clutchInput;
+            carController.boostInput = recorded.inputs[i].boostInput;
+            carController.fuelInput = recorded.inputs[i].fuelInput;
+            carController.direction = recorded.inputs[i].direction;
+            carController.canGoReverseNow = recorded.inputs[i].canGoReverse;
+            carController.currentGear = recorded.inputs[i].currentGear;
+            carController.changingGear = recorded.inputs[i].changingGear;
 
-		if (!carController)
-			return;
+            carController.indicatorsOn = recorded.inputs[i].indicatorsOn;
+            carController.lowBeamHeadLightsOn = recorded.inputs[i].lowBeamHeadLightsOn;
+            carController.highBeamHeadLightsOn = recorded.inputs[i].highBeamHeadLightsOn;
 
-		switch (mode) {
+            yield return new WaitForFixedUpdate();
 
-		case Mode.Neutral:
-			
-			break;
+        }
 
-		case Mode.Play:
+        mode = Mode.Neutral;
 
-			carController.externalController = true;
+        carController.externalController = false;
 
-			break;
+    }
 
-		case Mode.Record:
+    private IEnumerator Revel() {
 
-			Inputs.Add(new PlayerInput(carController.gasInput, carController.brakeInput, carController.steerInput, carController.handbrakeInput, carController.clutchInput, carController.boostInput, carController.idleInput, carController.fuelInput, carController.direction, carController.canGoReverseNow, carController.currentGear, carController.changingGear, carController.indicatorsOn, carController.lowBeamHeadLightsOn, carController.highBeamHeadLightsOn));
-			Transforms.Add (new PlayerTransform(carController.transform.position, carController.transform.rotation));
-			RigidBodies.Add(new PlayerRigidBody(carController.rigid.velocity, carController.rigid.angularVelocity));
+        for (int i = 0; i < recorded.rigids.Length && mode == Mode.Play; i++) {
 
-			break;
+            carController.Rigid.velocity = recorded.rigids[i].velocity;
+            carController.Rigid.angularVelocity = recorded.rigids[i].angularVelocity;
 
-		}
+            yield return new WaitForFixedUpdate();
 
-	}
+        }
+
+        mode = Mode.Neutral;
+
+        carController.externalController = false;
+
+    }
+
+    private void FixedUpdate() {
+
+        if (!carController)
+            return;
+
+        switch (mode) {
+
+            case Mode.Neutral:
+
+                break;
+
+            case Mode.Play:
+
+                carController.externalController = true;
+
+                break;
+
+            case Mode.Record:
+
+                Inputs.Add(new PlayerInput(carController.throttleInput, carController.brakeInput, carController.steerInput, carController.handbrakeInput, carController.clutchInput, carController.boostInput, carController.fuelInput, carController.direction, carController.canGoReverseNow, carController.currentGear, carController.changingGear, carController.indicatorsOn, carController.lowBeamHeadLightsOn, carController.highBeamHeadLightsOn));
+                Transforms.Add(new PlayerTransform(carController.transform.position, carController.transform.rotation));
+                Rigidbodies.Add(new PlayerRigidBody(carController.Rigid.velocity, carController.Rigid.angularVelocity));
+
+                break;
+
+        }
+
+    }
+
+    private void OnDisable() {
+
+        // Listening input events.
+        RCC_InputManager.OnRecord -= RCC_InputManager_OnRecord;
+        RCC_InputManager.OnReplay -= RCC_InputManager_OnReplay;
+
+    }
 
 }

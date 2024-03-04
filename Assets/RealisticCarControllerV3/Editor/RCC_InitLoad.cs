@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
@@ -13,78 +13,34 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class RCC_InitLoad : MonoBehaviour {
+public class RCC_InitLoad : EditorWindow {
 
-	[InitializeOnLoad]
-	public class InitOnLoad {
+    [InitializeOnLoadMethod]
+    static void InitOnLoad() {
 
-		static InitOnLoad(){
+        EditorApplication.delayCall += EditorUpdate;
 
-			SetEnabled("BCG_RCC", true);
-			
-			if(!EditorPrefs.HasKey("RCC" + "V3.3" + "Installed")){
-				
-				EditorPrefs.SetInt("RCC" + "V3.3" + "Installed", 1);
-				EditorUtility.DisplayDialog("Regards from BoneCracker Games", "Thank you for purchasing and using Realistic Car Controller. Please read the documentation before use. Also check out the online documentation for updated info. Have fun :)", "Let's get started");
+    }
 
-				Selection.activeObject = RCC_Settings.Instance;
+    public static void EditorUpdate() {
 
-			}
+        bool hasKey = false;
 
-		}
+#if BCG_RCC
+        hasKey = true;
+#endif
 
-		private static BuildTargetGroup[] buildTargetGroups = new BuildTargetGroup[]
-		{
+        if (!hasKey) {
 
-			BuildTargetGroup.Standalone,
-			BuildTargetGroup.Android,
-			BuildTargetGroup.iOS,
-			BuildTargetGroup.WebGL,
-			BuildTargetGroup.Facebook,
-			BuildTargetGroup.XboxOne,
-			BuildTargetGroup.PS4,
-			BuildTargetGroup.tvOS,
-			BuildTargetGroup.Switch,
-			BuildTargetGroup.WSA
+            EditorUtility.DisplayDialog("Regards from BoneCracker Games", "Thank you for purchasing and using Realistic Car Controller. Please read the documentation before use. Also check out the online documentation for updated info. Have fun :)", "Let's get started!");
+            EditorUtility.DisplayDialog("New Input System", "RCC is using new input system. Legacy input system is deprecated. Make sure your project has Input System installed through the Package Manager. Import screen will ask you to install dependencies, choose Yes.", "Ok");
+            RCC_WelcomeWindow.OpenWindow();
 
-		};
+        }
 
-		private static void SetEnabled(string defineName, bool enable)
-		{
-			//Debug.Log("setting "+defineName+" to "+enable);
-			foreach (var group in buildTargetGroups)
-			{
-				var defines = GetDefinesList(group);
-				if (enable)
-				{
-					if (defines.Contains(defineName))
-					{
-						return;
-					}
-					defines.Add(defineName);
-				}
-				else
-				{
-					if (!defines.Contains(defineName))
-					{
-						return;
-					}
-					while (defines.Contains(defineName))
-					{
-						defines.Remove(defineName);
-					}
-				}
-				string definesString = string.Join(";", defines.ToArray());
-				PlayerSettings.SetScriptingDefineSymbolsForGroup(group, definesString);
-			}
-		}
+        RCC_Installation.Check();
+        RCC_SetScriptingSymbol.SetEnabled("BCG_RCC", true);
 
-		private static List<string> GetDefinesList(BuildTargetGroup group){
-			
-			return new List<string>(PlayerSettings.GetScriptingDefineSymbolsForGroup(group).Split(';'));
-
-		}
-
-	}
+    }
 
 }

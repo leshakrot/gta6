@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
@@ -16,59 +16,69 @@ using System.Collections;
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller/Misc/RCC Mirror")]
 public class RCC_Mirror : MonoBehaviour {
 
-	private Camera cam;
-	private RCC_CarControllerV3 carController;
+    private Camera cam;     //  Getting camera component.
+    private RCC_CarControllerV3 carController;      //  Getting car controller.
 
-	void Awake(){
+    private void Awake() {
 
-		InvertCamera ();
+        //  Getting camera.
+        cam = GetComponent<Camera>();
 
-	}
+        //  If no camera found, return.
+        if (!cam)
+            enabled = false;
 
-	void OnEnable(){
+        //  Inverting the camera for mirror effect.
+        InvertCamera();
 
-		StartCoroutine (FixDepth());
+    }
 
-	}
+    private void OnEnable() {
 
-	IEnumerator FixDepth(){
+        StartCoroutine(FixDepth());
 
-		yield return new WaitForEndOfFrame ();
+    }
 
-		cam.depth = 1f;
+    /// <summary>
+    /// Fixing depth of the camera.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator FixDepth() {
 
-	}
-	
-	void InvertCamera () {
+        yield return new WaitForEndOfFrame();
+        cam.depth = 1f;
 
-		cam = GetComponent<Camera>();
+    }
 
-		cam.ResetWorldToCameraMatrix ();
-		cam.ResetProjectionMatrix ();
-		cam.projectionMatrix *= Matrix4x4.Scale(new Vector3(-1, 1, 1));
-		carController = GetComponentInParent<RCC_CarControllerV3>();
+    /// <summary>
+    /// Inverting the camera for mirror effect.
+    /// </summary>
+    private void InvertCamera() {
 
-	}
-	
-	void OnPreRender () {
-		
-		GL.invertCulling = true;
+        cam.ResetWorldToCameraMatrix();
+        cam.ResetProjectionMatrix();
+        cam.projectionMatrix *= Matrix4x4.Scale(new Vector3(-1, 1, 1));
+        carController = GetComponentInParent<RCC_CarControllerV3>();
 
-	}
-	
-	void OnPostRender () {
-		
-		GL.invertCulling = false;
+    }
 
-	}
+    private void OnPreRender() {
 
-	void Update(){
+        GL.invertCulling = true;
 
-		if(!cam)
-			return;
+    }
 
-		cam.enabled = carController.canControl;
+    private void OnPostRender() {
 
-	}
+        GL.invertCulling = false;
+
+    }
+
+    private void Update() {
+
+        //  Enable or disable with controllable state of the vehicle.
+        cam.enabled = carController.canControl;
+
+    }
 
 }

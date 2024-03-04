@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
@@ -11,34 +11,51 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
 /// <summary>
 /// Mobile UI Drag used for orbiting RCC Camera.
 /// </summary>
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller/UI/Mobile/RCC UI Drag")]
-public class RCC_MobileUIDrag : MonoBehaviour, IDragHandler, IEndDragHandler{
+public class RCC_MobileUIDrag : MonoBehaviour, IDragHandler, IEndDragHandler {
 
-	private bool isPressing = false;
+    private void Awake() {
 
-	public void OnDrag(PointerEventData data){
+        //  If mobile controller is not enabled disable the gameobject and return.
+        if (!RCC_Settings.Instance.mobileControllerEnabled) {
 
-		if (RCC_Settings.Instance.controllerType != RCC_Settings.ControllerType.Mobile)
-			return;
+            gameObject.SetActive(false);
+            return;
 
-		isPressing = true;
+        }
 
-		RCC_SceneManager.Instance.activePlayerCamera.OnDrag (data);
+    }
 
-	}
+    /// <summary>
+    /// While dragging.
+    /// </summary>
+    /// <param name="data"></param>
+    public void OnDrag(PointerEventData data) {
 
-	public void OnEndDrag(PointerEventData data){
+        //  If mobile controller is not enabled, return.
+        if (!RCC_Settings.Instance.mobileControllerEnabled)
+            return;
 
-		if (RCC_Settings.Instance.controllerType != RCC_Settings.ControllerType.Mobile)
-			return;
+        //  Return if no player camera found.
+        if (!RCC_SceneManager.Instance.activePlayerCamera)
+            return;
 
-		isPressing = false;
+        RCC_SceneManager.Instance.activePlayerCamera.OnDrag(data);
 
-	}
+    }
+
+    public void OnEndDrag(PointerEventData data) {
+
+        //  If mobile controller is not enabled, return.
+        if (!RCC_Settings.Instance.mobileControllerEnabled)
+            return;
+
+    }
 
 }

@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
@@ -11,30 +11,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Fuel station. When a vehicle enters the trigger, fuel tank will be filled up.
+/// </summary>
+[AddComponentMenu("BoneCracker Games/Realistic Car Controller/Misc/RCC Fuel Station")]
 public class RCC_FuelStation : MonoBehaviour {
 
-	private RCC_CarControllerV3 targetVehicle;
-	public float refillSpeed = 1f;
+    private RCC_CarControllerV3 targetVehicle;      //  Target vehicle.
+    public float refillSpeed = 1f;      //  Refill speed.
 
-	void OnTriggerStay (Collider col) {
+    private void OnTriggerStay(Collider col) {
 
-		if (targetVehicle == null) {
+        targetVehicle = col.gameObject.GetComponentInParent<RCC_CarControllerV3>();
 
-			if (col.gameObject.GetComponentInParent<RCC_CarControllerV3> ())
-				targetVehicle = col.gameObject.GetComponentInParent<RCC_CarControllerV3> ();
+        //  If target vehicle is null, return.
+        if (!targetVehicle)
+            return;
 
-		}
+        //  Refill the tank with given speed * time.
+        if (targetVehicle)
+            targetVehicle.fuelTank += refillSpeed * Time.deltaTime;
 
-		if(targetVehicle)
-			targetVehicle.fuelTank += refillSpeed * Time.deltaTime;
-		
-	}
+    }
 
-	void OnTriggerExit (Collider col) {
+    private void OnTriggerExit(Collider col) {
 
-		if (col.gameObject.GetComponentInParent<RCC_CarControllerV3> ())
-			targetVehicle = null;
+        //  Setting target vehicle to null when vehicle exits the trigger.
+        if (col.gameObject.GetComponentInParent<RCC_CarControllerV3>())
+            targetVehicle = null;
 
-	}
+    }
 
 }

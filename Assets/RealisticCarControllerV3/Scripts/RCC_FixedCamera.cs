@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
@@ -15,70 +15,105 @@ using System.Collections.Generic;
 /// Fixed camera system for RCC Camera. It simply parents the RCC Camera, and calculates target position, rotation, FOV, etc...
 /// </summary>
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller/Camera/RCC Fixed Camera")]
-public class RCC_FixedCamera : MonoBehaviour {
+public class RCC_FixedCamera : RCC_Singleton<RCC_FixedCamera> {
 
-	private Vector3 targetPosition;
-	public float maxDistance = 50f;
-	private float distance;
+    private Vector3 targetPosition;     //  Target position.
+    public float maxDistance = 50f;     //  Max distance.
+    private float distance;     //  Current distance.
 
-	public float minimumFOV = 20f;
-	public float maximumFOV = 60f;
-	public bool canTrackNow = false;
+    public float minimumFOV = 20f;      //  FOV limits.
+    public float maximumFOV = 60f;
+    public bool canTrackNow = false;        //  Can track now?
 
-	void LateUpdate(){
+    private void LateUpdate() {
 
-		if (!canTrackNow)
-			return;
+        //  If can't track now, return.
+        if (!canTrackNow)
+            return;
 
-		if (!RCC_SceneManager.Instance.activePlayerCamera)
-			return;
+        // If current camera is null, return.
+        if (!RCC_SceneManager.Instance.activePlayerCamera)
+            return;
 
-		if (!RCC_SceneManager.Instance.activePlayerVehicle)
-			return;
+        // If current camera is null, return.
+        if (RCC_SceneManager.Instance.activePlayerCamera.cameraTarget == null)
+            return;
 
-		distance = Vector3.Distance (transform.position, RCC_SceneManager.Instance.activePlayerVehicle.transform.position);
+        // If current camera is null, return.
+        if (RCC_SceneManager.Instance.activePlayerCamera.cameraTarget.playerVehicle == null)
+            return;
 
-		RCC_SceneManager.Instance.activePlayerCamera.targetFieldOfView = Mathf.Lerp (distance > maxDistance / 10f ? maximumFOV : 70f, minimumFOV, (distance * 1.5f) / maxDistance);
-			
-		targetPosition = RCC_SceneManager.Instance.activePlayerVehicle.transform.position;
-		targetPosition += RCC_SceneManager.Instance.activePlayerVehicle.transform.rotation * Vector3.forward * (RCC_SceneManager.Instance.activePlayerVehicle.speed * .05f);
+        //  Getting camera target.
+        Transform target = RCC_SceneManager.Instance.activePlayerCamera.cameraTarget.playerVehicle.transform;
 
-		transform.Translate ((-RCC_SceneManager.Instance.activePlayerVehicle.transform.forward * RCC_SceneManager.Instance.activePlayerVehicle.speed) / 50f * Time.deltaTime);
+        //  Getting speed of the vehicle and calculating the distance.
+        float speed = RCC_SceneManager.Instance.activePlayerCamera.cameraTarget.Speed;
+        distance = Vector3.Distance(transform.position, target.position);
 
-		transform.LookAt (targetPosition);
+        //  Calculating and setting field of view of the camera.
+        RCC_SceneManager.Instance.activePlayerCamera.targetFieldOfView = Mathf.Lerp(distance > maxDistance / 10f ? maximumFOV : 70f, minimumFOV, (distance * 1.5f) / maxDistance);
 
-		if (distance > maxDistance)
-			ChangePosition ();
+        //  Setting target position.
+        targetPosition = target.transform.position;
+        targetPosition += target.transform.rotation * Vector3.forward * (speed * .05f);
 
-	}
+        //  Moving camera to the correct position.
+        transform.Translate((-target.forward * speed) / 50f * Time.deltaTime);
 
-	public void ChangePosition(){
+        //  Always look at the target.
+        transform.LookAt(targetPosition);
 
-		if (!canTrackNow)
-			return;
+        //  If distance exceeds max distance, change position.
+        if (distance > maxDistance)
+            ChangePosition();
 
-		if (!RCC_SceneManager.Instance.activePlayerCamera)
-			return;
+    }
 
-		if (!RCC_SceneManager.Instance.activePlayerVehicle)
-			return;
+    /// <summary>
+    /// Changes position of the camera.
+    /// </summary>
+    public void ChangePosition() {
 
-		float randomizedAngle = Random.Range (-15f, 15f);
-		RaycastHit hit;
+        //  If can't track now, return.
+        if (!canTrackNow)
+            return;
 
-		if (Physics.Raycast (RCC_SceneManager.Instance.activePlayerVehicle.transform.position, Quaternion.AngleAxis (randomizedAngle, RCC_SceneManager.Instance.activePlayerVehicle.transform.up) * RCC_SceneManager.Instance.activePlayerVehicle.transform.forward, out hit, maxDistance) && !hit.transform.IsChildOf(RCC_SceneManager.Instance.activePlayerVehicle.transform) && !hit.collider.isTrigger) {
+        // If current camera is null, return.
+        if (!RCC_SceneManager.Instance.activePlayerCamera)
+            return;
 
-			transform.position = hit.point;
-			transform.LookAt (RCC_SceneManager.Instance.activePlayerVehicle.transform.position + new Vector3(0f, Mathf.Clamp(randomizedAngle, .5f, 5f), 0f));
-			transform.position += transform.rotation * Vector3.forward * 5f;
+        // If current camera is null, return.
+        if (RCC_SceneManager.Instance.activePlayerCamera.cameraTarget == null)
+            return;
 
-		} else {
-			
-			transform.position = RCC_SceneManager.Instance.activePlayerVehicle.transform.position + new Vector3(0f, Mathf.Clamp(randomizedAngle, 0f, 5f), 0f);
-			transform.position += Quaternion.AngleAxis (randomizedAngle, RCC_SceneManager.Instance.activePlayerVehicle.transform.up) * RCC_SceneManager.Instance.activePlayerVehicle.transform.forward * (maxDistance * .9f);
+        // If current camera is null, return.
+        if (RCC_SceneManager.Instance.activePlayerCamera.cameraTarget.playerVehicle == null)
+            return;
 
-		}
+        //  Getting camera target.
+        Transform target = RCC_SceneManager.Instance.activePlayerCamera.cameraTarget.playerVehicle.transform;
 
-	}
-	
+        //  Creating random angle.
+        float randomizedAngle = Random.Range(-15f, 15f);
+        RaycastHit hit;
+
+        //  Raycasting. If hits, translate the camera to the hit point.
+        if (Physics.Raycast(target.position + Vector3.up * 3f, Quaternion.AngleAxis(randomizedAngle, target.up) * target.forward, out hit, maxDistance) && !hit.transform.IsChildOf(target) && !hit.collider.isTrigger) {
+            
+            transform.position = hit.point + Vector3.up * Random.Range(.5f, 2.5f);
+            transform.LookAt(target.position);
+            transform.position += transform.forward * 5f;
+
+        } else {
+
+            transform.position = target.position + Vector3.up * Random.Range(.5f, 2.5f);
+            transform.rotation = target.rotation * Quaternion.AngleAxis(randomizedAngle, Vector3.up);
+            transform.position += transform.forward * (maxDistance * .9f);
+            transform.LookAt(target.position);
+            transform.position += transform.forward * 5f;
+
+        }
+
+    }
+
 }

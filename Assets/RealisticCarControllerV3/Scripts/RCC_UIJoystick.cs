@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------
 //            Realistic Car Controller
 //
-// Copyright © 2014 - 2019 BoneCracker Games
-// http://www.bonecrackergames.com
+// Copyright © 2014 - 2023 BoneCracker Games
+// https://www.bonecrackergames.com
 // Buğra Özdoğanlar
 //
 //----------------------------------------------
@@ -14,46 +14,66 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 /// <summary>
-/// Receiving inputs from UI Joystick.
+/// Receiving inputs from the UI Joystick.
 /// </summary>
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller/UI/Mobile/RCC UI Joystick")]
 public class RCC_UIJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler {
 
-	public RectTransform backgroundSprite;
-	public RectTransform handleSprite;
+    public RectTransform backgroundSprite;
+    public RectTransform handleSprite;
 
-	internal Vector2 inputVector = Vector2.zero;
-	public float inputHorizontal { get { return inputVector.x; } }
-	public float inputVertical { get { return inputVector.y; } }
+    private Vector2 inputVector = Vector2.zero;
+    public float InputHorizontal { get { return inputVector.x; } }
+    public float InputVertical { get { return inputVector.y; } }
 
-	private Vector2 joystickPosition = Vector2.zero;
-	private Camera _refCam = new Camera();
+    private Vector2 joystickPosition = Vector2.zero;
+    private readonly Camera _refCam;
 
-	void Start(){
-		
-		joystickPosition = RectTransformUtility.WorldToScreenPoint(_refCam, backgroundSprite.position);
+    private void Start() {
 
-	}
+        joystickPosition = RectTransformUtility.WorldToScreenPoint(_refCam, backgroundSprite.position);
 
-	public void OnDrag(PointerEventData eventData){
-		
-		Vector2 direction = eventData.position - joystickPosition;
-		inputVector = (direction.magnitude > backgroundSprite.sizeDelta.x / 2f) ? direction.normalized : direction / (backgroundSprite.sizeDelta.x / 2f);
-		handleSprite.anchoredPosition = (inputVector * backgroundSprite.sizeDelta.x / 2f) * 1f;
+    }
 
-	}
+    private void OnEnable() {
 
-	public void OnPointerUp(PointerEventData eventData){
-		
-		inputVector = Vector2.zero;
-		handleSprite.anchoredPosition = Vector2.zero;
+        //  Resetting inputs of the joystick on enable / disable.
+        inputVector = Vector2.zero;
+        handleSprite.anchoredPosition = Vector2.zero;
 
-	}
+    }
 
-	public virtual void OnPointerDown(PointerEventData eventData){
+    /// <summary>
+    /// While pressing and dragging the joystick.
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void OnDrag(PointerEventData eventData) {
 
+        Vector2 direction = eventData.position - joystickPosition;
+        inputVector = (direction.magnitude > backgroundSprite.sizeDelta.x / 2f) ? direction.normalized : direction / (backgroundSprite.sizeDelta.x / 2f);
+        handleSprite.anchoredPosition = (inputVector * backgroundSprite.sizeDelta.x / 2f) * 1f;
 
+    }
 
-	}
+    public void OnPointerUp(PointerEventData eventData) {
+
+        inputVector = Vector2.zero;
+        handleSprite.anchoredPosition = Vector2.zero;
+
+    }
+
+    public virtual void OnPointerDown(PointerEventData eventData) {
+
+        //
+
+    }
+
+    private void OnDisable() {
+
+        //  Resetting inputs of the joystick on enable / disable.
+        inputVector = Vector2.zero;
+        handleSprite.anchoredPosition = Vector2.zero;
+
+    }
 
 }
