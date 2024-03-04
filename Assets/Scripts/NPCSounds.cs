@@ -8,7 +8,7 @@ public class NPCSounds : MonoBehaviour
     private void Start()
     {
         if (!audioSource) audioSource = GetComponent<AudioSource>();
-        InvokeRepeating("PlayNPCSound", Random.Range(0,100), Random.Range(15,30));
+        InvokeRepeating("PlayNPCSound", Random.Range(0,10), Random.Range(5,10));
     }
     public void PlayNPCSound()
     {

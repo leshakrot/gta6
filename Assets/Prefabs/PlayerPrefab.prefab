@@ -29122,6 +29122,8 @@ GameObject:
   - component: {fileID: 4515244772110939297}
   - component: {fileID: 3369279423361187245}
   - component: {fileID: 4493883379750201801}
+  - component: {fileID: 9027629285177057842}
+  - component: {fileID: 3501054687405984259}
   m_Layer: 8
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -30779,6 +30781,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f508a1aa7e5b3cf4a93779aa8b3f2c37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9027629285177057842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4044901319794071194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9944dfe40c0c1374186bf53cf33b7d7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTPSController: 1
+  rayHeight: 0.5
+  canControl: 1
+  showGui: 0
+  targetVehicle: {fileID: 0}
+  playerStartsAsInVehicle: 0
+  inVehicle: {fileID: 0}
+  characterCamera: {fileID: 6541614899122272246}
+--- !u!114 &3501054687405984259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4044901319794071194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82cf43250d6d30c47830d4a0786c78b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 4
+  characterCamera: {fileID: 6541614899122272246}
+  minOrbitY: -20
+  maxOrbitY: 80
+  distance: 5
+  height: 1.5
+  sensitivity: 1
+  inputs:
+    horizonalInput: 0
+    verticalInput: 0
+    aim: {x: 0, y: 0}
 --- !u!1 &4062738517631290406
 GameObject:
   m_ObjectHideFlags: 0

@@ -17538,7 +17538,7 @@ GameObject:
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1198686519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17900,7 +17900,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 102148, guid: 3c49455ff7757444fa4b466c3250f423, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22402028, guid: 3c49455ff7757444fa4b466c3250f423, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -22159,6 +22159,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1000014008404042, guid: 330409232e97fd84c9b2e696d6de0bd5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4000011034249356, guid: 330409232e97fd84c9b2e696d6de0bd5, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -22438,6 +22442,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BCG_FPSTPS MobileController
+      objectReference: {fileID: 0}
+    - target: {fileID: 8807181299348822573, guid: b8a0614793a4be14596bc40431ccc63d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8807181299370571641, guid: b8a0614793a4be14596bc40431ccc63d,
         type: 3}
@@ -26949,13 +26958,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82cf43250d6d30c47830d4a0786c78b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
   characterCamera: {fileID: 1324815473}
-  minOrbitY: -20
-  maxOrbitY: 80
-  distance: 5
-  height: 1.5
-  sensitivity: 1
   inputs:
     horizonalInput: 0
     verticalInput: 0
