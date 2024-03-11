@@ -20,4 +20,21 @@ public class RCC_Waypoint : MonoBehaviour {
     public float targetSpeed = 240f;        //  Target speed of this waypoint.
     public float radius = 20f;      //  Pass radius of this waypoint.
 
+    public bool isOccupied;
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.TryGetComponent(out RCC_CarControllerV3 vehicle))
+        {
+            isOccupied = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.TryGetComponent(out RCC_CarControllerV3 vehicle))
+        {
+            isOccupied = false;
+        }
+    }
 }
