@@ -16,9 +16,7 @@ public class VehicleNPC : MonoBehaviour
         _aiController = GetComponent<RCC_AICarController>();
         _controller.canControl = true;
 
-        _waypoints = _aiController.waypointsContainer.waypoints;
-        _aiController.currentWaypointIndex = FindNearestWaypointIndex();
-        transform.LookAt(_waypoints[_nearestWaypointIndex + 1].transform.position);
+        _waypoints = _aiController.waypointsContainer.waypoints;      
     }
 
     private int FindNearestWaypointIndex()
@@ -32,5 +30,13 @@ public class VehicleNPC : MonoBehaviour
             }
         }
         return _nearestWaypointIndex;
+    }
+
+    private void OnEnable()
+    {
+        Debug.Log("RESPAWNED");
+        _nearestWaypointDistance = 1000;
+        _aiController.currentWaypointIndex = FindNearestWaypointIndex();
+        transform.LookAt(_waypoints[_nearestWaypointIndex + 1].transform.position);
     }
 }

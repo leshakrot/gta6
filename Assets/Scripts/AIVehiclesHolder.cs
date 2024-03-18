@@ -15,7 +15,7 @@ public class AIVehiclesHolder : MonoBehaviour
     [SerializeField] private List<RCC_Waypoint> _spawnPoints;
 
     private Vector3 _currentSpawnPoint;
-    private Vector3 _spawnPointOffset = new Vector3(0, 2, 0);
+    private Vector3 _spawnPointOffset = new(0, 2, 0);
     private void Start()
     {
         AIVehiclesObjectsPoolInit(); 
