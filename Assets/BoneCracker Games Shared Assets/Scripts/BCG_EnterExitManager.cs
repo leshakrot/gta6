@@ -311,7 +311,16 @@ public class BCG_EnterExitManager : MonoBehaviour {
 
         //	If player is not in a vehicle, and at front of a vehicle, get in. Otherwise, get out.
         if (activePlayer.inVehicle == null && activePlayer.targetVehicle)
+        {
             activePlayer.GetIn(activePlayer.targetVehicle);
+            activePlayer.targetVehicle.gameObject.GetComponent<RCC_CarControllerV3>().enabled = true;
+            activePlayer.targetVehicle.gameObject.GetComponent<ESVehicleAI>().enabled = false;
+            activePlayer.targetVehicle.gameObject.GetComponent<RCC_CarControllerV3>().enabled = false;
+            activePlayer.targetVehicle.gameObject.GetComponent<ESVehicleAI>().enabled = true;
+            activePlayer.targetVehicle.gameObject.GetComponent<RCC_CarControllerV3>().enabled = true;
+            activePlayer.targetVehicle.gameObject.GetComponent<ESVehicleAI>().enabled = false;
+        }
+            
         else
             activePlayer.GetOut();
 

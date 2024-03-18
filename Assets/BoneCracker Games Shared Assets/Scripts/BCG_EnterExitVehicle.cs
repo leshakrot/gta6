@@ -42,7 +42,7 @@ public class BCG_EnterExitVehicle : MonoBehaviour {
 
         rigid = GetComponent<Rigidbody>();
 
-        //gameObject.SendMessage("SetCanControl", false, SendMessageOptions.DontRequireReceiver);
+        gameObject.SendMessage("SetCanControl", false, SendMessageOptions.DontRequireReceiver);
 
     }
 

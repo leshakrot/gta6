@@ -358,8 +358,6 @@ GameObject:
   - component: {fileID: 7000401009184331480}
   - component: {fileID: 1605655349824657110}
   - component: {fileID: 4911198336143989654}
-  - component: {fileID: 7115426118262722429}
-  - component: {fileID: 2728178944884107118}
   m_Layer: 13
   m_Name: Sedan_6A
   m_TagString: Untagged
@@ -768,60 +766,6 @@ MonoBehaviour:
   driver: {fileID: 0}
   correspondingCamera: {fileID: 0}
   getOutPosition: {fileID: 4201020782532071109}
---- !u!114 &7115426118262722429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4094315319692634285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93dcd0266b466224f8d1d8ae405f4d73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waypointsContainer: {fileID: 0}
-  currentWaypointIndex: 0
-  targetTag: Player
-  navigationMode: 0
-  raycastLength: 20
-  raycastAngle: 30
-  obstacleLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  obstacle: {fileID: 0}
-  useRaycasts: 1
-  steerInput: 0
-  throttleInput: 0
-  brakeInput: 0
-  handbrakeInput: 0
-  limitSpeed: 1
-  maximumSpeed: 10
-  smoothedSteer: 0
-  lap: 0
-  stopAfterLap: 0
-  stopLap: 10
-  totalWaypointPassed: 0
-  ignoreWaypointNow: 0
-  detectorRadius: 200
-  startFollowDistance: 300
-  stopFollowDistance: 30
-  targetsInZone: []
-  brakeZones: []
-  targetChase: {fileID: 0}
-  targetBrake: {fileID: 0}
---- !u!114 &2728178944884107118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4094315319692634285}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77e4005ce380dbb4eb4c0b498cb8b118, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4779702117466117721
 GameObject:
   m_ObjectHideFlags: 0

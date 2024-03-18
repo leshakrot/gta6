@@ -1,0 +1,7 @@
+Hello dev thanks for choosing UTC
+- please note every scripts located in this folder, is in development process and still very unstable , we have included this
+scripts for developers who have moved ahead of us.. so you can upgrade on them or wait for the next update of which they would be fully implemented..
+
+
+
+THANKS FOR CHOOSING UTC.... 

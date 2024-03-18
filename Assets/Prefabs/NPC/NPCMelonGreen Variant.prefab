@@ -606,6 +606,10 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2103631431185008334}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1425179688620497273, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 830277791900759640}
     - targetCorrespondingSourceObject: {fileID: 7321291264392022595, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       insertIndex: -1
@@ -687,6 +691,42 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   meleeManager: {fileID: 0}
+--- !u!1 &1990231737928723402 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1425179688620497273, guid: 07907a24863ec124faf3df69bf6287fa,
+    type: 3}
+  m_PrefabInstance: {fileID: 601785085135467187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &830277791900759640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990231737928723402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab6b4795ba68e274c943f28fa4233764, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GetNavigateType: 0
+  distance: 2
+  speed: 0
+  IgnoreCollsion: 0
+  anim: {fileID: 0}
+  RagdollSkeleton: {fileID: 0}
+  MainSkeleton: {fileID: 0}
+  target: {fileID: 0}
+  WalkSpeed: 0.5
+  DistApartFromPlayer: 600
+  Player: {fileID: 0}
+  Terminated: 0
+  StopUpdateTarget: 0
+  flip: 0
+  UpdateDistance: 0
+  PlayerDist: 0
+  _rigidbody: {fileID: 0}
+  StopBody: 0
 --- !u!4 &2257581682075862928 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1661110060571374883, guid: 07907a24863ec124faf3df69bf6287fa,
