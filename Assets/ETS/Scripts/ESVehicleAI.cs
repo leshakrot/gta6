@@ -27,6 +27,7 @@ public class ESVehicleAI : MonoBehaviour
     [Header("EngineSettings")]
     public float EngineTorque;
     public float BrakeDrag = 10f;
+    public AudioSource engineSound;
     //
     //
     [Header("AI Settings")]
@@ -139,6 +140,16 @@ public class ESVehicleAI : MonoBehaviour
         //IsBraking = false;
         backupdistapart = DistanceApart;
         CarRb.solverIterations = 10;
+    }
+
+    private void OnEnable()
+    {
+        engineSound.enabled = true;
+    }
+
+    private void OnDisable()
+    {
+        engineSound.enabled = false;
     }
     // Update is called once per frame
     //

@@ -314,16 +314,15 @@ public class BCG_EnterExitManager : MonoBehaviour {
         {
             activePlayer.GetIn(activePlayer.targetVehicle);
             activePlayer.targetVehicle.gameObject.GetComponent<RCC_CarControllerV3>().enabled = true;
-            activePlayer.targetVehicle.gameObject.GetComponent<ESVehicleAI>().enabled = false;
-            activePlayer.targetVehicle.gameObject.GetComponent<RCC_CarControllerV3>().enabled = false;
-            activePlayer.targetVehicle.gameObject.GetComponent<ESVehicleAI>().enabled = true;
-            activePlayer.targetVehicle.gameObject.GetComponent<RCC_CarControllerV3>().enabled = true;
+            activePlayer.targetVehicle.gameObject.GetComponent<ESVehicleAI>().topspeed = 200;
             activePlayer.targetVehicle.gameObject.GetComponent<ESVehicleAI>().enabled = false;
         }
-            
-        else
-            activePlayer.GetOut();
 
+        else
+        {
+            activePlayer.targetVehicle.gameObject.GetComponent<ESVehicleAI>().topspeed = 20;
+            activePlayer.GetOut();
+        }
     }
 
     private void OnDisable() {
