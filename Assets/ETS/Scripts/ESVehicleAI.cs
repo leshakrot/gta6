@@ -144,12 +144,12 @@ public class ESVehicleAI : MonoBehaviour
 
     private void OnEnable()
     {
-        engineSound.enabled = true;
+        if(engineSound) engineSound.enabled = true;
     }
 
     private void OnDisable()
     {
-        engineSound.enabled = false;
+        if (engineSound) engineSound.enabled = false;
     }
     // Update is called once per frame
     //
