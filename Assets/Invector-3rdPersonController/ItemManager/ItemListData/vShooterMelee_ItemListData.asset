@@ -12,12 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Fragment Grenade
   m_EditorClassIdentifier: 
-  itemsToCraft:
-  - item: {fileID: 0}
-    amount: 3
-  - item: {fileID: 0}
-    amount: 1
-  price: 0
   id: 26
   description: Fragment Grenade
   type: 0
@@ -57,12 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Molotov
   m_EditorClassIdentifier: 
-  itemsToCraft:
-  - item: {fileID: 0}
-    amount: 3
-  - item: {fileID: 0}
-    amount: 1
-  price: 0
   id: 27
   description: Molotov
   type: 0
@@ -134,7 +122,7 @@ MonoBehaviour:
   - {fileID: -6067380429623673844}
   - {fileID: 5440309841161798788}
   - {fileID: 9220526243217188814}
-  inEdition: 0
+  inEdition: 1
   itemsHidden: 1
 --- !u!114 &11427962
 MonoBehaviour:
@@ -148,8 +136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Sniper Ammo
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 19
   description: 
   type: 3
@@ -188,8 +174,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: RPG Ammo
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 18
   description: 
   type: 3
@@ -228,8 +212,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Handgun Ammo
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 14
   description: 
   type: 3
@@ -268,8 +250,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: RPG
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 16
   description: Very destructive
   type: 2
@@ -316,8 +296,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Sniper
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 15
   description: Attached with a scope
   type: 2
@@ -364,8 +342,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Shotgun Shells
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 17
   description: Shotgun Ammo
   type: 3
@@ -404,8 +380,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Shotgun
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 12
   description: Tactical Shotgun
   type: 2
@@ -452,8 +426,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Rifle Ammo
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 13
   description: 
   type: 3
@@ -492,8 +464,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Great Shield
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 9
   description: 'Great  Shield
 
@@ -550,8 +520,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Short Katana
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 1
   description: Melee Weapon
   type: 1
@@ -608,8 +576,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Great Sword
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 7
   description: Melee Weapon
   type: 1
@@ -666,8 +632,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Great Katana
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 8
   description: Melee Weapon
   type: 1
@@ -724,8 +688,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Assault Rifle
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 11
   description: Attached with a Scope
   type: 2
@@ -780,8 +742,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Small Shield
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 6
   description: 'Small Shield
 
@@ -836,8 +796,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Handgun
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 10
   description: Semi-Automatic Pistol
   type: 2
@@ -884,12 +842,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Health Up Potion
   m_EditorClassIdentifier: 
-  itemsToCraft:
-  - item: {fileID: 0}
-    amount: 3
-  - item: {fileID: 0}
-    amount: 1
-  price: 0
   id: 5
   description: Increases the MaxHealth
   type: 0
@@ -932,8 +884,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Axe
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 0
   description: Melee Weapon
   type: 1
@@ -990,12 +940,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Stamina Up Potion
   m_EditorClassIdentifier: 
-  itemsToCraft:
-  - item: {fileID: 0}
-    amount: 1
-  - item: {fileID: 0}
-    amount: 3
-  price: 0
   id: 4
   description: Increases the MaxStamina
   type: 0
@@ -1038,8 +982,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Short Sword
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 3
   description: Melee Weapon
   type: 1
@@ -1096,12 +1038,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Health Potion
   m_EditorClassIdentifier: 
-  itemsToCraft:
-  - item: {fileID: 0}
-    amount: 3
-  - item: {fileID: 0}
-    amount: 1
-  price: 0
   id: 2
   description: Recover Health
   type: 0
@@ -1144,8 +1080,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: vRifle Shooter Edition
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 22
   description: Special Edition attached with Grenade Launcher
   type: 2
@@ -1201,8 +1135,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: KeyCard Red
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 23
   description: Open Red Doors
   type: 0
@@ -1241,8 +1173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Dual Swords
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 24
   description: Melee Weapon
   type: 1
@@ -1299,8 +1229,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Arrows
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 21
   description: Arrows to use with Bow
   type: 3
@@ -1339,8 +1267,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: vBow
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 20
   description: Bow and Arrow
   type: 4
@@ -1384,8 +1310,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Buletproof Vest
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  price: 0
   id: 25
   description: Buletproof Vest
   type: 6
@@ -1424,12 +1348,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Smoke Grenade
   m_EditorClassIdentifier: 
-  itemsToCraft:
-  - item: {fileID: 0}
-    amount: 3
-  - item: {fileID: 0}
-    amount: 1
-  price: 0
   id: 28
   description: Smoke Grenade
   type: 0
@@ -1470,12 +1388,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Stun Grenade
   m_EditorClassIdentifier: 
-  itemsToCraft:
-  - item: {fileID: 0}
-    amount: 3
-  - item: {fileID: 0}
-    amount: 1
-  price: 0
   id: 29
   description: Stun Grenade
   type: 0
