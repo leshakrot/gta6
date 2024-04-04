@@ -4,7 +4,7 @@ public class VehicleSpawnTrigger : MonoBehaviour
 {
     private void OnTriggerExit(Collider other)
     {
-        if(other.TryGetComponent(out RCC_AICarController aICarController))
+        if(other.TryGetComponent(out ESVehicleAI aICarController))
         {
             Debug.Log("EXIT");
             aICarController.gameObject.SetActive(false);
