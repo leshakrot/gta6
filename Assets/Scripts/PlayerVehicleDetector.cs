@@ -15,6 +15,7 @@ public class PlayerVehicleDetector : MonoBehaviour
         if (collision.gameObject.TryGetComponent(out ESVehicleAI vehicle))
         {
             if (!vehicle.isActiveAndEnabled) return;
+
             _vehicleController = vehicle.gameObject.GetComponent<RCC_CarControllerV3>();
 
             transform.root.SendMessage("ActivateRagdoll", SendMessageOptions.DontRequireReceiver);
