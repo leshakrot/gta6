@@ -32,6 +32,16 @@ TagManager:
   - AIAction
   - TrafficLight
   - Vehicle
+  - Nodes
+  - AIVehicle
+  - default(rear)
+  - side
+  - IgnoreTrigger
+  - AIRider
+  - Bike
+  - AIBike
+  - default(front)
+  - CommonTrigger
   layers:
   - Default
   - TransparentFX
