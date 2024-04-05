@@ -11,7 +11,8 @@
                     "id": "3a00840e-44cd-47d1-a95f-43a816067725",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Aim",
@@ -19,7 +20,8 @@
                     "id": "81f4fec4-5f54-42df-8335-17f8b4f230bf",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Interact",
@@ -27,7 +29,8 @@
                     "id": "d631946b-2962-4811-92f5-ea4909c3d5f6",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press"
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -199,7 +202,7 @@
                 {
                     "name": "",
                     "id": "8ab8991f-381c-4300-8375-eff614d47fb7",
-                    "path": "<Keyboard>/enter",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard Mouse",

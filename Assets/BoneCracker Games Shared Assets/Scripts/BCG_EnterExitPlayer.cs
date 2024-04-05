@@ -143,7 +143,7 @@ public class BCG_EnterExitPlayer : MonoBehaviour {
         if (showGui) {
 
             GUI.skin.label.fontSize = 36;
-            GUI.Label(new Rect((Screen.width / 2f) - 300f, (Screen.height / 2f) - 25f, 600f, 50f), "Press Interaction Button To Get In");
+            GUI.Label(new Rect((Screen.width / 2f) - 300f, (Screen.height / 2f) - 25f, 600f, 50f), "E - Сесть в транспорт");
 
         }
 
