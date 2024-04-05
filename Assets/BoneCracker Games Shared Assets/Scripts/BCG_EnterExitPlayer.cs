@@ -17,7 +17,7 @@ using System.Collections.Generic;
 [AddComponentMenu("BoneCracker Games/Shared Assets/Enter-Exit/BCG Enter Exit Script For Player Characters")]
 public class BCG_EnterExitPlayer : MonoBehaviour {
 
-    public bool isTPSController = false;
+    public bool isTPSController = true;
     public float rayHeight = 1f;
 
     public bool canControl = true;
