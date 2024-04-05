@@ -1,2 +1,2 @@
 Build path: D:/Projects/gta6/WebGl
-Build number: 6
+Build number: 8
