@@ -1,0 +1,32 @@
+# Blender 3.6.1 MTL File: 'Ps1 Lowpoly 2018 Chevrolet Traverse.blend'
+# www.blender.org
+
+newmtl CT_18_Body
+Ns 0.000000
+Ka 0.364000 0.364000 0.364000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd textures/2018 Chevrolet Traverse.jpg
+
+newmtl CT_18_RV
+Ns 0.000000
+Ka 0.364000 0.364000 0.364000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd textures/2018 Chevrolet Traverse.jpg
+
+newmtl CT_18_Wheels
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd textures/2018 Chevrolet Traverse.jpg

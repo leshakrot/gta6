@@ -1,0 +1,32 @@
+# Blender 3.6.1 MTL File: '2023 Ram 1500 Revolution BEV Concept.blend'
+# www.blender.org
+
+newmtl Body
+Ns 43.264000
+Ka 0.504000 0.504000 0.504000
+Ks 0.316000 0.316000 0.316000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd textures/2023 Ram Concept Texture.jpg
+
+newmtl Rear_View_Mirrors
+Ns 110.224014
+Ka 0.712000 0.712000 0.712000
+Ks 0.304000 0.304000 0.304000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd textures/2023 Ram Concept Texture.jpg
+
+newmtl Wheels
+Ns 43.264000
+Ka 0.504000 0.504000 0.504000
+Ks 0.316000 0.316000 0.316000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd textures/2023 Ram Concept Texture.jpg

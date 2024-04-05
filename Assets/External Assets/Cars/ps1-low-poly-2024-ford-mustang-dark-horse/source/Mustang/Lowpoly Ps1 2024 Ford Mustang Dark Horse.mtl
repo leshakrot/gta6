@@ -1,0 +1,42 @@
+# Blender 3.6.1 MTL File: 'Lowpoly Ps1 2024 Ford Mustang Dark Horse.blend'
+# www.blender.org
+
+newmtl Body
+Ns 0.000000
+Ka 0.540000 0.540000 0.540000
+Ks 0.272000 0.272000 0.272000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd textures/24 Ford Mustang Dark Horse Texture.jpg
+
+newmtl Mirrors
+Ns 0.000000
+Ka 0.540000 0.540000 0.540000
+Ks 0.272000 0.272000 0.272000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd textures/24 Ford Mustang Dark Horse Texture.jpg
+
+newmtl Rear_Wing
+Ns 0.000000
+Ka 0.540000 0.540000 0.540000
+Ks 0.272000 0.272000 0.272000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd textures/24 Ford Mustang Dark Horse Texture.jpg
+
+newmtl Wheels
+Ns 0.000000
+Ka 0.540000 0.540000 0.540000
+Ks 0.272000 0.272000 0.272000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd textures/24 Ford Mustang Dark Horse Texture.jpg

@@ -513,7 +513,7 @@ MonoBehaviour:
   CenterOfMass: {x: 0, y: -0.81, z: 0}
   SteerBalanceFactor: 0.5
   SharpAngleSpeed: 11
-  topspeed: 20
+  topspeed: 10
   SharpBendSpeed: 30
   SpawnDistance: 400
   player: {fileID: 0}

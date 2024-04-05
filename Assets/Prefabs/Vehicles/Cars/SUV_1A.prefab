@@ -745,7 +745,7 @@ MonoBehaviour:
   CenterOfMass: {x: 0, y: 0, z: 0}
   SteerBalanceFactor: 0.5
   SharpAngleSpeed: 11
-  topspeed: 20
+  topspeed: 10
   SharpBendSpeed: 30
   SpawnDistance: 400
   player: {fileID: 0}
@@ -1143,7 +1143,7 @@ Transform:
   m_GameObject: {fileID: 3899091954769574106}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.401, z: 0.0146484375}
+  m_LocalPosition: {x: 0, y: -0.401, z: 0.276}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
