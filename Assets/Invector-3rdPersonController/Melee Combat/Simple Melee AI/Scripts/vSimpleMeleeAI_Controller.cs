@@ -36,6 +36,12 @@ namespace Invector.vCharacterController.AI
             StartCoroutine(DestinationBehaviour());
         }
 
+        public void ResetTargetSearch()
+        {
+            StartCoroutine(FindTarget());
+            StartCoroutine(DestinationBehaviour());
+        }
+
         protected void FixedUpdate()
         {
             ControlLocomotion();

@@ -369,7 +369,7 @@ PrefabInstance:
     - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: removeComponentsAfterDie
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
@@ -400,6 +400,16 @@ PrefabInstance:
         type: 3}
       propertyPath: _onReceiveDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3756689758830223170, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4645565320320646316, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: isPed
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4645565320320646316, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
@@ -496,14 +506,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 4829877488036712733}
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1425179688620497273, guid: 07907a24863ec124faf3df69bf6287fa,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7542973335132239183}
-    - targetCorrespondingSourceObject: {fileID: 1425179688620497273, guid: 07907a24863ec124faf3df69bf6287fa,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2400661945551211133}
     - targetCorrespondingSourceObject: {fileID: 1425179688620497273, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       insertIndex: -1
@@ -611,100 +613,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 601785085135467187}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7542973335132239183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1990231737928723402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c11b181c688f7664aba8ba5b38942ac9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  openCloseEvents: 0
-  openCloseWindow: 1
-  selectedToolbar: 0
-  Members:
-  - transform: {fileID: 59858231319368263}
-    bodyPart: LeftLowerArm
-    attackObject: {fileID: 2342142710931038245}
-    isHuman: 1
-  - transform: {fileID: 3558575672705595511}
-    bodyPart: RightLowerArm
-    attackObject: {fileID: 5065439671728788201}
-    isHuman: 1
-  - transform: {fileID: 3767408868633513181}
-    bodyPart: LeftLowerLeg
-    attackObject: {fileID: 1890729307702668979}
-    isHuman: 1
-  - transform: {fileID: 2257581682075862928}
-    bodyPart: RightLowerLeg
-    attackObject: {fileID: 4184379433217943615}
-    isHuman: 1
-  defaultDamage:
-    damageValue: 10
-    staminaBlockCost: 5
-    staminaRecoveryDelay: 1
-    ignoreDefense: 0
-    activeRagdoll: 0
-    senselessTime: 0
-    sender: {fileID: 0}
-    receiver: {fileID: 0}
-    hitPosition: {x: 0, y: 0, z: 0}
-    hitReaction: 1
-    recoil_id: 0
-    reaction_id: 0
-    damageType: 
-    force: {x: 0, y: 0, z: 0}
-  hitProperties:
-    hitDamageTags:
-    - Enemy
-    - Player
-    useRecoil: 1
-    drawRecoilGizmos: 0
-    recoilRange: 90
-    hitRecoilLayer:
-      serializedVersion: 2
-      m_Bits: 1
-  leftWeapon: {fileID: 0}
-  rightWeapon: {fileID: 0}
-  onDamageHit:
-    m_PersistentCalls:
-      m_Calls: []
-  onRecoilHit:
-    m_PersistentCalls:
-      m_Calls: []
-  onEquipWeapon:
-    m_PersistentCalls:
-      m_Calls: []
-  onUnequipWeapon:
-    m_PersistentCalls:
-      m_Calls: []
-  defaultAttackDistance: 1
-  defaultStaminaCost: 20
-  defaultStaminaRecoveryDelay: 1
-  defaultDefenseRate: 100
-  defaultDefenseRange: 90
---- !u!114 &2400661945551211133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1990231737928723402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d3efef3ad62cd548b0f85eb11858ed1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  openCloseEvents: 0
-  openCloseWindow: 1
-  selectedToolbar: 0
-  defaultDamageEffects:
-  - {fileID: 120346, guid: b8f2fe1ee1a01724cb72f5b0e6bd2eef, type: 3}
-  customDamageEffects: []
 --- !u!114 &1053861420923019943
 MonoBehaviour:
   m_ObjectHideFlags: 0

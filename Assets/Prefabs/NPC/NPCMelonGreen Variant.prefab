@@ -389,7 +389,7 @@ PrefabInstance:
     - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: selectedToolbar
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
@@ -399,7 +399,7 @@ PrefabInstance:
     - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: removeComponentsAfterDie
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
@@ -431,6 +431,11 @@ PrefabInstance:
       propertyPath: _onReceiveDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3756689758830223170, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4244837108527962410, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
@@ -460,6 +465,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ConnectedAnchor.z
       value: -0.000009684824
+      objectReference: {fileID: 0}
+    - target: {fileID: 4645565320320646316, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: isPed
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4645565320320646316, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}

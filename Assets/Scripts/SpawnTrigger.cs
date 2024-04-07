@@ -10,11 +10,5 @@ public class SpawnTrigger : MonoBehaviour
             Debug.Log("EXIT");
             aICarController.gameObject.SetActive(false);
         }
-
-        if (other.TryGetComponent(out vSimpleMeleeAI_Controller npcController))
-        {
-            Debug.Log("EXIT");
-            npcController.gameObject.SetActive(false);
-        }
     }
 }
