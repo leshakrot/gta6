@@ -397,11 +397,11 @@ namespace Invector.vCharacterController
         /// <param name="timeToStayRagdolled">Time to keep ragdolled active</param>
         public virtual void ActivateRagdoll(vDamage damage, float timeToStayRagdolled)
         {
+
             if (isActive || (damage != null && !damage.activeRagdoll) || state == RagdollState.blendToAnim)
             {
                 return;
             }
-
             ActivateRagdoll(damage);
             KeepRagdolled(timeToStayRagdolled);
         }
@@ -409,10 +409,8 @@ namespace Invector.vCharacterController
         // active ragdoll - call this method to turn the ragdoll on      
         public virtual void ActivateRagdoll(vDamage damage)
         {
-            Debug.Log("Activate");
             if (isActive || (damage != null && !damage.activeRagdoll) || state == RagdollState.blendToAnim)
             {
-                Debug.Log("1");
                 return;
             }
 
@@ -430,7 +428,6 @@ namespace Invector.vCharacterController
 
             inApplyCollisionSound = true;
             isActive = true;
-
             if (transform.parent != null && !transform.parent.gameObject.isStatic)
             {
                 transform.parent = null;
@@ -444,10 +441,8 @@ namespace Invector.vCharacterController
             }
             // start to check if the ragdoll is stable
             StartCoroutine(RagdollStabilizer(2f));
-
             // if(!iChar.isDead) 
             characterHips.SetParent(_ragdollContainer.transform);
-
             Invoke("ResetCollisionSound", 0.2f);
         }
 

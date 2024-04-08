@@ -14,9 +14,10 @@ public class NPCVehicleDetector : MonoBehaviour
     {
         if(collision.gameObject.TryGetComponent(out VehicleBody vehicle))
         {
+            Debug.Log("Collision");
             _vehicleController = vehicle.gameObject.GetComponent<RCC_CarControllerV3>();
 
-            transform.root.SendMessage("ActivateRagdoll", SendMessageOptions.DontRequireReceiver);
+            SendMessage("ActivateRagdoll", SendMessageOptions.DontRequireReceiver);
 
             Vector3 punchDirection = new Vector3(transform.position.x - collision.transform.position.x, 1f, transform.position.z - collision.transform.position.z).normalized;
             var vehicleMagnitude = _vehicleController.speed;

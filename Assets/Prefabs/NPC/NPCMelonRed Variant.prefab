@@ -344,7 +344,7 @@ PrefabInstance:
     - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: _ragdolled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
@@ -364,7 +364,7 @@ PrefabInstance:
     - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: selectedToolbar
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
@@ -419,7 +419,7 @@ PrefabInstance:
     - target: {fileID: 4645565320320646316, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: keepRagdolled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4645565320320646316, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
