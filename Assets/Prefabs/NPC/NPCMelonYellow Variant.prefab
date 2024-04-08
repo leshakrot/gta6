@@ -26,7 +26,7 @@ PrefabInstance:
     - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: deathBy
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
