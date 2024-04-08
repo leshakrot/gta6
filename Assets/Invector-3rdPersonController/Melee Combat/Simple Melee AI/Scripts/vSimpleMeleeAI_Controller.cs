@@ -38,6 +38,11 @@ namespace Invector.vCharacterController.AI
 
         public void ResetTargetSearch()
         {
+            base.Start();
+            ignorePatrolTimer = -1f;
+            moveToDestination = transform.position;
+            Init();
+            StartCoroutine(StateRoutine());
             StartCoroutine(FindTarget());
             StartCoroutine(DestinationBehaviour());
         }

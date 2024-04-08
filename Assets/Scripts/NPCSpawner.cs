@@ -13,23 +13,23 @@ public class NPCSpawner : MonoBehaviour
 
     private Transform[] _waypoints;
     private vSimpleMeleeAI_Controller _currentNPC;
-    
+
     private void Start()
     {
-        _waypoints = _pathArea.gameObject.GetComponentsInChildren<Transform>();
+        InitializePool();
+    }
 
+    public void InitializePool()
+    {
+        _waypoints = _pathArea.gameObject.GetComponentsInChildren<Transform>();
         _npcPool = new List<GameObject>();
         GameObject tmp;
-        for (int i = 0; i < _amountToPool; i++)
+        for(int i = 0; i < _amountToPool; i++)
         {
             tmp = Instantiate(_npctoPool[Random.Range(0, _npctoPool.Count)]);
-            tmp.SetActive(false);
             _npcPool.Add(tmp);
-        }
-        for (int i = 0; i < _amountToPool; i++)
-        {
-            SpawnNPC();
-        }
+            InitNPC(tmp);
+        }    
     }
 
     public GameObject GetPooledNPC()
@@ -45,14 +45,18 @@ public class NPCSpawner : MonoBehaviour
         return null;
     }
 
-    public void SpawnNPC()
+    public void SpawnNPC(GameObject npc)
     {
-        GameObject npc = GetPooledNPC();
-        npc.transform.position = _waypoints[Random.Range(0, _waypoints.Length)].position;     
+        npc = GetPooledNPC();
+        InitNPC(npc);
+    }
+
+    private void InitNPC(GameObject npc)
+    {
+        npc.transform.position = _waypoints[Random.Range(0, _waypoints.Length)].position;
         npc.GetComponent<vSimpleMeleeAI_Controller>().isDead = false;
         npc.GetComponent<vSimpleMeleeAI_Controller>().ResetHealth();
         npc.GetComponent<vRagdoll>().RestoreRagdoll();
-        
         npc.GetComponent<vSimpleMeleeAI_Controller>().onDead.AddListener(RespawnNPC);
         npc.SetActive(true);
         npc.GetComponent<vSimpleMeleeAI_Controller>().ResetTargetSearch();
@@ -68,6 +72,6 @@ public class NPCSpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(10f);
         obj.SetActive(false);
-        SpawnNPC();
+        SpawnNPC(obj);
     }
 }

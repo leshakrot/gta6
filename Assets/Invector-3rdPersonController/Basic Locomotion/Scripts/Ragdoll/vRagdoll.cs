@@ -409,8 +409,10 @@ namespace Invector.vCharacterController
         // active ragdoll - call this method to turn the ragdoll on      
         public virtual void ActivateRagdoll(vDamage damage)
         {
+            Debug.Log("Activate");
             if (isActive || (damage != null && !damage.activeRagdoll) || state == RagdollState.blendToAnim)
             {
+                Debug.Log("1");
                 return;
             }
 

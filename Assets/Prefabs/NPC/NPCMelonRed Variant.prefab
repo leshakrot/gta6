@@ -304,7 +304,7 @@ PrefabInstance:
     - target: {fileID: 1425179688620497273, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2140486855614045785, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
@@ -339,7 +339,12 @@ PrefabInstance:
     - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: deathBy
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: _ragdolled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
@@ -359,7 +364,7 @@ PrefabInstance:
     - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: selectedToolbar
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
