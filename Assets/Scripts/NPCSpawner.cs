@@ -12,7 +12,6 @@ public class NPCSpawner : MonoBehaviour
     [SerializeField] private vWaypointArea _pathArea;
 
     private Transform[] _waypoints;
-    private vSimpleMeleeAI_Controller _currentNPC;
 
     private void Start()
     {
