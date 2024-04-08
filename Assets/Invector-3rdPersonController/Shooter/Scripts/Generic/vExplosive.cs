@@ -155,6 +155,16 @@ namespace Invector
                 var force = distance <= minExplosionRadius ? explosionForce : GetPercentageForce(distance, explosionForce);
                 if (_rigdbody)
                 {
+                    if (colliders[i].TryGetComponent(out VehicleBody vehicle))
+                    {
+                        if(vehicle.TryGetComponent(out G63 g63))
+                        {
+                            continue;
+                        }
+                        _rigdbody.AddExplosionForce(force * 50, transform.position, maxExplosionRadius, upwardsModifier, forceMode);
+                        vehicle.DestroyVehicle();
+                        continue;
+                    }
                     _rigdbody.AddExplosionForce(force, transform.position, maxExplosionRadius, upwardsModifier, forceMode);
                 }
             }

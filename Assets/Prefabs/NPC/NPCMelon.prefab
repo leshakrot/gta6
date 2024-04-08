@@ -870,6 +870,7 @@ MonoBehaviour:
   selectedToolbar: 0
   defaultDamageEffects:
   - {fileID: 120346, guid: b8f2fe1ee1a01724cb72f5b0e6bd2eef, type: 3}
+  - {fileID: 3548588485384254792, guid: 2f9e7dc163581394da1e00b561eed65d, type: 3}
   customDamageEffects: []
 --- !u!114 &2936956068531845028
 MonoBehaviour:
@@ -963,6 +964,7 @@ MonoBehaviour:
   openCloseWindow: 1
   selectedToolbar: 0
   defaultDamageEffects:
+  - {fileID: 120346, guid: b8f2fe1ee1a01724cb72f5b0e6bd2eef, type: 3}
   - {fileID: 120346, guid: b8f2fe1ee1a01724cb72f5b0e6bd2eef, type: 3}
   customDamageEffects: []
 --- !u!1 &1785635959108790839

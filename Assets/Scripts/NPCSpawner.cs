@@ -57,8 +57,6 @@ public class NPCSpawner : MonoBehaviour
         npc.transform.position = _waypoints[Random.Range(0, _waypoints.Length)].position;
         npc.GetComponent<vSimpleMeleeAI_Controller>().isDead = false;
         npc.GetComponent<vSimpleMeleeAI_Controller>().ResetHealth();
-        
-        npc.GetComponent<vSimpleMeleeAI_Controller>().ragdolled = true;
         npc.GetComponent<vSimpleMeleeAI_Controller>().onDead.AddListener(RespawnNPC);
         npc.GetComponent<vSimpleMeleeAI_Controller>().ResetTargetSearch();
         npc.GetComponent<vSimpleMeleeAI_Controller>().pathArea = _pathArea;

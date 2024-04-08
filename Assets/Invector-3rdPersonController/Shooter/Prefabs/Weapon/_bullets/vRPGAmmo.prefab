@@ -74,10 +74,10 @@ MonoBehaviour:
   method: 2
   applyDamageLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 8704
   applyForceLayer:
     serializedVersion: 2
-    m_Bits: 33025
+    m_Bits: 41217
   timeToExplode: 2
   destroyAfterExplode: 1
   normalizeTime: 0

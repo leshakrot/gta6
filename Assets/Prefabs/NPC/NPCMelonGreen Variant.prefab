@@ -311,6 +311,16 @@ PrefabInstance:
       propertyPath: m_ConnectedAnchor.z
       value: 4.3655753e-11
       objectReference: {fileID: 0}
+    - target: {fileID: 1325395369712491520, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: hitBoxes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1325395369712491520, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: hitBoxes.Array.data[1]
+      value: 
+      objectReference: {fileID: 4415918082255493211}
     - target: {fileID: 1425179688620497273, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: m_Name
@@ -366,6 +376,16 @@ PrefabInstance:
       propertyPath: Members.Array.data[3].attackObject
       value: 
       objectReference: {fileID: 4184379433217943615}
+    - target: {fileID: 2943399475293459094, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: hitBoxes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2943399475293459094, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: hitBoxes.Array.data[1]
+      value: 
+      objectReference: {fileID: 8078201606337380122}
     - target: {fileID: 3532535923379503200, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: deathBy
@@ -436,6 +456,16 @@ PrefabInstance:
       propertyPath: _onReceiveDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3623179658876902028, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: hitBoxes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3623179658876902028, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: hitBoxes.Array.data[1]
+      value: 
+      objectReference: {fileID: 2852408491580569506}
     - target: {fileID: 3756689758830223170, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: m_CollisionDetection
@@ -491,6 +521,16 @@ PrefabInstance:
       propertyPath: selectedToolbar
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5626674698221805658, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: hitBoxes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5626674698221805658, guid: 07907a24863ec124faf3df69bf6287fa,
+        type: 3}
+      propertyPath: hitBoxes.Array.data[1]
+      value: 
+      objectReference: {fileID: 2649478263572652593}
     - target: {fileID: 5907940029514640149, guid: 07907a24863ec124faf3df69bf6287fa,
         type: 3}
       propertyPath: m_Height
