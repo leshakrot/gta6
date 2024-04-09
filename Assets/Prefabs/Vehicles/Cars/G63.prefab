@@ -321,7 +321,7 @@ MonoBehaviour:
     lights: []
     wheels: []
   useDamage: 0
-  useCollisionParticles: 1
+  useCollisionParticles: 0
   useCollisionAudio: 1
   maximumContactSparkle: 5
   ABS: 1

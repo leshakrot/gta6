@@ -442,7 +442,7 @@ MonoBehaviour:
     type: 3}
   RCCModificationCanvas: {fileID: 4516598459073422803, guid: b9a88d195fbc33b459ea1fe379719c1c,
     type: 3}
-  dontUseAnyParticleEffects: 0
+  dontUseAnyParticleEffects: 1
   dontUseSkidmarks: 0
   audioMixer: {fileID: 24300002, guid: a97addf01f8029040bb6ea53d3c8e62d, type: 2}
   gearShiftingClips:
