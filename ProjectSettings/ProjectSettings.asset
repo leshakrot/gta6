@@ -51,7 +51,7 @@ PlayerSettings:
   unsupportedMSAAFallback: 0
   m_SpriteBatchVertexThreshold: 300
   m_MTRendering: 1
-  mipStripping: 0
+  mipStripping: 1
   numberOfMipsStripped: 0
   numberOfMipsStrippedPerMipmapLimitGroup: {}
   m_StackTraceTypes: 010000000100000001000000010000000100000001000000
@@ -183,7 +183,7 @@ PlayerSettings:
   CreateWallpaper: 0
   APKExpansionFiles: 0
   keepLoadedShadersAlive: 0
-  StripUnusedMeshComponents: 0
+  StripUnusedMeshComponents: 1
   strictShaderVariantMatching: 0
   VertexChannelCompressionMask: 4054
   iPhoneSdkVersion: 988
@@ -514,10 +514,12 @@ PlayerSettings:
       m_SubKind: 
   m_BuildTargetBatching:
   - m_BuildTarget: WebGL
-    m_StaticBatching: 1
+    m_StaticBatching: 0
     m_DynamicBatching: 1
   m_BuildTargetShaderSettings: []
-  m_BuildTargetGraphicsJobs: []
+  m_BuildTargetGraphicsJobs:
+  - m_BuildTarget: WebGLSupport
+    m_GraphicsJobs: 1
   m_BuildTargetGraphicsJobMode: []
   m_BuildTargetGraphicsAPIs:
   - m_BuildTarget: iOSSupport
@@ -525,6 +527,9 @@ PlayerSettings:
     m_Automatic: 1
   - m_BuildTarget: AndroidPlayer
     m_APIs: 150000000b000000
+    m_Automatic: 0
+  - m_BuildTarget: WebGLSupport
+    m_APIs: 0b000000
     m_Automatic: 0
   m_BuildTargetVRSettings: []
   m_DefaultShaderChunkSizeInMB: 16
@@ -790,14 +795,14 @@ PlayerSettings:
   blurSplashScreenBackground: 1
   spritePackerPolicy: 
   webGLMemorySize: 32
-  webGLExceptionSupport: 1
+  webGLExceptionSupport: 2
   webGLNameFilesAsHashes: 0
   webGLShowDiagnostics: 0
   webGLDataCaching: 1
   webGLDebugSymbols: 0
   webGLEmscriptenArgs: 
   webGLModulesDirectory: 
-  webGLTemplate: APPLICATION:Default
+  webGLTemplate: PROJECT:PluginYG
   webGLAnalyzeBuildSize: 0
   webGLUseEmbeddedResources: 0
   webGLCompressionFormat: 0
@@ -825,7 +830,7 @@ PlayerSettings:
     Stadia: BCG_RCC;BCG_ENTEREXIT
     Standalone: CROSS_PLATFORM_INPUT;INVECTOR_BASIC;INVECTOR_MELEE;INVECTOR_SHOOTER;BCG_RCC;BCG_ENTEREXIT
     VisionOS: BCG_RCC;BCG_ENTEREXIT
-    WebGL: INVECTOR_BASIC;INVECTOR_MELEE;INVECTOR_SHOOTER;BCG_RCC;USE_GLEY_TRAFFIC;BCG_ENTEREXIT
+    WebGL: INVECTOR_BASIC;INVECTOR_MELEE;INVECTOR_SHOOTER;BCG_RCC;USE_GLEY_TRAFFIC;BCG_ENTEREXIT;YG_PLUGIN_YANDEX_GAME
     Windows Store Apps: BCG_RCC;BCG_ENTEREXIT
     XboxOne: BCG_RCC;BCG_ENTEREXIT
     iPhone: CROSS_PLATFORM_INPUT;BCG_RCC;BCG_ENTEREXIT

@@ -176,11 +176,15 @@ public class BCG_EnterExitManager : MonoBehaviour {
             cachedCanvas.displayType = BCG_EnterExitCharacterUICanvas.DisplayType.InVehicle;
 
         //	Enabling only entered vehicle's camera. All other vehicle cameras will be disabled.
-        for (int i = 0; i < cachedMainCameras.Count; i++) {
+        for (int i = 0; i < cachedMainCameras.Count; i++)
+        {
 
-            if (cachedMainCameras[i] != vehicle.correspondingCamera) {
+            if (cachedMainCameras[i] != vehicle.correspondingCamera)
+            {
                 cachedMainCameras[i].SendMessage("ToggleCamera", false, SendMessageOptions.DontRequireReceiver);
-            } else {
+            }
+            else
+            {
                 cachedMainCameras[i].SendMessage("ToggleCamera", true, SendMessageOptions.DontRequireReceiver);
                 cachedMainCameras[i].SendMessage("SetTarget", vehicle.carController, SendMessageOptions.DontRequireReceiver);
             }
