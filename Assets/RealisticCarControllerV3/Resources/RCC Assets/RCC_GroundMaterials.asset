@@ -29,7 +29,7 @@ MonoBehaviour:
     forwardStiffness: 0.8
     sidewaysStiffness: 0.7
     slip: 0.1
-    damp: 1
+    damp: 30
     volume: 0.5
     groundParticles: {fileID: 177572, guid: 94c8d897a3c0cb34ba3314929c8ddd00, type: 3}
     groundSound: {fileID: 8300000, guid: 7b144cd82aa04ff4caaa799c8e189162, type: 3}
