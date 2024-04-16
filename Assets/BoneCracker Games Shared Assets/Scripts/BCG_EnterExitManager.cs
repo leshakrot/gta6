@@ -227,7 +227,10 @@ public class BCG_EnterExitManager : MonoBehaviour {
         // If delay is not enough, return.
         if (waitTime < 1)
             return;
-
+        if(vehicle.gameObject.TryGetComponent(out BusWorker busWorker))
+        {
+            BusWorkUI.instance.ShowEndWorkPopUp();
+        }
         print("Player Named " + player.name + " has exited from a vehicle named " + vehicle.name);
 
         player.inVehicle = null;        //	Player is not in the vehicle now.

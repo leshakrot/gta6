@@ -77,7 +77,6 @@ public class BCG_EnterExitPlayer : MonoBehaviour {
     }
 
     public void GetOut() {
-
         if (inVehicle == null)
             return;
 
