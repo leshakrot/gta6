@@ -47,6 +47,7 @@ public class Farmer : MonoBehaviour
     public void HandOverHarvest()
     {
         if (_harvestObject) _harvestObject.SetActive(false);
+        PlayerBank.instance.AddMoney(UnityEngine.Random.Range(10, 21));
         Debug.Log("Money earned!");
     }
 

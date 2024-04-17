@@ -231,6 +231,10 @@ public class BCG_EnterExitManager : MonoBehaviour {
         {
             BusWorkUI.instance.ShowEndWorkPopUp();
         }
+        if (vehicle.gameObject.TryGetComponent(out DeliveryMan deliveryMan))
+        {
+            DeliveryWorkUI.instance.ShowEndWorkPopUp();
+        }
         print("Player Named " + player.name + " has exited from a vehicle named " + vehicle.name);
 
         player.inVehicle = null;        //	Player is not in the vehicle now.

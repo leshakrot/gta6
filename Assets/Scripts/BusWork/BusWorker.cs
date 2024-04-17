@@ -44,6 +44,7 @@ public class BusWorker : MonoBehaviour
 
     public void PassCheckpoint()
     {
+        PlayerBank.instance.AddMoney(2);
         PlayCheckpointPassSound();
     }
 
@@ -60,6 +61,7 @@ public class BusWorker : MonoBehaviour
 
     public void PassBusStopCheckpoint()
     {
+        PlayerBank.instance.AddMoney(UnityEngine.Random.Range(10, 41));
         Debug.Log("Bus Checkpoint Passed");
     }
 
