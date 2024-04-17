@@ -9,6 +9,7 @@ public class BusWorker : MonoBehaviour
     public static Action onCheckpointPassed;
     public static Action onStopAtBusStop;
     public static Action onBusStopPassed;
+    public static Action onPassengerEnter;
     public static Action onWorkStop;
 
     [SerializeField] private List<Passenger> _passengers = new List<Passenger>();
@@ -27,6 +28,7 @@ public class BusWorker : MonoBehaviour
         onStopAtBusStop += StopAtBusStop;
         onStopAtBusStop += RemovePassenger;
         onBusStopPassed += PassBusStopCheckpoint;
+        onPassengerEnter += AddPassenger;
         onWorkStop += HideDirectionArrow;
     }
 

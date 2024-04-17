@@ -5,9 +5,11 @@ public class Farmer : MonoBehaviour
 {
     public static Farmer instance;
 
+    public static Action onWorkStarted;
     public static Action onHarvestStarted;
     public static Action onHarvestEnded;
     public static Action onHarvestDelivered;
+    public static Action onWorkStop;
 
     [SerializeField] private GameObject _harvestObject;
 
@@ -15,11 +17,6 @@ public class Farmer : MonoBehaviour
     private void Awake()
     {
         instance = this;
-    }
-
-    private void Update()
-    {
-        CheckIfPlayerIsOnGround();
     }
 
     private void OnEnable()
@@ -53,8 +50,13 @@ public class Farmer : MonoBehaviour
         Debug.Log("Money earned!");
     }
 
-    private void CheckIfPlayerIsOnGround()
+    public void StartWork()
     {
-        if (transform.position.y < -1) transform.position = new Vector3(transform.position.x, 1.5f, transform.position.z);
+        onWorkStarted?.Invoke();
+    }
+
+    public void StopWork()
+    {
+        onWorkStop?.Invoke();
     }
 }

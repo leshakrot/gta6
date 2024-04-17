@@ -1,13 +1,27 @@
+using System.Collections;
 using UnityEngine;
 
 public class Passenger : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    private void OnEnable()
     {
-        if(other.gameObject.TryGetComponent(out BusWorker worker))
-        {
-            worker.AddPassenger();
-            gameObject.SetActive(false);
-        }
+        BusWorker.onStopAtBusStop += GoToBus;
+    }
+
+    private void OnDisable()
+    {
+        BusWorker.onStopAtBusStop -= GoToBus;
+    }
+
+    private void GoToBus()
+    {
+        StartCoroutine(Wait());
+    }
+
+    private IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(Random.Range(0,6));
+        BusWorker.onPassengerEnter?.Invoke();
+        gameObject.SetActive(false);
     }
 }

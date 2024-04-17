@@ -9,27 +9,35 @@ public class FarmerCheckpointDistributor : MonoBehaviour
 
     private int checkpointToShowIndex;
 
-    private void Start()
-    {
-        ShowRandomTreeCheckpoint();
-    }
-
     private void OnEnable()
     {
+        Farmer.onWorkStarted += ShowRandomTreeCheckpoint;
         Farmer.onHarvestEnded += ShowBarnCheckpoint;
         Farmer.onHarvestDelivered += ShowRandomTreeCheckpoint;
+        Farmer.onWorkStop += HideCheckpoints;
     }
 
     private void OnDisable()
     {
+        Farmer.onWorkStarted -= ShowRandomTreeCheckpoint;
         Farmer.onHarvestEnded -= ShowBarnCheckpoint;
         Farmer.onHarvestDelivered -= ShowRandomTreeCheckpoint;
+        Farmer.onWorkStop -= HideCheckpoints;
     }
 
     public void ShowRandomTreeCheckpoint()
     {
         checkpointToShowIndex = Random.Range(0, treeCheckpoints.Count);
         treeCheckpoints[checkpointToShowIndex].gameObject.SetActive(true);
+    }
+
+    public void HideCheckpoints()
+    {
+        foreach(var checkpoint in treeCheckpoints)
+        {
+            checkpoint.gameObject.SetActive(false);
+            _barnCheckpoint.SetActive(false);
+        }
     }
 
     public void ShowBarnCheckpoint()
