@@ -15,17 +15,17 @@ public class DeliveryWorkUI : MonoBehaviour
 
     private void OnEnable()
     {
-        DeliveryMan.onWorkStarted += ShowNotificationFarm;
-        DeliveryMan.onDelivered += ShowNotificationFarm;
-        DeliveryMan.onDeliveryEnded += ShowNotificationBarn;
+        DeliveryMan.onWorkStarted += ShowNotificationStock;
+        DeliveryMan.onDeliveryStarted += ShowNotificationDest;
+        DeliveryMan.onDelivered += ShowNotificationStock;
         DeliveryMan.onWorkStop += HideNotification;
     }
 
     private void OnDisable()
     {
-        DeliveryMan.onWorkStarted -= ShowNotificationFarm;
-        DeliveryMan.onDelivered -= ShowNotificationFarm;
-        DeliveryMan.onDeliveryEnded -= ShowNotificationBarn;
+        DeliveryMan.onWorkStarted -= ShowNotificationStock;
+        DeliveryMan.onDeliveryStarted -= ShowNotificationDest;
+        DeliveryMan.onDelivered -= ShowNotificationStock;
         DeliveryMan.onWorkStop -= HideNotification;
     }
 
@@ -54,13 +54,13 @@ public class DeliveryWorkUI : MonoBehaviour
         _endWorkPopUp.SetActive(false);
     }
 
-    public void ShowNotificationFarm()
+    public void ShowNotificationDest()
     {
         _notification.text = "Везите товар к точке выгрузки";
         _notification.gameObject.SetActive(true);
     }
 
-    public void ShowNotificationBarn()
+    public void ShowNotificationStock()
     {
         _notification.text = "Езжайте на склад, есть заказ";
         _notification.gameObject.SetActive(true);

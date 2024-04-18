@@ -7,7 +7,6 @@ public class DeliveryMan : MonoBehaviour
 
     public static Action onWorkStarted;
     public static Action onDeliveryStarted;
-    public static Action onDeliveryEnded;
     public static Action onDelivered;
     public static Action onWorkStop;
 
@@ -22,7 +21,6 @@ public class DeliveryMan : MonoBehaviour
     {
         onWorkStarted += ShowDirectionArrow;
         onDeliveryStarted += StartDelivery;
-        onDeliveryEnded += StopDelivery;
         onDelivered += HandOver;
         onWorkStop += HideDirectionArrow;
     }
@@ -31,24 +29,23 @@ public class DeliveryMan : MonoBehaviour
     {
         onWorkStarted -= ShowDirectionArrow;
         onDeliveryStarted -= StartDelivery;
-        onDeliveryEnded -= StopDelivery;
         onDelivered -= HandOver;
         onWorkStop -= HideDirectionArrow;
     }
 
     public void StartDelivery()
     {
-        onDeliveryEnded?.Invoke();
+        
     }
 
     public void StopDelivery()
-    {
-        PlayerBank.instance.AddMoney(UnityEngine.Random.Range(100, 211));
-        Debug.Log("Collected!");
+    {    
+        
     }
 
     public void HandOver()
-    {    
+    {
+        PlayerBank.instance.AddMoney(UnityEngine.Random.Range(100, 211));
         Debug.Log("Money earned!");
     }
 

@@ -6,7 +6,7 @@ public class DeliveryDestinationCheckpoint : MonoBehaviour
     {
         if (other.TryGetComponent(out DeliveryMan player))
         {
-            DeliveryMan.onDeliveryStarted?.Invoke();
+            DeliveryMan.onDelivered?.Invoke();
             gameObject.SetActive(false);
         }
     }

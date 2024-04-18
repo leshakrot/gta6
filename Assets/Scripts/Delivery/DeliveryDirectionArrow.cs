@@ -6,18 +6,18 @@ public class DeliveryDirectionArrow : MonoBehaviour
 
     private void Start()
     {
-        SetTarget();
+        SetTargetStock();
     }
     private void OnEnable()
     {
-        DeliveryMan.onDelivered += SetTarget;
-        DeliveryMan.onDeliveryEnded += SetTarget;
+        DeliveryMan.onDeliveryStarted += SetTargetDest;
+        DeliveryMan.onDelivered += SetTargetStock;
     }
 
     private void OnDisable()
     {
-        DeliveryMan.onDelivered -= SetTarget;
-        DeliveryMan.onDeliveryEnded -= SetTarget;
+        DeliveryMan.onDeliveryStarted -= SetTargetDest;
+        DeliveryMan.onDelivered -= SetTargetStock;
     }
 
     void Update()
@@ -25,8 +25,13 @@ public class DeliveryDirectionArrow : MonoBehaviour
         transform.LookAt(new Vector3(_target.position.x, transform.position.y, _target.position.z));
     }
 
-    private void SetTarget()
+    private void SetTargetStock()
     {
-        _target = DeliveryWorkCheckpointDistributor.instance.GetActiveCheckpointTransform();
+        _target = DeliveryWorkCheckpointDistributor.instance.GetStockCheckpointTransform();
+    }
+
+    private void SetTargetDest()
+    {
+        _target = DeliveryWorkCheckpointDistributor.instance.GetDestCheckpointTransform();
     }
 }

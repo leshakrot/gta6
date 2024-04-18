@@ -12,17 +12,17 @@ public class DeliveryWorkCheckpointDistributor : MonoBehaviour
 
     private void OnEnable()
     {
-        DeliveryMan.onWorkStarted += ShowRandomDeliveryCheckpoint;
-        DeliveryMan.onDeliveryEnded += ShowStockCheckpoint;
-        DeliveryMan.onDelivered += ShowRandomDeliveryCheckpoint;
+        DeliveryMan.onWorkStarted += ShowStockCheckpoint;
+        DeliveryMan.onDeliveryStarted += ShowRandomDeliveryCheckpoint;
+        DeliveryMan.onDelivered += ShowStockCheckpoint;
         DeliveryMan.onWorkStop += HideCheckpoints;
     }
 
     private void OnDisable()
     {
-        DeliveryMan.onWorkStarted -= ShowRandomDeliveryCheckpoint;
-        DeliveryMan.onDeliveryEnded -= ShowStockCheckpoint;
-        DeliveryMan.onDelivered -= ShowRandomDeliveryCheckpoint;
+        DeliveryMan.onWorkStarted -= ShowStockCheckpoint;
+        DeliveryMan.onDeliveryStarted -= ShowRandomDeliveryCheckpoint;
+        DeliveryMan.onDelivered -= ShowStockCheckpoint;
         DeliveryMan.onWorkStop -= HideCheckpoints;
     }
 
@@ -51,10 +51,13 @@ public class DeliveryWorkCheckpointDistributor : MonoBehaviour
         _stockCheckpoint.SetActive(true);
     }
 
-    public Transform GetActiveCheckpointTransform()
+    public Transform GetStockCheckpointTransform()
     {
-        if(deliveryCheckpoints[checkpointToShowIndex].gameObject.activeSelf)
-            return deliveryCheckpoints[checkpointToShowIndex].transform;
-        else return _stockCheckpoint.transform;
+        return _stockCheckpoint.transform;
+    }
+
+    public Transform GetDestCheckpointTransform()
+    {
+        return deliveryCheckpoints[checkpointToShowIndex].transform;
     }
 }

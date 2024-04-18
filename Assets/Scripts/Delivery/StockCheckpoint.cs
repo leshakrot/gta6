@@ -6,7 +6,7 @@ public class StockCheckpoint : MonoBehaviour
     {
         if (other.TryGetComponent(out DeliveryMan player))
         {
-            DeliveryMan.onDelivered?.Invoke();
+            DeliveryMan.onDeliveryStarted?.Invoke();
             gameObject.SetActive(false);
         }
     }

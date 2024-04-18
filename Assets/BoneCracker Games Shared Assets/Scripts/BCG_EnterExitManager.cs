@@ -227,14 +227,7 @@ public class BCG_EnterExitManager : MonoBehaviour {
         // If delay is not enough, return.
         if (waitTime < 1)
             return;
-        if(vehicle.gameObject.TryGetComponent(out BusWorker busWorker))
-        {
-            BusWorkUI.instance.ShowEndWorkPopUp();
-        }
-        if (vehicle.gameObject.TryGetComponent(out DeliveryMan deliveryMan))
-        {
-            DeliveryWorkUI.instance.ShowEndWorkPopUp();
-        }
+        
         print("Player Named " + player.name + " has exited from a vehicle named " + vehicle.name);
 
         player.inVehicle = null;        //	Player is not in the vehicle now.
@@ -335,8 +328,21 @@ public class BCG_EnterExitManager : MonoBehaviour {
 
         else
         {
-            activePlayer.GetOut();
+            if (activePlayer.targetVehicle.gameObject.TryGetComponent(out BusWorker busWorker))
+            {
+                BusWorkUI.instance.ShowEndWorkPopUp();
+            }
+            else if (activePlayer.targetVehicle.gameObject.TryGetComponent(out DeliveryMan deliveryMan))
+            {
+                DeliveryWorkUI.instance.ShowEndWorkPopUp();
+            }
+            else activePlayer.GetOut();
         }
+    }
+
+    public void GetOut()
+    {
+        activePlayer.GetOut();
     }
 
     private void OnDisable() {

@@ -14,12 +14,14 @@ public class BusWorkUI : MonoBehaviour
     {
         BusWorker.onStopAtBusStop += ShowNotification;
         BusWorker.onBusStopPassed += HideNotification;
+        BusWorker.onWorkStop += HideNotification;
     }
 
     private void OnDisable()
     {
         BusWorker.onStopAtBusStop -= ShowNotification;
         BusWorker.onBusStopPassed -= HideNotification;
+        BusWorker.onWorkStop -= HideNotification;
     }
 
     private void Awake()

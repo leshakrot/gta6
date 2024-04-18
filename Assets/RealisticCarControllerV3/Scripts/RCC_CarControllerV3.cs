@@ -874,7 +874,7 @@ public class RCC_CarControllerV3 : RCC_Core {
 
         if (!engineRunning) {
 
-            engineStartSound = NewAudioSource(RCC_Settings.Instance.audioMixer, gameObject, engineSoundPosition, "Engine Start AudioSource", 1, 10, 1, engineStartClip, false, true, true);
+            engineStartSound = NewAudioSource(RCC_Settings.Instance.audioMixer, gameObject, engineSoundPosition, "Engine Start AudioSource", 0, 0, 1, engineStartClip, false, true, true);
 
             yield return new WaitForSeconds(1f);
 

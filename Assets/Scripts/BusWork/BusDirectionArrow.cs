@@ -8,6 +8,7 @@ public class BusDirectionArrow : MonoBehaviour
     {
         SetTarget();
     }
+
     private void OnEnable()
     {
         BusWorker.onBusStopPassed += SetTarget;
