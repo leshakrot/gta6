@@ -4,14 +4,24 @@ using UnityEngine;
 
 public class CasinoTimer : MonoBehaviour
 {
+    public static CasinoTimer instance;
+
     public static Action onTimeUp;
+
+    public int currentSecond;
 
     [SerializeField] private float _time;
     [SerializeField] private TextMeshProUGUI _timerText;
     [SerializeField] private TextMeshProUGUI _timerTextInfo;
 
     private float _timeLeft = 0f;
+    
     private bool _timerOn = false;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void OnEnable()
     {
@@ -46,6 +56,7 @@ public class CasinoTimer : MonoBehaviour
 
         //float minutes = Mathf.FloorToInt(_timeLeft / 60);
         float seconds = Mathf.FloorToInt(_timeLeft % 60);
+        currentSecond = Mathf.FloorToInt(_timeLeft % 60);
         _timerText.text = seconds.ToString();
     }
 

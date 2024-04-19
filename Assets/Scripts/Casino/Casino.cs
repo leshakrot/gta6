@@ -18,11 +18,14 @@ public class Casino : MonoBehaviour
     [SerializeField] private GameObject _endGamePopup;
     [SerializeField] private GameObject _gameCoreUI;
     [SerializeField] private TextMeshProUGUI _betText;
+    [SerializeField] private TextMeshProUGUI _betInfoText;
     [SerializeField] private Button _applyBetButton;
     [SerializeField] private Button _enterGameButton;
+    [SerializeField] private Button _exitGameButton;
     [SerializeField] private Button _throwDiceButton;
     [SerializeField] private TextMeshProUGUI _applyBetText;
     [SerializeField] private List<TextMeshProUGUI> _botBetsText = new List<TextMeshProUGUI>();
+    [SerializeField] private List<Button> _betButtons = new List<Button>();
     [SerializeField] private TextMeshProUGUI _playerBetText;
     [SerializeField] private TextMeshProUGUI _winnerInfoText;
     
@@ -32,21 +35,20 @@ public class Casino : MonoBehaviour
     private int _playerScore;
     private int _currentPlayersAmount;
 
-    private void Start()
-    {
-
-    }
+    private List<TextMeshProUGUI> _currentWinnersBetsText = new List<TextMeshProUGUI>();
 
     private void OnEnable()
     {
         CasinoTimer.onTimeUp += TryGiveWinningToPlayer;
         CasinoTimer.onTimeUp += ResetGameCore;
+        CasinoTimer.onTimeUp += Reroll;
     }
 
     private void OnDisable()
     {
         CasinoTimer.onTimeUp -= TryGiveWinningToPlayer;
         CasinoTimer.onTimeUp -= ResetGameCore;
+        CasinoTimer.onTimeUp -= Reroll;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -66,7 +68,10 @@ public class Casino : MonoBehaviour
     public void QuitGame()
     {
         _playerBetText.text = "...";
+        _winnerInfoText.text = "";
         _gameCoreUI.SetActive(false);
+        _applyBetButton.gameObject.SetActive(false);
+        _applyBetText.gameObject.SetActive(false);
     }
 
     public void SetBet(int amount)
@@ -78,20 +83,23 @@ public class Casino : MonoBehaviour
     public void ApplyBet()
     {
         onBetPlaced?.Invoke();
+        HideBetButtons();
         _applyBetText.gameObject.SetActive(true);
         _applyBetButton.gameObject.SetActive(false);
-        ShowEnterGameButton();
+        ShowEnterGameButton();    
     }
 
     public void ResponseToRoll()
     {
         Roll(UnityEngine.Random.Range(1, 5));
-        _throwDiceButton.gameObject.SetActive(true);
-        _enterGameButton.gameObject.SetActive(false);
+        ShowThrowDiceButton();
+        HideEnterGameButton();
+        _exitGameButton.gameObject.SetActive(false);
     }
 
     private void Roll(int playersCount)
     {
+        _winnerInfoText.text = "";
         _maxScore = 0;
         _playerScore = 0;
         onRoll?.Invoke();
@@ -101,41 +109,83 @@ public class Casino : MonoBehaviour
         }
 
         var random = new System.Random();
-        var listNew = _botBetsText.OrderBy(s => random.Next()).Take(playersCount).ToList();
-        _currentPlayersAmount = listNew.Count + 1;
-        foreach (var bet in listNew)
+        var newBetsList = _botBetsText.OrderBy(s => random.Next()).Take(playersCount).ToList();
+        
+        _currentPlayersAmount = newBetsList.Count + 1;
+        foreach (var bet in newBetsList)
         {        
+            StartCoroutine(WaitTillBotMakeBet(bet));
+        }
+    }
+
+    private void Reroll()
+    {
+        Debug.Log("COUNT " + _currentWinnersBetsText.Count);
+        if (_currentWinnersBetsText.Count < 2) return;
+        _maxScore = 0;
+        _playerScore = 0;
+        _playerBetText.text = "...";
+        onRoll?.Invoke();
+        HideThrowDiceButton();
+        if (_currentWinnersBetsText.Contains(_playerBetText)) ShowThrowDiceButton();
+        foreach (var bet in _botBetsText)
+        {
+            bet.text = "...";
+        }
+        foreach (var bet in _currentWinnersBetsText)
+        {
+            if (bet == _playerBetText)
+            {
+                continue;
+            }
             StartCoroutine(WaitTillBotMakeBet(bet));
         }
     }
 
     public void ThrowDice()
     {
-        //_playerScore = UnityEngine.Random.Range(2, 13);
-        _playerScore = 12;
+        if(CasinoTimer.instance.currentSecond <= 1) _playerScore = UnityEngine.Random.Range(8, 13);
+        else _playerScore = UnityEngine.Random.Range(2, 13);
+        //_playerScore = 12;
         _playerBetText.text = _playerScore.ToString();
+        if (_playerScore == _maxScore)
+        {
+            _currentWinnersBetsText.Add(_playerBetText);
+        }
+        else if (_playerScore > _maxScore)
+        {
+            _maxScore = _playerScore;
+            _currentWinnersBetsText.Clear();
+            _currentWinnersBetsText.Add(_playerBetText);
+        }
         HideThrowDiceButton();
     }
 
     public void TryGiveWinningToPlayer()
     {
-        if (_playerScore > _maxScore) 
+        if (_currentWinnersBetsText.Count > 1) return;
+        if (_playerScore == _maxScore)
         {
             Debug.Log("WIN");
             _winnerInfoText.text = "вы победили! выигрыш: " + _betAmount * _currentPlayersAmount;
-        } 
+        }
     }
 
     private IEnumerator WaitTillBotMakeBet(TextMeshProUGUI bet)
     {
-        yield return new WaitForSeconds(UnityEngine.Random.Range(1, 10));
+        yield return new WaitForSeconds(UnityEngine.Random.Range(1, 30));
         bet.text = UnityEngine.Random.Range(2, 13).ToString();
         var betScore = Convert.ToInt32(bet.text);
-        if (betScore > _maxScore)
+        if (betScore == _maxScore)
+        {
+            _currentWinnersBetsText.Add(bet);
+        }
+        else if (betScore > _maxScore)
         {
             _maxScore = betScore;
+            _currentWinnersBetsText.Clear();
+            _currentWinnersBetsText.Add(bet);
         }
-        //UpdateBetText();
     }
 
     public void ShowStartGamePopup()
@@ -173,14 +223,37 @@ public class Casino : MonoBehaviour
         _enterGameButton.gameObject.SetActive(true);
     }
 
+    public void HideEnterGameButton()
+    {
+        _enterGameButton.gameObject.SetActive(false);
+    }
+
     public void HideThrowDiceButton()
     {
         _throwDiceButton.gameObject.SetActive(false);
     }
 
-    public void UpdateGameCoreUI()
+    public void ShowThrowDiceButton()
     {
+        _throwDiceButton.gameObject.SetActive(true);
+    }
 
+    public void ShowBetButtons()
+    {
+        foreach(var button in _betButtons)
+        {
+            button.gameObject.SetActive(true);
+        }
+        _betInfoText.gameObject.SetActive(true);
+    }
+
+    public void HideBetButtons()
+    {
+        foreach (var button in _betButtons)
+        {
+            button.gameObject.SetActive(false);
+            _betInfoText.gameObject.SetActive(false);
+        }
     }
 
     public void UpdateBetText()
@@ -194,18 +267,22 @@ public class Casino : MonoBehaviour
 
     public void ResetGameCore()
     {
+        if (_currentWinnersBetsText.Count > 1) return;
         ResetGameCoreUI();
         _currentPlayersAmount = 0;
+        _betAmount = 0;
+        UpdateBetText();
+        ShowBetButtons();
     }
 
     public void ResetGameCoreUI()
-    {
+    {       
         _applyBetText.gameObject.SetActive(false);
         _applyBetButton.gameObject.SetActive(false);
-        _throwDiceButton.gameObject.SetActive(false);
-        _enterGameButton.gameObject.SetActive(true);
+        HideThrowDiceButton();
         _enterGameButton.gameObject.SetActive(false);
-
+        _exitGameButton.gameObject.SetActive(true);
+        
         foreach (var bet in _botBetsText)
         {
             bet.text = "...";
