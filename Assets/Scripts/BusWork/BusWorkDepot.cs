@@ -31,8 +31,9 @@ public class BusWorkDepot : MonoBehaviour
 
     public void StopWork()
     {
-        _bus.gameObject.SetActive(false);
-        _bus.transform.position = _parkingLot.transform.position;       
+        _player.GetOut();
         _busWorker.StopWork();
+        _bus.gameObject.SetActive(false);
+        _bus.transform.position = _parkingLot.transform.position;           
     }
 }

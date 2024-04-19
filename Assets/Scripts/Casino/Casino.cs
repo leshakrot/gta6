@@ -83,6 +83,7 @@ public class Casino : MonoBehaviour
     public void ApplyBet()
     {
         onBetPlaced?.Invoke();
+        PlayerBank.instance.RemoveMoney(_betAmount);
         HideBetButtons();
         _applyBetText.gameObject.SetActive(true);
         _applyBetButton.gameObject.SetActive(false);
@@ -167,7 +168,9 @@ public class Casino : MonoBehaviour
         if (_playerScore == _maxScore)
         {
             Debug.Log("WIN");
-            _winnerInfoText.text = "вы победили! выигрыш: " + _betAmount * _currentPlayersAmount;
+            var rewardAmount = _betAmount * _currentPlayersAmount;
+            _winnerInfoText.text = "вы победили! выигрыш: " + rewardAmount;
+            PlayerBank.instance.AddMoney(rewardAmount);
         }
     }
 

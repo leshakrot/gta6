@@ -225,8 +225,8 @@ public class BCG_EnterExitManager : MonoBehaviour {
     public void BCG_Player_OnBCGPlayerExitedFromAVehicle(BCG_EnterExitPlayer player, BCG_EnterExitVehicle vehicle) {
 
         // If delay is not enough, return.
-        if (waitTime < 1)
-            return;
+        //if (waitTime < 1)
+            //return;
         
         print("Player Named " + player.name + " has exited from a vehicle named " + vehicle.name);
 

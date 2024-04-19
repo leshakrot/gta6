@@ -34,9 +34,10 @@ public class DeliveryStart : MonoBehaviour
 
     public void StopWork()
     {
-        _bus.gameObject.SetActive(false);
-        _bus.transform.position = _parkingLot.transform.position;
+        _player.GetOut();
         _deliveryMan.StopWork();
+        _bus.gameObject.SetActive(false);
+        _bus.transform.position = _parkingLot.transform.position;      
         _isWorking = false;
     }
 }
