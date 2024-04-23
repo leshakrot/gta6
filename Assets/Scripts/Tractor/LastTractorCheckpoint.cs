@@ -6,7 +6,6 @@ public class LastTractorCheckpoint : MonoBehaviour
     {
         if (other.TryGetComponent(out TractorWorker player))
         {
-            TractorWorker.onCheckpointPassed?.Invoke();
             TractorWorker.onWorkStop?.Invoke();
         }
     }
