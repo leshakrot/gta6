@@ -121,9 +121,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSold: 0
-  _carType: 0
+  _carType: 11
+  _price: 35000
+  _name: "\u041F\u0438\u043A\u0430\u043F \u0431.\u0443."
   _carShopLotUI: {fileID: 0}
-  _carShop: {fileID: 0}
+  _carShop: {fileID: 557908275220338839}
 --- !u!1 &96677549064095527
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,9 +496,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSold: 0
-  _carType: 0
+  _carType: 8
+  _price: 60000
+  _name: "\u041C\u0438\u043D\u0438\u0432\u044D\u043D \u0431.\u0443."
   _carShopLotUI: {fileID: 0}
-  _carShop: {fileID: 0}
+  _carShop: {fileID: 557908275220338839}
 --- !u!1 &470397862273852234
 GameObject:
   m_ObjectHideFlags: 0
@@ -2149,9 +2153,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSold: 0
-  _carType: 0
+  _carType: 1
+  _price: 125000
+  _name: "\u041C\u0430\u043A\u041B\u0430\u0440\u0435\u043D 2004"
   _carShopLotUI: {fileID: 0}
-  _carShop: {fileID: 0}
+  _carShop: {fileID: 557908275220338839}
 --- !u!1 &1931443734131034703
 GameObject:
   m_ObjectHideFlags: 0
@@ -2692,9 +2698,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSold: 0
-  _carType: 0
+  _carType: 4
+  _price: 500000
+  _name: "\u0413\u0435\u043B\u0438\u043A"
   _carShopLotUI: {fileID: 0}
-  _carShop: {fileID: 0}
+  _carShop: {fileID: 557908275220338839}
 --- !u!1 &2386468434003193345
 GameObject:
   m_ObjectHideFlags: 0
@@ -3165,9 +3173,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSold: 0
-  _carType: 0
+  _carType: 6
+  _price: 155000
+  _name: "\u0422\u0440\u0430\u0432\u0435\u0440\u0441 \u043A\u0440\u0430\u0441\u043D\u044B\u0439"
   _carShopLotUI: {fileID: 0}
-  _carShop: {fileID: 0}
+  _carShop: {fileID: 557908275220338839}
 --- !u!1 &2823501420258977221
 GameObject:
   m_ObjectHideFlags: 0
@@ -3850,6 +3860,7 @@ GameObject:
   - component: {fileID: 909635167243327555}
   - component: {fileID: 3073450312627963682}
   - component: {fileID: 557908275220338839}
+  - component: {fileID: 3840034172407317478}
   m_Layer: 0
   m_Name: cars-showroom
   m_TagString: Untagged
@@ -3874,6 +3885,7 @@ Transform:
   - {fileID: 4995272414281574083}
   - {fileID: 4675239182981411838}
   - {fileID: 7593055734667620677}
+  - {fileID: 7906543065266797924}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5822503749096396888
@@ -4086,11 +4098,59 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentCar: 0
-  _cars: []
+  currentCarPrice: 0
+  _cars:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   _player: {fileID: 0}
   _enterExitManager: {fileID: 0}
-  _parkingLot: {fileID: 0}
-  _lots: []
+  _parkingLot: {fileID: 7906543065266797924}
+  _lots:
+  - {fileID: 691315696003088319}
+  - {fileID: 1163092230897712407}
+  - {fileID: 8512602296315631699}
+  - {fileID: 7175806283500214443}
+  - {fileID: 6448299843381620279}
+  - {fileID: 5621363213282725860}
+  - {fileID: 1683269719188369006}
+  - {fileID: 9183200475516726600}
+  - {fileID: 8219713822677261721}
+  - {fileID: 670704386288442201}
+  - {fileID: 1596408008720676072}
+  - {fileID: 5423413719475225129}
+  - {fileID: 3559276870015381636}
+--- !u!65 &3840034172407317478
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3900053358143979056}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 11.200003, y: 0.38418055, z: 17.600004}
+  m_Center: {x: 0.0000000035674401, y: 3.3793766, z: -0.1999998}
 --- !u!1 &3997492139528684232
 GameObject:
   m_ObjectHideFlags: 0
@@ -4552,9 +4612,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSold: 0
-  _carType: 0
+  _carType: 7
+  _price: 150000
+  _name: "\u0422\u0440\u0430\u0432\u0435\u0440\u0441 \u0427\u0435\u0440\u043D\u044B\u0439"
   _carShopLotUI: {fileID: 0}
-  _carShop: {fileID: 0}
+  _carShop: {fileID: 557908275220338839}
 --- !u!1 &4258638490081675552
 GameObject:
   m_ObjectHideFlags: 0
@@ -5757,6 +5819,37 @@ Transform:
   - {fileID: 7468359212479094055}
   m_Father: {fileID: 1551752988881479393}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5557250009030183768
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7906543065266797924}
+  m_Layer: 0
+  m_Name: ParkingLot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7906543065266797924
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5557250009030183768}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.130526, z: -0, w: 0.99144495}
+  m_LocalPosition: {x: -0.25, y: 0.83, z: 14.91}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6343972000053374905}
+  m_LocalEulerAnglesHint: {x: 0, y: -15, z: 0}
 --- !u!1 &5635539665784564232
 GameObject:
   m_ObjectHideFlags: 0
@@ -6403,8 +6496,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isSold: 0
   _carType: 0
+  _price: 300000
+  _name: "\u0428\u0435\u0432\u0440\u043E\u043B\u0435 \u041F\u0438\u043A\u0430\u043F"
   _carShopLotUI: {fileID: 0}
-  _carShop: {fileID: 0}
+  _carShop: {fileID: 557908275220338839}
 --- !u!1 &6107015332014614738
 GameObject:
   m_ObjectHideFlags: 0
@@ -6558,9 +6653,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSold: 0
-  _carType: 0
+  _carType: 3
+  _price: 175000
+  _name: "\u041B\u0430\u043D\u0441\u0435\u0440"
   _carShopLotUI: {fileID: 0}
-  _carShop: {fileID: 0}
+  _carShop: {fileID: 557908275220338839}
 --- !u!1 &6405047107591646759
 GameObject:
   m_ObjectHideFlags: 0
@@ -7130,9 +7227,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSold: 0
-  _carType: 0
+  _carType: 10
+  _price: 20000
+  _name: "\u0421\u0435\u0434\u0430\u043D \u0431.\u0443."
   _carShopLotUI: {fileID: 0}
-  _carShop: {fileID: 0}
+  _carShop: {fileID: 557908275220338839}
 --- !u!1 &7348985888272024640
 GameObject:
   m_ObjectHideFlags: 0
@@ -7867,9 +7966,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSold: 0
-  _carType: 0
+  _carType: 12
+  _price: 30000
+  _name: "\u041A\u043E\u043C\u043F\u0430\u043A\u0442 \u0431.\u0443."
   _carShopLotUI: {fileID: 0}
-  _carShop: {fileID: 0}
+  _carShop: {fileID: 557908275220338839}
 --- !u!1 &8093001286273977195
 GameObject:
   m_ObjectHideFlags: 0
@@ -8573,9 +8674,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSold: 0
-  _carType: 0
+  _carType: 2
+  _price: 200000
+  _name: "\u041C\u0430\u043A\u041B\u0430\u0440\u0435\u043D \u0413\u0422\u0421"
   _carShopLotUI: {fileID: 0}
-  _carShop: {fileID: 0}
+  _carShop: {fileID: 557908275220338839}
 --- !u!1 &8299441791278360534
 GameObject:
   m_ObjectHideFlags: 0
@@ -9040,9 +9143,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSold: 0
-  _carType: 0
+  _carType: 5
+  _price: 225000
+  _name: "\u041C\u0443\u0441\u0442\u0430\u043D\u0433"
   _carShopLotUI: {fileID: 0}
-  _carShop: {fileID: 0}
+  _carShop: {fileID: 557908275220338839}
 --- !u!1 &8699369460100267226
 GameObject:
   m_ObjectHideFlags: 0
@@ -9279,9 +9384,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSold: 0
-  _carType: 0
+  _carType: 9
+  _price: 50000
+  _name: "\u0412\u043D\u0435\u0434\u043E\u0440\u043E\u0436\u043D\u0438\u043A \u0431.\u0443."
   _carShopLotUI: {fileID: 0}
-  _carShop: {fileID: 0}
+  _carShop: {fileID: 557908275220338839}
 --- !u!1001 &1284282009505589843
 PrefabInstance:
   m_ObjectHideFlags: 0

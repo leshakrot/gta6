@@ -34,6 +34,7 @@ public class CarShop : MonoBehaviour
         foreach (var lot in _lots)
         {
             if (!lot.isSold) lot.gameObject.SetActive(true);
+            else lot.gameObject.SetActive(false);
         }
     }
 
@@ -47,75 +48,90 @@ public class CarShop : MonoBehaviour
 
     public void SellCar()
     {
+        var index = 0;
         switch (currentCar)
         {
             case CarType.Ram1500:
                 {
-                    SpawnCar(0);
+                    index = 0;
+                    SpawnCar(index);
                     break;
                 }
             case CarType.McLaren2004:
                 {
-                    SpawnCar(1);
+                    index = 1;
+                    SpawnCar(index);
                     break;
                 }
             case CarType.McLarenGTS:
                 {
-                    SpawnCar(2);
+                    index = 2;
+                    SpawnCar(index);
                     break;
                 }
             case CarType.Lancer:
                 {
-                    SpawnCar(3);
+                    index = 3;
+                    SpawnCar(index);
                     break;
                 }
             case CarType.G63:
                 {
-                    SpawnCar(4);
+                    index = 4;
+                    SpawnCar(index);
                     break;
                 }
             case CarType.Mustang:
                 {
-                    SpawnCar(5);
+                    index = 5;
+                    SpawnCar(index);
                     break;
                 }
             case CarType.TraverseBlack:
                 {
-                    SpawnCar(6);
+                    index = 6;
+                    SpawnCar(index);
                     break;
                 }
             case CarType.TraverseRed:
                 {
-                    SpawnCar(7);
+                    index = 7;
+                    SpawnCar(index);
                     break;
                 }
             case CarType.Van:
                 {
-                    SpawnCar(8);
+                    index = 8;
+                    SpawnCar(index);
                     break;
                 }
             case CarType.Suv:
                 {
-                    SpawnCar(9);
+                    index = 9;
+                    SpawnCar(index);
                     break;
                 }
             case CarType.Sedan:
                 {
-                    SpawnCar(10);
+                    index = 10;
+                    SpawnCar(index);
                     break;
                 }
             case CarType.Pickup:
                 {
-                    SpawnCar(11);
+                    index = 11;
+                    SpawnCar(index);
                     break;
                 }
             case CarType.Compact:
                 {
-                    SpawnCar(12);
+                    index = 12;
+                    SpawnCar(index);
                     break;
                 }
         }
-        onCarBought?.Invoke();
+        PlayerGarage.instance.lots[index].isPurchased = true;
         PlayerBank.instance.RemoveMoney(currentCarPrice);
+        onCarBought?.Invoke();    
     }
 }
