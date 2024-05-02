@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 1200778952349609566}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.181, z: 0}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -162,7 +162,7 @@ Transform:
   m_GameObject: {fileID: 6006545869012626654}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.3749997, y: 0.181, z: 1.0000015}
+  m_LocalPosition: {x: -0.3749997, y: 0.15, z: 1.0000015}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 4025475333095951099}
   - component: {fileID: 4358723855714282541}
   - component: {fileID: 8609718386915448980}
-  m_Layer: 0
+  m_Layer: 30
   m_Name: house5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -306,7 +306,7 @@ Transform:
   m_GameObject: {fileID: 7593605770753273249}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.1249999, y: 0.181, z: 0.00000035762787}
+  m_LocalPosition: {x: -1.1249999, y: 0.15, z: 0.00000035762787}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -337,7 +337,7 @@ Transform:
   m_GameObject: {fileID: 7597423115982981050}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.1249998, y: 0.181, z: 1.0000012}
+  m_LocalPosition: {x: -1.1249998, y: 0.15, z: 1.0000012}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

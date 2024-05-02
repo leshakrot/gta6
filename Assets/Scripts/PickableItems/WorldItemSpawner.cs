@@ -13,7 +13,17 @@ public class WorldItemSpawner : MonoBehaviour
     {
         if(other.gameObject.TryGetComponent(out vThirdPersonController player))
         {
-            SpawnRandomItem(4);
+            var chanceToSpawn = Random.Range(0, 100);
+            Debug.Log(chanceToSpawn);
+            if(chanceToSpawn > 75) SpawnRandomItem(Random.Range(0, _spawnPoints.Count));
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.TryGetComponent(out vThirdPersonController player))
+        {
+            ReturnItemsToPool();
         }
     }
 
@@ -28,5 +38,16 @@ public class WorldItemSpawner : MonoBehaviour
         }
 
         _currentSpawnPointIndex = 0;
+    }
+
+    private void ReturnItemsToPool()
+    {
+        if(_currentItems != null)
+        {
+            foreach(var item in _currentItems)
+            {
+                item.ReturnToPoolHolder();
+            }
+        }
     }
 }
