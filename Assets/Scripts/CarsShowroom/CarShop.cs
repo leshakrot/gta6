@@ -40,6 +40,10 @@ public class CarShop : MonoBehaviour
 
     private void SpawnCar(int index)
     {
+        foreach(var car in _cars)
+        {
+            car.gameObject.SetActive(false);
+        }
         _cars[index].transform.position = _parkingLot.transform.position;
         _cars[index].gameObject.SetActive(true);
         _player.targetVehicle = _cars[index];

@@ -47,7 +47,10 @@ public class PlayerGarage : MonoBehaviour
 
     private void SpawnCar(int index)
     {
-        _cars[index].gameObject.SetActive(false);
+        foreach (var car in _cars)
+        {
+            car.gameObject.SetActive(false);
+        }
         _cars[index].transform.position = _parkingLot.transform.position;
         _cars[index].gameObject.SetActive(true);
         _player.targetVehicle = _cars[index];

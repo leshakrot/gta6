@@ -888,7 +888,8 @@ namespace Invector.vCharacterController.vActions
             if (_triggerAction != null && _triggerAction.gameObject != null)
             {
                 OnExitTriggerAction.Invoke(triggerAction);
-                Destroy(_triggerAction.gameObject);
+                //Destroy(_triggerAction.gameObject);
+                _triggerAction.gameObject.SetActive(false);
             }
 
             if (debugMode)
