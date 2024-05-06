@@ -583,7 +583,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openCloseEvents: 0
   openCloseWindow: 1
-  selectedToolbar: 4
+  selectedToolbar: 0
   inputType: 0
   actionInput:
     useInput: 1
