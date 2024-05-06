@@ -9,6 +9,14 @@ public class PlayerBank : MonoBehaviour
         instance = this;
     }
 
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.M))
+        {
+            AddMoney(100);
+        }
+    }
+
     private int money;
 
     public void AddMoney(int count)
