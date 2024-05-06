@@ -35,6 +35,8 @@ public class Casino : MonoBehaviour
     private int _playerScore;
     private int _currentPlayersAmount;
 
+    private bool _playerCanBet = true;
+
     private List<TextMeshProUGUI> _currentWinnersBetsText = new List<TextMeshProUGUI>();
 
     private void OnEnable()
@@ -60,9 +62,10 @@ public class Casino : MonoBehaviour
     }
     public void StartGame()
     {
+        _playerCanBet = true;
         _gameCoreUI.SetActive(true);
         _betAmount = 0;
-        UpdateBetText();
+        UpdateBetText();     
     }
 
     public void QuitGame()
@@ -76,6 +79,12 @@ public class Casino : MonoBehaviour
 
     public void SetBet(int amount)
     {
+        if (_betAmount + amount > PlayerBank.instance.GetMoneyAmount())
+        {
+            _playerCanBet = false;
+            return;
+        }
+        _playerCanBet = true;
         _betAmount += amount;
         _applyBetButton.gameObject.SetActive(true);
     }
@@ -261,7 +270,9 @@ public class Casino : MonoBehaviour
 
     public void UpdateBetText()
     {
-        _betText.text = "Ваша ставка:" + _betAmount.ToString();
+        if(!_playerCanBet) _betText.text = "Недостаточно денег!";
+        else _betText.text = "Ваша ставка:" + _betAmount.ToString();
+
         foreach(var betText in _botBetsText)
         {
             betText.text = betText.text;
@@ -292,5 +303,6 @@ public class Casino : MonoBehaviour
         }
 
         _playerBetText.text = "...";
+        _betText.text = "Ваша ставка:" + _betAmount.ToString();
     }
 }

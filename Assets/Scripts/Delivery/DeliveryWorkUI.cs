@@ -8,6 +8,7 @@ public class DeliveryWorkUI : MonoBehaviour
     public static DeliveryWorkUI instance;
 
     [SerializeField] private GameObject _startWorkPopUp;
+    [SerializeField] private GameObject _noLevelPopUp;
     [SerializeField] private GameObject _endWorkPopUp;
     [SerializeField] private TextMeshProUGUI _notification;
 
@@ -34,8 +35,18 @@ public class DeliveryWorkUI : MonoBehaviour
         instance = this;
     }
 
+    private void ShowNoLevelPopUp()
+    {
+        _noLevelPopUp.SetActive(true);
+    }
+
     public void ShowStartWorkPopUp()
     {
+        if (PlayerLevel.instance.GetCurrentLevel() < 4)
+        {
+            ShowNoLevelPopUp();
+            return;
+        }
         _startWorkPopUp.SetActive(true);
     }
 
@@ -69,5 +80,10 @@ public class DeliveryWorkUI : MonoBehaviour
     public void HideNotification()
     {
         _notification.gameObject.SetActive(false);
+    }
+
+    public void HideNoLevelPopUp()
+    {
+        _noLevelPopUp.SetActive(false);
     }
 }

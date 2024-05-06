@@ -6,6 +6,7 @@ public class CarShopLotUI : MonoBehaviour
     public static CarShopLotUI instance;
     
     [SerializeField] private GameObject _carProposalPopUp;
+    [SerializeField] private GameObject _noMoneyPopUp;
     [SerializeField] private TextMeshProUGUI _proposal;
 
 
@@ -27,5 +28,15 @@ public class CarShopLotUI : MonoBehaviour
     public void HideCarProposalPopUp()
     {
         _carProposalPopUp.SetActive(false);
+    }
+
+    public void ShowNoMoneyPopUp()
+    {
+        _noMoneyPopUp.SetActive(true);
+    }
+
+    public void HideNoMoneyPopUp()
+    {
+        _noMoneyPopUp.SetActive(false);
     }
 }

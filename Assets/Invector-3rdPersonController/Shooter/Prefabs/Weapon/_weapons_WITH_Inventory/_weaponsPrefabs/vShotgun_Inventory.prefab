@@ -13058,7 +13058,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openCloseEvents: 0
   openCloseWindow: 1
-  selectedToolbar: 3
+  selectedToolbar: 6
   weaponCategory: Shotgun
   _shootFrequency: 0.8
   isInfinityAmmo: 0

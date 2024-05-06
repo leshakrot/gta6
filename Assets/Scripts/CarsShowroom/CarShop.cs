@@ -52,6 +52,11 @@ public class CarShop : MonoBehaviour
 
     public void SellCar()
     {
+        if(PlayerBank.instance.GetMoneyAmount() < currentCarPrice)
+        {
+            CarShopLotUI.instance.ShowNoMoneyPopUp();
+            return;
+        }
         var index = 0;
         switch (currentCar)
         {

@@ -5,6 +5,7 @@ public class TractorWorkUI : MonoBehaviour
     public static TractorWorkUI instance;
 
     [SerializeField] private GameObject _startWorkPopUp;
+    [SerializeField] private GameObject _noLevelPopUp;
     [SerializeField] private GameObject _endWorkPopUp;
     [SerializeField] private GameObject _notification;
 
@@ -15,8 +16,18 @@ public class TractorWorkUI : MonoBehaviour
         instance = this;
     }
 
+    private void ShowNoLevelPopUp()
+    {
+        _noLevelPopUp.SetActive(true);
+    }
+
     public void ShowStartWorkPopUp()
     {
+        if (PlayerLevel.instance.GetCurrentLevel() < 2)
+        {
+            ShowNoLevelPopUp();
+            return;
+        }
         _startWorkPopUp.SetActive(true);
     }
 
@@ -43,5 +54,10 @@ public class TractorWorkUI : MonoBehaviour
     public void HideNotification()
     {
         _notification.SetActive(false);
+    }
+
+    public void HideNoLevelPopUp()
+    {
+        _noLevelPopUp.SetActive(false);
     }
 }
