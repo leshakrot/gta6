@@ -302,6 +302,7 @@ namespace EasyBuildSystem.Features.Runtime.Buildings.Placer.InputHandler
 
             if (m_InputSettings.CanRotateBuildingPart)
             {
+                
                 if (m_InputSettings.RotateModeInputReference.action.triggered)
                 {
                     Placer.RotatePreview(true);
