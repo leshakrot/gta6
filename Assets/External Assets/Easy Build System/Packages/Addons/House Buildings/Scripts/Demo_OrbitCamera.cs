@@ -1,11 +1,4 @@
-﻿/// <summary>
-/// Project : Easy Build System
-/// Class : Demo_OrbitCamera.cs
-/// Namespace : EasyBuildSystem.Packages.Addons.BuildingMenu
-/// Copyright : © 2015 - 2022 by PolarInteractive
-/// </summary>
-
-using UnityEngine;
+﻿using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -15,7 +8,8 @@ namespace EasyBuildSystem.Packages.Addons.BuildingMenu
     public class Demo_OrbitCamera : MonoBehaviour
     {
         [Header("Movement Settings")]
-        [SerializeField] float m_MovementSpeed = 8f;
+        [SerializeField] float m_NormalMovementSpeed = 8f;
+        [SerializeField] float m_SprintMovementSpeed = 16f; // Скорость при зажатом Shift
 
         [Header("Rotation Settings")]
         [SerializeField] float m_RotateSpeed = 15;
@@ -27,26 +21,28 @@ namespace EasyBuildSystem.Packages.Addons.BuildingMenu
         {
             m_PanMovement = Vector3.zero;
 
+            float currentMovementSpeed = Input.GetKey(KeyCode.LeftShift) ? m_SprintMovementSpeed : m_NormalMovementSpeed; // Проверяем, зажат ли Shift
+
 #if ENABLE_INPUT_SYSTEM
 
             if (Keyboard.current.wKey.isPressed)
             {
-                m_PanMovement += Vector3.forward * m_MovementSpeed * Time.deltaTime;
+                m_PanMovement += Vector3.forward * currentMovementSpeed * Time.deltaTime;
             }
 
             if (Keyboard.current.sKey.isPressed)
             {
-                m_PanMovement -= Vector3.forward * m_MovementSpeed * Time.deltaTime;
+                m_PanMovement -= Vector3.forward * currentMovementSpeed * Time.deltaTime;
             }
 
             if (Keyboard.current.aKey.isPressed)
             {
-                m_PanMovement += Vector3.left * m_MovementSpeed * Time.deltaTime;
+                m_PanMovement += Vector3.left * currentMovementSpeed * Time.deltaTime;
             }
 
             if (Keyboard.current.dKey.isPressed)
             {
-                m_PanMovement += Vector3.right * m_MovementSpeed * Time.deltaTime;
+                m_PanMovement += Vector3.right * currentMovementSpeed * Time.deltaTime;
             }
 
             transform.Translate(transform.TransformDirection(m_PanMovement), Space.World);
@@ -67,36 +63,33 @@ namespace EasyBuildSystem.Packages.Addons.BuildingMenu
                     mouseDelta = Vector3.zero;
                 }
 
-                Vector3 rotation = Vector3.up * Time.deltaTime * m_RotateSpeed * mouseDelta.x;
+                float rotationX = -mouseDelta.y * m_RotateSpeed * Time.deltaTime;
+                float rotationY = mouseDelta.x * m_RotateSpeed * Time.deltaTime;
 
-                transform.Rotate(rotation, Space.World);
-
-                rotation = transform.rotation.eulerAngles;
-                //rotation.z = 0;
-
-                transform.rotation = Quaternion.Euler(rotation);
+                transform.RotateAround(transform.position, transform.right, rotationX);
+                transform.RotateAround(transform.position, Vector3.up, rotationY);
             }
 
             m_LastMousePosition = new Vector3(inputAxis.x, inputAxis.y, 0);
 #else
             if (Input.GetKey(KeyCode.W))
             {
-                m_PanMovement += Vector3.forward * m_MovementSpeed * Time.deltaTime;
+                m_PanMovement += Vector3.forward * currentMovementSpeed * Time.deltaTime;
             }
 
             if (Input.GetKey(KeyCode.S))
             {
-                m_PanMovement -= Vector3.forward * m_MovementSpeed * Time.deltaTime;
+                m_PanMovement -= Vector3.forward * currentMovementSpeed * Time.deltaTime;
             }
 
             if (Input.GetKey(KeyCode.A))
             {
-                m_PanMovement += Vector3.left * m_MovementSpeed * Time.deltaTime;
+                m_PanMovement += Vector3.left * currentMovementSpeed * Time.deltaTime;
             }
 
             if (Input.GetKey(KeyCode.D))
             {
-                m_PanMovement += Vector3.right * m_MovementSpeed * Time.deltaTime;
+                m_PanMovement += Vector3.right * currentMovementSpeed * Time.deltaTime;
             }
 
             transform.Translate(transform.TransformDirection(m_PanMovement), Space.World);
@@ -115,14 +108,11 @@ namespace EasyBuildSystem.Packages.Addons.BuildingMenu
                     mouseDelta = Vector3.zero;
                 }
 
-                Vector3 rotation = Vector3.up * Time.deltaTime * m_RotateSpeed * mouseDelta.x;
+                float rotationX = -mouseDelta.y * m_RotateSpeed * Time.deltaTime;
+                float rotationY = mouseDelta.x * m_RotateSpeed * Time.deltaTime;
 
-                transform.Rotate(rotation, Space.World);
-
-                rotation = transform.rotation.eulerAngles;
-                rotation.z = 0;
-
-                transform.rotation = Quaternion.Euler(rotation);
+                transform.RotateAround(transform.position, transform.right, rotationX);
+                transform.RotateAround(transform.position, Vector3.up, rotationY);
             }
 
             m_LastMousePosition = Input.mousePosition;
