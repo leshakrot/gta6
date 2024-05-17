@@ -17,4 +17,6 @@ MonoBehaviour:
   - Wall
   - Floor
   - Stair
+  - Door
+  - Building
   - Other

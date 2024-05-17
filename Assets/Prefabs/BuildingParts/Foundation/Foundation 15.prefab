@@ -371,7 +371,7 @@ MonoBehaviour:
     m_CanRotateOnSocket: 0
     m_LockRotation: 0
     m_ResetRotation: 0
-    m_OffsetPosition: {x: 0, y: 0.25, z: 0}
+    m_OffsetPosition: {x: 0, y: 0, z: 0}
     m_ClampRotation: 1
     m_ClampMinRotation: {x: 0, y: 0, z: 0}
     m_ClampMaxRotation: {x: 0, y: 0, z: 0}
