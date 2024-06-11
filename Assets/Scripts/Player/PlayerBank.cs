@@ -21,7 +21,7 @@ public class PlayerBank : MonoBehaviour
 
     private void Start()
     {
-        money = 1000000;
+        //money = 1000000;
     }
 
     public void AddMoney(int count)
